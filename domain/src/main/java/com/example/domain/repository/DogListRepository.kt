@@ -1,7 +1,7 @@
 package com.example.domain.repository
 
-import com.example.domain.model.Dog
+import com.example.domain.model.DogToDelete
 
 interface DogListRepository {
-    suspend fun getDogList() : List<Dog>
+    suspend fun getDogList() : List<DogToDelete>
 }

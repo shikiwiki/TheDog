@@ -55,6 +55,7 @@ dependencies {
     implementation (libs.androidx.room.runtime)
     //noinspection KaptUsageInsteadOfKsp
     kapt(libs.room.compiler)
+    implementation (libs.room.ktx)
 
     //    ...do I need it in data?
     implementation(libs.androidx.legacy.support.v4)

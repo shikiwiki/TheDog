@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.model.Dog
+import com.example.domain.model.DogToDelete
 import com.example.thedog.viewModel.TheDogViewModel
 
-class DogAdapter(private val dogs: List<Dog>, private val viewModel: TheDogViewModel) :
+class DogAdapter(private val dogs: List<DogToDelete>, private val viewModel: TheDogViewModel) :
     RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DogViewHolder {
