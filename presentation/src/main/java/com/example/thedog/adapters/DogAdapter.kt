@@ -7,8 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.model.Dog
+import com.example.thedog.viewModel.TheDogViewModel
 
-class DogAdapter(private val dogs: ArrayList<Dog>) :
+class DogAdapter(private val dogs: List<Dog>, private val viewModel: TheDogViewModel) :
     RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DogViewHolder {
@@ -22,14 +23,15 @@ class DogAdapter(private val dogs: ArrayList<Dog>) :
 
     override fun onBindViewHolder(holder: DogViewHolder, position: Int) {
         val currentDog = dogs[position]
+
 //        holder.image.setImageResource(currentDog.imageUrl)
-        holder.name.text = currentDog.name
+//        holder.itemView. .text = currentDog.name
 
     }
 
     class DogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val name: TextView = itemView.findViewById(com.example.thedog.R.id.name)
-        val image: ImageView = itemView.findViewById(com.example.thedog.R.id.image)
+//        val name: TextView = itemView.findViewById(com.example.thedog.R.id.name)
+//        val image: ImageView = itemView.findViewById(com.example.thedog.R.id.image)
 
     }
 }
