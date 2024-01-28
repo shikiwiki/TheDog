@@ -1,8 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-//    id("com.google.dagger.hilt.android")
-    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
+//    id("kotlin-kapt")
+    kotlin("kapt")
 }
 
 android {
@@ -53,16 +54,9 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-//    Dagger
-    implementation("com.google.dagger:dagger:2.50")
-    implementation("com.google.dagger:hilt-android:2.50")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-    implementation("androidx.hilt:hilt-navigation-fragment:1.2.0-alpha01")
-
-//    implementation(libs.hilt.android)
-//    implementation(libs.androidx.hilt.navigation)
-//    kapt(libs.hilt.compiler)
-//    kapt(libs.androidx.hilt.compiler)
+//    Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
 
 //    RecyclerView
     implementation(libs.androidx.recyclerview)
@@ -95,4 +89,8 @@ dependencies {
 //    ...do I need it in presentation?
     implementation(libs.androidx.legacy.support.v4)
 
+}
+
+kapt {
+    correctErrorTypes = true
 }
