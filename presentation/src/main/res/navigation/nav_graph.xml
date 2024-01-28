@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/dogsFragment">
+
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.thedog.DetailsFragment"
+        android:label="fragment_details"
+        tools:layout="@layout/fragment_details">
+        <argument
+            android:name="@string/dog"
+            app:argType="com.example.thedog.domain.model.Dog"/>
+        <action
+            android:id="@+id/action_detailsFragment_to_dogsFragment"
+            app:destination="@id/dogsFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_to_likedDogsFragment"
+            app:destination="@id/likedDogsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/dogsFragment"
+        android:name="com.example.thedog.DogsFragment"
+        android:label="fragment_dogs"
+        tools:layout="@layout/fragment_dogs">
+        <action
+            android:id="@+id/action_dogsFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_dogsFragment_to_likedDogsFragment"
+            app:destination="@id/likedDogsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/likedDogsFragment"
+        android:name="com.example.thedog.LikedDogsFragment"
+        android:label="fragment_liked_dogs"
+        tools:layout="@layout/fragment_liked_dogs">
+        <action
+            android:id="@+id/action_likedDogsFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+
+</navigation>
