@@ -42,5 +42,5 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
 //    ...do I need it in domain?
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation(libs.androidx.legacy.support.v4)
 }

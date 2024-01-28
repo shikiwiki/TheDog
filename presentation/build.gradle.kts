@@ -62,16 +62,34 @@ dependencies {
 //    kapt(libs.androidx.hilt.compiler)
 
 //    RecyclerView
-    implementation("androidx.recyclerview:recyclerview:1.3.0")
+    implementation(libs.androidx.recyclerview)
 
 //    Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 
     // Architectural Components
-    implementation("androidx.lifecycle:lifecycle-viewmodel:2.7.0")
+    implementation(libs.androidx.lifecycle.viewmodel)
+
+    // Coroutines
+    implementation (libs.kotlinx.coroutines.core)
+    implementation (libs.jetbrains.kotlinx.coroutines.android)
+
+    // Room
+    implementation (libs.androidx.room.runtime)
+    //noinspection KaptUsageInsteadOfKsp
+    kapt(libs.room.compiler)
+
+    // Coroutine Lifecycle Scopes
+    implementation (libs.androidx.lifecycle.viewmodel.ktx.v270)
+    implementation (libs.lifecycle.runtime.ktx)
+
+    // Glide
+    implementation (libs.glide)
+    //noinspection KaptUsageInsteadOfKsp
+    kapt(libs.glide.compiler)
 
 //    ...do I need it in presentation?
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation(libs.androidx.legacy.support.v4)
 
 }
