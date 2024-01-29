@@ -72,10 +72,5 @@ class DogAdapter(private val dogs: List<DogToDelete>, private val viewModel: The
         onItemClickListener = listener
     }
 
-    inner class DogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-//        val name: TextView = itemView.findViewById(com.example.thedog.R.id.name)
-//        val image: ImageView = itemView.findViewById(com.example.thedog.R.id.image)
-
-    }
+    inner class DogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

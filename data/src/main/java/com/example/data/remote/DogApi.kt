@@ -1,12 +1,9 @@
 package com.example.data.remote
 
-import androidx.lifecycle.LiveData
 import com.example.data.util.Constants.Companion.API_KEY
 import com.example.data.util.Constants.Companion.HAS_BREEDS
 import com.example.data.util.Constants.Companion.LIMIT
-import com.example.domain.model.DogResponse
 import com.example.domain.model.DogResponseItem
-import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
