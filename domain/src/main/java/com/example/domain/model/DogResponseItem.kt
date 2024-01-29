@@ -8,7 +8,7 @@ import java.io.Serializable
 data class DogResponseItem(
     @PrimaryKey(autoGenerate = true)
     var dogId: Long? = null,
-//    val breeds: List<Breed>,
+    val breeds: List<Breed>,
     val height: Int,
     val id: String,
     val url: String,

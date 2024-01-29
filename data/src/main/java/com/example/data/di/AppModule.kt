@@ -23,7 +23,7 @@ object AppModule {
     }
 
     //    @Provides @Singleton
-    fun provideRepository(api: DogApi): DogListRepository {
-        return DogListRepositoryImpl(api)
-    }
+//    fun provideRepository(api: DogApi): DogListRepository {
+//        return DogListRepositoryImpl(api)
+//    }
 }
