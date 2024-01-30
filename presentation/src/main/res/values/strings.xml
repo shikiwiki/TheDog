@@ -6,4 +6,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="liked_dogs">Liked dogs</string>
     <string name="dog">Dog</string>
+    <string name="all_dogs">All dogs</string>
 </resources>

@@ -3,7 +3,8 @@ package com.example.data.remote
 import com.example.data.util.Constants.Companion.API_KEY
 import com.example.data.util.Constants.Companion.HAS_BREEDS
 import com.example.data.util.Constants.Companion.LIMIT
-import com.example.domain.model.DogResponseItem
+import com.example.domain.model.DogResponse
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -24,5 +25,5 @@ interface DogApi {
         hasBreeds: String = HAS_BREEDS,
         @Query("api_key")
         apiKey: String = API_KEY
-    ): List<DogResponseItem>  //or Response<DogResponse> may be
+    ): Response<DogResponse>  //or Response<DogResponse> may be
 }

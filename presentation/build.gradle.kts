@@ -77,6 +77,11 @@ dependencies {
     //noinspection KaptUsageInsteadOfKsp
     kapt(libs.room.compiler)
 
+    //    Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit2.converter.gson)
+    implementation(libs.logging.interceptor)
+
     // Coroutine Lifecycle Scopes
     implementation (libs.androidx.lifecycle.viewmodel.ktx.v270)
     implementation (libs.lifecycle.runtime.ktx)
