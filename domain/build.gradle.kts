@@ -45,11 +45,16 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    // Room
+//     Room
     implementation (libs.androidx.room.runtime)
-    //noinspection KaptUsageInsteadOfKsp
+//    noinspection KaptUsageInsteadOfKsp
     kapt(libs.room.compiler)
 
+    //    Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit2.converter.gson)
+    implementation(libs.logging.interceptor)
+
 //    ...do I need it in domain?
-    implementation(libs.androidx.legacy.support.v4)
+//    implementation(libs.androidx.legacy.support.v4)
 }

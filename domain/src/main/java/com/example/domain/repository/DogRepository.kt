@@ -1,10 +1,12 @@
 package com.example.domain.repository
 
 import androidx.lifecycle.LiveData
+import com.example.domain.model.DogResponse
 import com.example.domain.model.DogResponseItem
+import retrofit2.Response
 
-interface DogListRepository {
-    suspend fun getDogList(): List<DogResponseItem>
+interface DogRepository {
+    suspend fun getDogList(): Response<DogResponse>
 
     suspend fun upsert(dogResponseItem: DogResponseItem): Long
 

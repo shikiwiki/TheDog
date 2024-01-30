@@ -12,9 +12,9 @@ import com.bumptech.glide.Glide
 import com.example.domain.model.DogResponseItem
 import com.example.domain.model.DogToDelete
 import com.example.thedog.R
-import com.example.thedog.viewModel.TheDogViewModel
+import com.example.thedog.dogs.DogsViewModel
 
-class DogAdapter(private val dogs: List<DogToDelete>, private val viewModel: TheDogViewModel) :
+class DogAdapter(private val dogs: List<DogToDelete>, private val viewModel: DogsViewModel) :
     RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
 
     lateinit var dogImage: ImageView

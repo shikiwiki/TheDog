@@ -5,8 +5,6 @@ package com.example.data.di
 //import dagger.hilt.InstallIn
 //import dagger.hilt.components.SingletonComponent
 import com.example.data.remote.DogApi
-import com.example.data.repository.DogListRepositoryImpl
-import com.example.domain.repository.DogListRepository
 import retrofit2.Retrofit
 //import javax.inject.Singleton
 
