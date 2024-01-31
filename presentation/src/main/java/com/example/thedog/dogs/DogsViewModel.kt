@@ -22,14 +22,16 @@ import retrofit2.Response
 //@HiltViewModel
 class DogsViewModel
 //@Inject
-constructor(app: Application, private val dogRepository: DogRepositoryImpl) : AndroidViewModel(app) {
+constructor(app: Application, private val dogRepository: DogRepositoryImpl) :
+    AndroidViewModel(app) {
     val dogs: MutableLiveData<Resource<DogResponse>> = MutableLiveData()
-    private var page = 1
+    var page = 1
     private var dogsResponse: DogResponse? = null
 
     init {
         getDogs()
     }
+
     fun getDogs() = viewModelScope.launch {
         dogsInternet()
     }
@@ -57,7 +59,7 @@ constructor(app: Application, private val dogRepository: DogRepositoryImpl) : An
         dogRepository.deleteDog(dogResponseItem)
     }
 
-    fun internetConnection(context: Context): Boolean {
+    private fun internetConnection(context: Context): Boolean {
         (context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).apply {
             return getNetworkCapabilities(activeNetwork)?.run {
                 when {
@@ -80,7 +82,7 @@ constructor(app: Application, private val dogRepository: DogRepositoryImpl) : An
                 dogs.postValue(Resource.Error("No Internet connection."))
             }
         } catch (t: Throwable) {
-            when(t) {
+            when (t) {
                 is IOException -> dogs.postValue(Resource.Error("Unable to connect."))
                 else -> dogs.postValue(Resource.Error("No signal."))
             }
