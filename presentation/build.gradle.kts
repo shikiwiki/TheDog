@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("com.google.dagger.hilt.android")
-//    id("kotlin-kapt")
+    id("androidx.navigation.safeargs.kotlin")
     kotlin("kapt")
 }
 
@@ -69,11 +69,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel)
 
     // Coroutines
-    implementation (libs.kotlinx.coroutines.core)
-    implementation (libs.jetbrains.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.jetbrains.kotlinx.coroutines.android)
 
     // Room
-    implementation (libs.androidx.room.runtime)
+    implementation(libs.androidx.room.runtime)
     //noinspection KaptUsageInsteadOfKsp
     kapt(libs.room.compiler)
 
@@ -83,11 +83,11 @@ dependencies {
     implementation(libs.logging.interceptor)
 
     // Coroutine Lifecycle Scopes
-    implementation (libs.androidx.lifecycle.viewmodel.ktx.v270)
-    implementation (libs.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx.v270)
+    implementation(libs.lifecycle.runtime.ktx)
 
     // Glide
-    implementation (libs.glide)
+    implementation(libs.glide)
     //noinspection KaptUsageInsteadOfKsp
     kapt(libs.glide.compiler)
 

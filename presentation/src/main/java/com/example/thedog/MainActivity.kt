@@ -14,9 +14,7 @@ import com.example.thedog.dogs.DogsViewModel
 class MainActivity : AppCompatActivity() {
 
     lateinit var dogViewModel: DogsViewModel
-    lateinit var binding: ActivityMainBinding
-
-//    private val savedButton: Button by lazy { findViewById(R.id.floatingActionButton) }
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         val dogRepository = DogRepositoryImpl(DogResponseItemDatabase(this))
         val viewModelProviderFactory = DogsViewModelProviderFactory(application, dogRepository)
-        dogViewModel = ViewModelProvider(this, viewModelProviderFactory).get(DogsViewModel::class.java)
+        dogViewModel = ViewModelProvider(this, viewModelProviderFactory)[DogsViewModel::class.java]
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.dogsNavHostFragment) as NavHostFragment
         val navController = navHostFragment.navController

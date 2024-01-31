@@ -7,4 +7,7 @@
     <string name="liked_dogs">Liked dogs</string>
     <string name="dog">Dog</string>
     <string name="all_dogs">All dogs</string>
+    <string name="like">Like</string>
+    <string name="no_internet">No Internet</string>
+    <string name="retry">Retry</string>
 </resources>

@@ -2,7 +2,7 @@ package com.example.data.remote
 
 import com.example.data.util.Constants.Companion.API_KEY
 import com.example.data.util.Constants.Companion.HAS_BREEDS
-import com.example.data.util.Constants.Companion.LIMIT
+import com.example.data.util.Constants.Companion.LIMIT_PER_PAGE
 import com.example.domain.model.DogResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -20,9 +20,9 @@ interface DogApi {
     @GET("breeds")
     suspend fun getData(
         @Query("limit")
-        limit: String = LIMIT,
+        limit: String = LIMIT_PER_PAGE.toString(),
         @Query("has_breeds")
-        hasBreeds: String = HAS_BREEDS,
+        hasBreeds: String = HAS_BREEDS.toString(),
         @Query("api_key")
         apiKey: String = API_KEY
     ): Response<DogResponse>  //or Response<DogResponse> may be

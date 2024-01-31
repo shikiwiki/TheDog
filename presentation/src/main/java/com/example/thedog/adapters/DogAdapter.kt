@@ -10,15 +10,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.domain.model.DogResponseItem
-import com.example.domain.model.DogToDelete
 import com.example.thedog.R
-import com.example.thedog.dogs.DogsViewModel
 
-class DogAdapter(private val dogs: List<DogToDelete>, private val viewModel: DogsViewModel) :
-    RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
+class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
 
-    lateinit var dogImage: ImageView
-    lateinit var dogName: TextView
+    private lateinit var dogImage: ImageView
+    private lateinit var dogName: TextView
 
     private val differCallback = object : DiffUtil.ItemCallback<DogResponseItem>() {
         override fun areItemsTheSame(
@@ -36,7 +33,7 @@ class DogAdapter(private val dogs: List<DogToDelete>, private val viewModel: Dog
         }
     }
 
-    private val differ = AsyncListDiffer(this, differCallback)
+    val differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DogViewHolder {
         return DogViewHolder(

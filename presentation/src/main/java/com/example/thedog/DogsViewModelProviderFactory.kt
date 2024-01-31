@@ -7,7 +7,10 @@ import com.example.data.repository.DogRepositoryImpl
 import com.example.thedog.dogs.DogsViewModel
 
 @Suppress("UNCHECKED_CAST")
-class DogsViewModelProviderFactory(val app: Application, private val dogRepository: DogRepositoryImpl) : ViewModelProvider.Factory {
+class DogsViewModelProviderFactory(
+    val app: Application,
+    private val dogRepository: DogRepositoryImpl
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return DogsViewModel(app, dogRepository) as T
     }

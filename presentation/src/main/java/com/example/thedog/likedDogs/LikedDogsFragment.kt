@@ -1,57 +1,79 @@
 package com.example.thedog.likedDogs
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 //import com.example.thedog.ARG_PARAM1
 //import com.example.thedog.ARG_PARAM2
+import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.thedog.MainActivity
 import com.example.thedog.R
+import com.example.thedog.adapters.DogAdapter
+import com.example.thedog.databinding.FragmentLikedDogsBinding
+import com.example.thedog.dogs.DogsViewModel
+import com.google.android.material.snackbar.Snackbar
 
-/**
- * A simple [Fragment] subclass.
- * Use the [LikedDogsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class LikedDogsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
+    lateinit var dogsViewModel: DogsViewModel
+    lateinit var dogAdapter: DogAdapter
+    private lateinit var binding: FragmentLikedDogsBinding
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentLikedDogsBinding.bind(view)
+
+        dogsViewModel = (activity as MainActivity).dogViewModel
+        setupLikedDogsRecycler()
+
+        dogAdapter.setOnItemClickListener {
+            val bundle = Bundle().apply {
+                putSerializable("dog", it)
+            }
+            findNavController().navigate(R.id.action_likedDogsFragment_to_detailsFragment, bundle)
+        }
+
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                //TODO TRY DIFFERENT GETTERS BUT NOT LAYOUT ONE
+                val position = viewHolder.bindingAdapterPosition
+                val dog = dogAdapter.differ.currentList[position]
+                dogsViewModel.deleteDog(dog)
+                Snackbar.make(view, "Removed from liked dogs.", Snackbar.LENGTH_LONG).apply {
+                    setAction("Undo") {
+                        dogsViewModel.addToLikedDogs(dog)
+                    }
+                    show()
+                }
+            }
+        }
+        ItemTouchHelper(itemTouchHelperCallback).apply {
+            attachToRecyclerView(binding.recyclerLikedDogs)
+        }
+        dogsViewModel.getLikedDogs().observe(viewLifecycleOwner) { dogs ->
+            dogAdapter.differ.submitList(dogs)
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_liked_dogs, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LikedDogsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LikedDogsFragment().apply {
-                arguments = Bundle().apply {
-//                    putString(ARG_PARAM1, param1)
-//                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun setupLikedDogsRecycler() {
+        dogAdapter = DogAdapter()
+        binding.recyclerLikedDogs.apply {
+            adapter = dogAdapter
+            layoutManager = LinearLayoutManager(activity)
+        }
     }
 }
