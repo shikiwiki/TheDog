@@ -1,5 +1,6 @@
 package com.example.thedog.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.domain.model.DogResponseItem
 import com.example.thedog.R
+
+private const val TAG = "DogAdapter"
 
 class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
 
@@ -36,6 +39,7 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
     val differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DogViewHolder {
+        Log.d(TAG, "Creating DogViewHolder.")
         return DogViewHolder(
             LayoutInflater
                 .from(parent.context)
@@ -53,6 +57,8 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
         dogImage = holder.itemView.findViewById(R.id.image)
         dogName = holder.itemView.findViewById(R.id.name)
 
+        Log.d(TAG, "Binding DogViewHolder.")
+
         holder.itemView.apply {
             Glide.with(this).load(dog.url).into(dogImage)
             dogName.text = dog.breeds[0].name
@@ -63,6 +69,7 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
                 }
             }
         }
+        Log.d(TAG, "DogViewHolder is bound.")
     }
 
     fun setOnItemClickListener(listener: (DogResponseItem) -> Unit) {

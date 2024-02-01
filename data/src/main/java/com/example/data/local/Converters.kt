@@ -1,7 +1,10 @@
 package com.example.data.local
 
+import android.util.Log
 import androidx.room.TypeConverter
 import com.example.domain.model.Breed
+
+private const val TAG = "Converters"
 
 class Converters {
     @TypeConverter
@@ -13,6 +16,7 @@ class Converters {
                 .append(breed.temperament).append(",")
                 .append(breed.life_span)
         }
+        Log.d(TAG, "Converting List<Breed> to String.")
         return sb.toString()
     }
 
@@ -22,6 +26,7 @@ class Converters {
         val name = infoItems[0]
         val temperament = infoItems[1]
         val lifeSpan = infoItems[2]
+        Log.d(TAG, "Converting String to List<Breed> .")
         return listOf(
             Breed(name = name, life_span = lifeSpan, temperament = temperament)
         )

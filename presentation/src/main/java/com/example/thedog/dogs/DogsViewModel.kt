@@ -6,7 +6,9 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.data.repository.DogRepositoryImpl
@@ -18,7 +20,7 @@ import okio.IOException
 import retrofit2.Response
 
 //import javax.inject.Inject
-
+private const val TAG = "DogsViewModel"
 //@HiltViewModel
 class DogsViewModel
 //@Inject
@@ -33,6 +35,7 @@ constructor(app: Application, private val dogRepository: DogRepositoryImpl) :
     }
 
     fun getDogs() = viewModelScope.launch {
+        Log.d(TAG, "All dogs were received.")
         dogsInternet()
     }
 
@@ -46,22 +49,29 @@ constructor(app: Application, private val dogRepository: DogRepositoryImpl) :
                 return Resource.Success(dogsResponse ?: resultResponse)
             }
         }
+        Log.d(TAG, "Handling DogsResponse.")
         return Resource.Error(response.message())
     }
 
     fun addToLikedDogs(dogResponseItem: DogResponseItem) = viewModelScope.launch {
+        Log.d(TAG, "Dog was added to liked dogs.")
         dogRepository.upsert(dogResponseItem)
     }
 
-    fun getLikedDogs() = dogRepository.getLikedDogs()
+    fun getLikedDogs(): LiveData<List<DogResponseItem>> {
+        Log.d(TAG, "Liked dogs were received.")
+        return dogRepository.getLikedDogs()
+    }
 
     fun deleteDog(dogResponseItem: DogResponseItem) = viewModelScope.launch {
+        Log.d(TAG, "Dog was deleted from liked dogs.")
         dogRepository.deleteDog(dogResponseItem)
     }
 
     private fun internetConnection(context: Context): Boolean {
         (context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).apply {
             return getNetworkCapabilities(activeNetwork)?.run {
+                Log.d(TAG, "Internet connection.")
                 when {
                     hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
                     hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
@@ -87,6 +97,7 @@ constructor(app: Application, private val dogRepository: DogRepositoryImpl) :
                 else -> dogs.postValue(Resource.Error("No signal."))
             }
         }
+        Log.d(TAG, "DogsInternet is successful.")
     }
 
 

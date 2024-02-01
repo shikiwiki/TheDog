@@ -3,6 +3,7 @@ package com.example.thedog.likedDogs
 //import com.example.thedog.ARG_PARAM1
 //import com.example.thedog.ARG_PARAM2
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -16,6 +17,8 @@ import com.example.thedog.databinding.FragmentLikedDogsBinding
 import com.example.thedog.dogs.DogsViewModel
 import com.google.android.material.snackbar.Snackbar
 
+private const val TAG = "LikedDogsFragment"
+
 class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
 
     lateinit var dogsViewModel: DogsViewModel
@@ -24,6 +27,9 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        Log.d(TAG, "Creating LikedDogsFragment.")
+
         binding = FragmentLikedDogsBinding.bind(view)
 
         dogsViewModel = (activity as MainActivity).dogViewModel
@@ -67,13 +73,16 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
         dogsViewModel.getLikedDogs().observe(viewLifecycleOwner) { dogs ->
             dogAdapter.differ.submitList(dogs)
         }
+        Log.d(TAG, "LikedDogsFragment is created.")
     }
 
     private fun setupLikedDogsRecycler() {
+        Log.d(TAG, "Setting up LikedDogsRecycler.")
         dogAdapter = DogAdapter()
         binding.recyclerLikedDogs.apply {
             adapter = dogAdapter
             layoutManager = LinearLayoutManager(activity)
         }
+        Log.d(TAG, "LikedDogsRecycler is set up.")
     }
 }

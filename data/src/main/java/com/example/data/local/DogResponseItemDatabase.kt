@@ -1,11 +1,14 @@
 package com.example.data.local
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.domain.model.DogResponseItem
+
+private const val TAG = "DogResponseItemDatabase"
 
 @Database(entities = [DogResponseItem::class], version = 1)
 @TypeConverters(Converters::class)
@@ -18,9 +21,11 @@ abstract class DogResponseItemDatabase : RoomDatabase() {
         private val LOCK = Any()
 
         operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
+            Log.d(TAG, "Connecting database to instance.")
             instance ?: createDatabase(context).also {
                 instance = it
             }
+
         }
 
         private fun createDatabase(context: Context) =
@@ -29,5 +34,6 @@ abstract class DogResponseItemDatabase : RoomDatabase() {
                 DogResponseItemDatabase::class.java,
                 "dog_db.db"
             ).build()
+
     }
 }

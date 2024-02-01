@@ -3,6 +3,7 @@ package com.example.thedog.dogs
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.AbsListView
@@ -21,6 +22,8 @@ import com.example.thedog.R
 import com.example.thedog.adapters.DogAdapter
 import com.example.thedog.databinding.FragmentDogsBinding
 
+private const val TAG = "DogsFragment"
+
 class DogsFragment : Fragment(R.layout.fragment_dogs) {
     lateinit var dogsViewModel: DogsViewModel
     private lateinit var dogAdapter: DogAdapter
@@ -32,6 +35,8 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
     @SuppressLint("InflateParams")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG, "Creating DogsFragment.")
+
         binding = FragmentDogsBinding.bind(view)
 
         itemDogsError = view.findViewById(R.id.dogItemError)
@@ -84,6 +89,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
         retryButton.setOnClickListener {
             dogsViewModel.getDogs()
         }
+        Log.d(TAG, "DogsFragment is created.")
     }
 
     var isError = false
@@ -94,22 +100,26 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
     private fun hideProgressBar() {
         binding.progressBar.visibility = View.INVISIBLE
         isLoading = false
+        Log.d(TAG, "ProgressBar is hidden.")
     }
 
     private fun showProgressBar() {
         binding.progressBar.visibility = View.VISIBLE
         isLoading = true
+        Log.d(TAG, "ProgressBar is shown.")
     }
 
     private fun hideErrorMessage() {
         itemDogsError.visibility = View.INVISIBLE
         isError = false
+        Log.d(TAG, "Error message is hidden.")
     }
 
     private fun showErrorMessage(message: String) {
         itemDogsError.visibility = View.VISIBLE
         errorText.text = message
         isError = true
+        Log.d(TAG, "Error message is shown.")
     }
 
     private val scrollListener = object : RecyclerView.OnScrollListener() {
@@ -144,11 +154,13 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
     }
 
     private fun setupDogRecycler() {
+        Log.d(TAG, "Setting up DogRecycler.")
         dogAdapter = DogAdapter()
         binding.recyclerDogs.apply {
             adapter = dogAdapter
             layoutManager = LinearLayoutManager(activity)
             addOnScrollListener(this@DogsFragment.scrollListener)
         }
+        Log.d(TAG, "DogRecycler is set up.")
     }
 }

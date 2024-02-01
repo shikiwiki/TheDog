@@ -3,6 +3,7 @@ package com.example.thedog.dogDetails
 //import com.example.thedog.ARG_PARAM1
 //import com.example.thedog.ARG_PARAM2
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
@@ -13,6 +14,8 @@ import com.example.thedog.databinding.FragmentDetailsBinding
 import com.example.thedog.dogs.DogsViewModel
 import com.google.android.material.snackbar.Snackbar
 
+private const val TAG = "DetailsFragment"
+
 class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private lateinit var dogsViewModel: DogsViewModel
@@ -21,6 +24,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG, "Creating DetailsFragment.")
+
         binding = FragmentDetailsBinding.bind(view)
 
         dogsViewModel = (activity as MainActivity).dogViewModel
@@ -36,5 +41,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             dogsViewModel.addToLikedDogs(dogResponseItem)
             Snackbar.make(view, "Added to liked dogs.", Snackbar.LENGTH_SHORT).show()
         }
+        Log.d(TAG, "DetailsFragment is created.")
     }
 }
