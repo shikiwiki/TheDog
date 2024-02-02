@@ -1,4 +1,4 @@
-package com.example.thedog.dogs
+package com.example.thedog
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -17,8 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.data.util.Constants.Companion.LIMIT_PER_PAGE
 import com.example.data.util.Resource
-import com.example.thedog.MainActivity
-import com.example.thedog.R
 import com.example.thedog.adapters.DogAdapter
 import com.example.thedog.databinding.FragmentDogsBinding
 

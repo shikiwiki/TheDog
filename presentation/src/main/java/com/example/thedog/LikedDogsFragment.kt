@@ -1,7 +1,5 @@
-package com.example.thedog.likedDogs
+package com.example.thedog
 
-//import com.example.thedog.ARG_PARAM1
-//import com.example.thedog.ARG_PARAM2
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,11 +8,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.thedog.MainActivity
-import com.example.thedog.R
 import com.example.thedog.adapters.DogAdapter
 import com.example.thedog.databinding.FragmentLikedDogsBinding
-import com.example.thedog.dogs.DogsViewModel
 import com.google.android.material.snackbar.Snackbar
 
 private const val TAG = "LikedDogsFragment"

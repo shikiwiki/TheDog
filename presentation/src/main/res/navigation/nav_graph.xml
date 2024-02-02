@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/dogsFragment"
-        android:name="com.example.thedog.dogs.DogsFragment"
+        android:name="com.example.thedog.DogsFragment"
         android:label="DogsFragment">
         <action
             android:id="@+id/action_dogsFragment_to_detailsFragment"
@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/likedDogsFragment"
-        android:name="com.example.thedog.likedDogs.LikedDogsFragment"
+        android:name="com.example.thedog.LikedDogsFragment"
         android:label="LikedDogsFragment">
         <action
             android:id="@+id/action_likedDogsFragment_to_detailsFragment"
@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.example.thedog.dogDetails.DetailsFragment"
+        android:name="com.example.thedog.DetailsFragment"
         android:label="DetailsFragment">
         <argument
             android:name="dogResponseItem"

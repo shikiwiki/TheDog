@@ -1,21 +1,15 @@
-package com.example.thedog.dogDetails
+package com.example.thedog
 
-//import com.example.thedog.ARG_PARAM1
-//import com.example.thedog.ARG_PARAM2
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import com.example.thedog.MainActivity
-import com.example.thedog.R
 import com.example.thedog.databinding.FragmentDetailsBinding
-import com.example.thedog.dogs.DogsViewModel
 import com.google.android.material.snackbar.Snackbar
 
 private const val TAG = "DetailsFragment"
-
 class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private lateinit var dogsViewModel: DogsViewModel

@@ -1,4 +1,4 @@
-package com.example.thedog.dogs
+package com.example.thedog
 
 
 //import dagger.hilt.android.lifecycle.HiltViewModel

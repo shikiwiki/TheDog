@@ -10,7 +10,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.data.local.DogResponseItemDatabase
 import com.example.data.repository.DogRepositoryImpl
 import com.example.thedog.databinding.ActivityMainBinding
-import com.example.thedog.dogs.DogsViewModel
 
 private const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity() {
