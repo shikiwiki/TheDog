@@ -30,7 +30,6 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@color/fragment_background"
-        app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"
         app:itemIconTint="@color/black"
         app:itemTextColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
