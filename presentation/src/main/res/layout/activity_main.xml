@@ -2,23 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
-<!--    <TextView-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="50dp"-->
-    <!--        android:background="@color/title_background"-->
-    <!--        android:contentDescription="@string/the_dog"-->
-    <!--        android:text="@string/the_dog"-->
-    <!--        android:textAlignment="center"-->
-    <!--        android:textSize="30sp"-->
-    <!--        android:textStyle="bold"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <FrameLayout
         android:id="@+id/fragmentPlaceholder"
@@ -44,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@color/fragment_background"
-        app:itemActiveIndicatorStyle="@style/Base.Theme.TheDog"
+        app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"
         app:itemIconTint="@color/black"
         app:itemTextColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
