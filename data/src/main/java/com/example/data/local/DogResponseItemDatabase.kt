@@ -34,6 +34,5 @@ abstract class DogResponseItemDatabase : RoomDatabase() {
                 DogResponseItemDatabase::class.java,
                 "dog_db.db"
             ).build()
-
     }
 }

@@ -16,6 +16,7 @@ import com.example.thedog.R
 private const val TAG = "DogAdapter"
 
 class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
+    inner class DogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     private lateinit var dogImage: ImageView
     private lateinit var dogName: TextView
@@ -52,12 +53,11 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
     private var onItemClickListener: ((DogResponseItem) -> Unit)? = null
 
     override fun onBindViewHolder(holder: DogViewHolder, position: Int) {
+        Log.d(TAG, "Binding DogViewHolder.")
         val dog = differ.currentList[position]
 
         dogImage = holder.itemView.findViewById(R.id.image)
         dogName = holder.itemView.findViewById(R.id.name)
-
-        Log.d(TAG, "Binding DogViewHolder.")
 
         holder.itemView.apply {
             Glide.with(this).load(dog.url).into(dogImage)
@@ -75,6 +75,4 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
     fun setOnItemClickListener(listener: (DogResponseItem) -> Unit) {
         onItemClickListener = listener
     }
-
-    inner class DogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

@@ -12,9 +12,9 @@ import com.google.android.material.snackbar.Snackbar
 private const val TAG = "DetailsFragment"
 class DetailsFragment : Fragment(R.layout.fragment_details) {
 
-    private lateinit var dogsViewModel: DogsViewModel
-    private val args: DetailsFragmentArgs by navArgs()
-    private lateinit var binding: FragmentDetailsBinding
+    lateinit var dogsViewModel: DogsViewModel
+    val args: DetailsFragmentArgs by navArgs()
+    lateinit var binding: FragmentDetailsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

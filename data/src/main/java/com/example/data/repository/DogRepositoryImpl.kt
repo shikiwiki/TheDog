@@ -15,10 +15,7 @@ private const val TAG = "DogRepositoryImpl"
 
 class DogRepositoryImpl
 //@Inject
-constructor(
-//    private val dogApi: DogApi,
-    private val db: DogResponseItemDatabase
-) : DogRepository {
+constructor(private val db: DogResponseItemDatabase) : DogRepository {
     override suspend fun getDogList(): Response<DogResponse> {
         Log.d(TAG, "Getting dogs list.")
         return RetrofitInstance.api.getData()

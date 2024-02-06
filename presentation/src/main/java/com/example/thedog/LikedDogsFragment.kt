@@ -18,7 +18,7 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
 
     lateinit var dogsViewModel: DogsViewModel
     lateinit var dogAdapter: DogAdapter
-    private lateinit var binding: FragmentLikedDogsBinding
+    lateinit var binding: FragmentLikedDogsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,7 +32,7 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
 
         dogAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
-                putSerializable("dog", it)
+                putSerializable("dogResponseItem", it)
             }
             findNavController().navigate(R.id.action_likedDogsFragment_to_detailsFragment, bundle)
         }

@@ -21,6 +21,7 @@ import retrofit2.Response
 
 //import javax.inject.Inject
 private const val TAG = "DogsViewModel"
+
 //@HiltViewModel
 class DogsViewModel
 //@Inject
@@ -28,25 +29,29 @@ constructor(app: Application, private val dogRepository: DogRepositoryImpl) :
     AndroidViewModel(app) {
     val dogs: MutableLiveData<Resource<DogResponse>> = MutableLiveData()
     var page = 1
-    private var dogsResponse: DogResponse? = null
+    private var dogResponse: DogResponse? = null
 
     init {
         getDogs()
     }
 
     fun getDogs() = viewModelScope.launch {
-        Log.d(TAG, "All dogs were received.")
+//        Log.d(TAG, "All dogs were received.")
         dogsInternet()
     }
 
-    private fun handleDogsResponse(response: Response<DogResponse>): Resource<DogResponse> {
+    private fun handleDogResponse(response: Response<DogResponse>): Resource<DogResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 page++
-                if (dogsResponse == null) {
-                    dogsResponse = resultResponse
+                if (dogResponse == null) {
+                    dogResponse = resultResponse
+                } else {
+                    val oldDogs = dogResponse
+                    val newDogs = resultResponse
+                    oldDogs?.addAll(newDogs)
                 }
-                return Resource.Success(dogsResponse ?: resultResponse)
+                return Resource.Success(dogResponse ?: resultResponse)
             }
         }
         Log.d(TAG, "Handling DogsResponse.")
@@ -54,7 +59,7 @@ constructor(app: Application, private val dogRepository: DogRepositoryImpl) :
     }
 
     fun addToLikedDogs(dogResponseItem: DogResponseItem) = viewModelScope.launch {
-        Log.d(TAG, "Dog was added to liked dogs.")
+//        Log.d(TAG, "Dog was added to liked dogs.")
         dogRepository.upsert(dogResponseItem)
     }
 
@@ -64,7 +69,7 @@ constructor(app: Application, private val dogRepository: DogRepositoryImpl) :
     }
 
     fun deleteDog(dogResponseItem: DogResponseItem) = viewModelScope.launch {
-        Log.d(TAG, "Dog was deleted from liked dogs.")
+//        Log.d(TAG, "Dog was deleted from liked dogs.")
         dogRepository.deleteDog(dogResponseItem)
     }
 
@@ -87,7 +92,7 @@ constructor(app: Application, private val dogRepository: DogRepositoryImpl) :
         try {
             if (internetConnection(this.getApplication())) {
                 val response = dogRepository.getDogList()
-                dogs.postValue(handleDogsResponse(response))
+                dogs.postValue(handleDogResponse(response))
             } else {
                 dogs.postValue(Resource.Error("No Internet connection."))
             }
