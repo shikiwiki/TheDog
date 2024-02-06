@@ -29,7 +29,7 @@ constructor(app: Application, private val dogRepository: DogRepositoryImpl) :
     AndroidViewModel(app) {
     val dogs: MutableLiveData<Resource<DogResponse>> = MutableLiveData()
     var page = 1
-    private var dogResponse: DogResponse? = null
+    var dogResponse: DogResponse? = null
 
     init {
         getDogs()
