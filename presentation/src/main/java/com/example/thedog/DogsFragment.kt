@@ -1,8 +1,9 @@
-package com.example.thedog.dogs
+package com.example.thedog
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.AbsListView
@@ -16,22 +17,24 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.data.util.Constants.Companion.LIMIT_PER_PAGE
 import com.example.data.util.Resource
-import com.example.thedog.MainActivity
-import com.example.thedog.R
 import com.example.thedog.adapters.DogAdapter
 import com.example.thedog.databinding.FragmentDogsBinding
 
+private const val TAG = "DogsFragment"
+
 class DogsFragment : Fragment(R.layout.fragment_dogs) {
     lateinit var dogsViewModel: DogsViewModel
-    private lateinit var dogAdapter: DogAdapter
+    lateinit var dogAdapter: DogAdapter
     private lateinit var retryButton: Button //or delete
     private lateinit var errorText: TextView //or delete
     private lateinit var itemDogsError: CardView
-    private lateinit var binding: FragmentDogsBinding
+    lateinit var binding: FragmentDogsBinding
 
     @SuppressLint("InflateParams")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG, "Creating DogsFragment.")
+
         binding = FragmentDogsBinding.bind(view)
 
         itemDogsError = view.findViewById(R.id.dogItemError)
@@ -48,7 +51,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
         dogAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
-                putSerializable("dog", it)
+                putSerializable("dogResponseItem", it)
             }
             findNavController().navigate(R.id.action_dogsFragment_to_detailsFragment, bundle)
         }
@@ -84,6 +87,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
         retryButton.setOnClickListener {
             dogsViewModel.getDogs()
         }
+        Log.d(TAG, "DogsFragment is created.")
     }
 
     var isError = false
@@ -94,25 +98,29 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
     private fun hideProgressBar() {
         binding.progressBar.visibility = View.INVISIBLE
         isLoading = false
+        Log.d(TAG, "ProgressBar is hidden.")
     }
 
     private fun showProgressBar() {
         binding.progressBar.visibility = View.VISIBLE
         isLoading = true
+        Log.d(TAG, "ProgressBar is shown.")
     }
 
     private fun hideErrorMessage() {
         itemDogsError.visibility = View.INVISIBLE
         isError = false
+        Log.d(TAG, "Error message is hidden.")
     }
 
     private fun showErrorMessage(message: String) {
         itemDogsError.visibility = View.VISIBLE
         errorText.text = message
         isError = true
+        Log.d(TAG, "Error message is shown.")
     }
 
-    private val scrollListener = object : RecyclerView.OnScrollListener() {
+    val scrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
 
@@ -144,11 +152,13 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
     }
 
     private fun setupDogRecycler() {
+        Log.d(TAG, "Setting up DogRecycler.")
         dogAdapter = DogAdapter()
         binding.recyclerDogs.apply {
             adapter = dogAdapter
             layoutManager = LinearLayoutManager(activity)
             addOnScrollListener(this@DogsFragment.scrollListener)
         }
+        Log.d(TAG, "DogRecycler is set up.")
     }
 }

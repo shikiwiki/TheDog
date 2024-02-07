@@ -1,5 +1,6 @@
 package com.example.thedog.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,16 +13,16 @@ import com.bumptech.glide.Glide
 import com.example.domain.model.DogResponseItem
 import com.example.thedog.R
 
+private const val TAG = "DogAdapter"
+
 class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
+    inner class DogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     private lateinit var dogImage: ImageView
     private lateinit var dogName: TextView
 
     private val differCallback = object : DiffUtil.ItemCallback<DogResponseItem>() {
-        override fun areItemsTheSame(
-            oldItem: DogResponseItem,
-            newItem: DogResponseItem
-        ): Boolean {
+        override fun areItemsTheSame(oldItem: DogResponseItem, newItem: DogResponseItem): Boolean {
             return oldItem.url == newItem.url
         }
 
@@ -36,6 +37,7 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
     val differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DogViewHolder {
+        Log.d(TAG, "Creating DogViewHolder.")
         return DogViewHolder(
             LayoutInflater
                 .from(parent.context)
@@ -48,6 +50,7 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
     private var onItemClickListener: ((DogResponseItem) -> Unit)? = null
 
     override fun onBindViewHolder(holder: DogViewHolder, position: Int) {
+        Log.d(TAG, "Binding DogViewHolder.")
         val dog = differ.currentList[position]
 
         dogImage = holder.itemView.findViewById(R.id.image)
@@ -63,11 +66,10 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
                 }
             }
         }
+        Log.d(TAG, "DogViewHolder is bound.")
     }
 
     fun setOnItemClickListener(listener: (DogResponseItem) -> Unit) {
         onItemClickListener = listener
     }
-
-    inner class DogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

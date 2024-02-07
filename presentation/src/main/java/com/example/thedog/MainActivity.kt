@@ -1,6 +1,7 @@
 package com.example.thedog
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -9,7 +10,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.data.local.DogResponseItemDatabase
 import com.example.data.repository.DogRepositoryImpl
 import com.example.thedog.databinding.ActivityMainBinding
-import com.example.thedog.dogs.DogsViewModel
+
+private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,8 +20,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "Creating MainActivity")
         binding = ActivityMainBinding.inflate(layoutInflater)
-        enableEdgeToEdge()
         setContentView(binding.root)
 
         val dogRepository = DogRepositoryImpl(DogResponseItemDatabase(this))
@@ -29,6 +31,6 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.dogsNavHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
         binding.bottomNavigationView.setupWithNavController(navController)
-
+        Log.d(TAG, "MainActivity is created.")
     }
 }

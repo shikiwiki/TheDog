@@ -14,10 +14,13 @@ https://api.thedogapi.com/v1/images/search?api_key=live_78uH11IyabCdKAj68Sf1exNb
 
 10 random dogs
 https://api.thedogapi.com/v1/images/search?limit=10&api_key=live_78uH11IyabCdKAj68Sf1exNbi2vyrC2zBBnl0D2m3gWvbYjMjemv4WTZbMWd8e43
- */
+
+
+https://api.thedogapi.com/v1/breeds?limit=10&has_breeds=1&api_key=live_78uH11IyabCdKAj68Sf1exNbi2vyrC2zBBnl0D2m3gWvbYjMjemv4WTZbMWd8e43
+*/
 
 interface DogApi {
-    @GET("breeds")
+    @GET("v1/images/search")
     suspend fun getData(
         @Query("limit")
         limit: String = LIMIT_PER_PAGE.toString(),
@@ -25,5 +28,5 @@ interface DogApi {
         hasBreeds: String = HAS_BREEDS.toString(),
         @Query("api_key")
         apiKey: String = API_KEY
-    ): Response<DogResponse>  //or Response<DogResponse> may be
+    ): Response<DogResponse>
 }

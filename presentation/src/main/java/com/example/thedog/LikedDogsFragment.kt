@@ -1,29 +1,30 @@
-package com.example.thedog.likedDogs
+package com.example.thedog
 
-//import com.example.thedog.ARG_PARAM1
-//import com.example.thedog.ARG_PARAM2
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.thedog.MainActivity
-import com.example.thedog.R
 import com.example.thedog.adapters.DogAdapter
 import com.example.thedog.databinding.FragmentLikedDogsBinding
-import com.example.thedog.dogs.DogsViewModel
 import com.google.android.material.snackbar.Snackbar
+
+private const val TAG = "LikedDogsFragment"
 
 class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
 
     lateinit var dogsViewModel: DogsViewModel
     lateinit var dogAdapter: DogAdapter
-    private lateinit var binding: FragmentLikedDogsBinding
+    lateinit var binding: FragmentLikedDogsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        Log.d(TAG, "Creating LikedDogsFragment.")
+
         binding = FragmentLikedDogsBinding.bind(view)
 
         dogsViewModel = (activity as MainActivity).dogViewModel
@@ -31,7 +32,7 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
 
         dogAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
-                putSerializable("dog", it)
+                putSerializable("dogResponseItem", it)
             }
             findNavController().navigate(R.id.action_likedDogsFragment_to_detailsFragment, bundle)
         }
@@ -49,7 +50,7 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                //TODO TRY DIFFERENT GETTERS BUT NOT LAYOUT ONE
+                //TODO TRY DIFFERENT POSITION GETTERS
                 val position = viewHolder.bindingAdapterPosition
                 val dog = dogAdapter.differ.currentList[position]
                 dogsViewModel.deleteDog(dog)
@@ -67,13 +68,16 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
         dogsViewModel.getLikedDogs().observe(viewLifecycleOwner) { dogs ->
             dogAdapter.differ.submitList(dogs)
         }
+        Log.d(TAG, "LikedDogsFragment is created.")
     }
 
     private fun setupLikedDogsRecycler() {
+        Log.d(TAG, "Setting up LikedDogsRecycler.")
         dogAdapter = DogAdapter()
         binding.recyclerLikedDogs.apply {
             adapter = dogAdapter
             layoutManager = LinearLayoutManager(activity)
         }
+        Log.d(TAG, "LikedDogsRecycler is set up.")
     }
 }

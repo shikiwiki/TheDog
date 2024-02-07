@@ -3,6 +3,7 @@ package com.example.domain.repository
 import androidx.lifecycle.LiveData
 import com.example.domain.model.DogResponse
 import com.example.domain.model.DogResponseItem
+
 import retrofit2.Response
 
 interface DogRepository {

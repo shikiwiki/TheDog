@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item android:id="@+id/dogsFragment"
         android:title="@string/all_dogs"
         android:icon="@drawable/baseline_format_list_bulleted_24" />
+
     <item android:id="@+id/favouritesFragment"
         android:title="@string/liked_dogs"
         android:icon="@drawable/baseline_favorite_24" />
