@@ -12,6 +12,7 @@ import com.example.data.repository.DogRepositoryImpl
 import com.example.thedog.databinding.ActivityMainBinding
 
 private const val TAG = "MainActivity"
+
 class MainActivity : AppCompatActivity() {
 
     lateinit var dogViewModel: DogsViewModel

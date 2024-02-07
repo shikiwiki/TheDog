@@ -28,5 +28,5 @@ interface DogApi {
         hasBreeds: String = HAS_BREEDS.toString(),
         @Query("api_key")
         apiKey: String = API_KEY
-    ): Response<DogResponse>  //or Response<DogResponse> may be
+    ): Response<DogResponse>
 }

@@ -22,10 +22,7 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
     private lateinit var dogName: TextView
 
     private val differCallback = object : DiffUtil.ItemCallback<DogResponseItem>() {
-        override fun areItemsTheSame(
-            oldItem: DogResponseItem,
-            newItem: DogResponseItem
-        ): Boolean {
+        override fun areItemsTheSame(oldItem: DogResponseItem, newItem: DogResponseItem): Boolean {
             return oldItem.url == newItem.url
         }
 

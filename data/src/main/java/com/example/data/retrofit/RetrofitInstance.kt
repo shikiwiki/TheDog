@@ -9,6 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 private const val TAG = "RetrofitInstance"
+
 class RetrofitInstance {
     companion object {
         private val retrofit by lazy {
