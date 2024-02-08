@@ -1,8 +1,5 @@
 package com.example.data.local.entities
 
-import com.example.domain.model.MHeight
-import com.example.domain.model.MWeight
-
 data class Breed(
     val bred_for: String = "",
     val breed_group: String = "",

@@ -13,8 +13,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.data.repository.DogRepositoryImpl
 import com.example.data.util.Resource
+import com.example.domain.model.MDogResponse
 import com.example.domain.model.MDog
-import com.example.domain.model.MDogItem
 import kotlinx.coroutines.launch
 import okio.IOException
 import retrofit2.Response
@@ -27,9 +27,9 @@ class DogsViewModel
 //@Inject
 constructor(app: Application, private val dogRepository: DogRepositoryImpl) :
     AndroidViewModel(app) {
-    val dogs: MutableLiveData<Resource<MDog>> = MutableLiveData()
+    val dogs: MutableLiveData<Resource<MDogResponse>> = MutableLiveData()
     var page = 1
-    var dogResponse: MDog? = null
+    var dogResponse: MDogResponse? = null
 
     init {
         getDogs()
@@ -40,7 +40,7 @@ constructor(app: Application, private val dogRepository: DogRepositoryImpl) :
         dogsInternet()
     }
 
-    private fun handleDogResponse(response: Response<MDog>): Resource<MDog> {
+    private fun handleDogResponse(response: Response<MDogResponse>): Resource<MDogResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 page++
@@ -58,17 +58,17 @@ constructor(app: Application, private val dogRepository: DogRepositoryImpl) :
         return Resource.Error(response.message())
     }
 
-    fun addToLikedDogs(dogResponseItem: MDogItem) = viewModelScope.launch {
+    fun addToLikedDogs(dogResponseItem: MDog) = viewModelScope.launch {
 //        Log.d(TAG, "Dog was added to liked dogs.")
         dogRepository.upsert(dogResponseItem)
     }
 
-    fun getLikedDogs(): LiveData<List<MDogItem>> {
+    fun getLikedDogs(): LiveData<List<MDog>> {
         Log.d(TAG, "Liked dogs were received.")
         return dogRepository.getLikedDogs()
     }
 
-    fun deleteDog(dogResponseItem: MDogItem) = viewModelScope.launch {
+    fun deleteDog(dogResponseItem: MDog) = viewModelScope.launch {
 //        Log.d(TAG, "Dog was deleted from liked dogs.")
         dogRepository.deleteDog(dogResponseItem)
     }
@@ -91,7 +91,7 @@ constructor(app: Application, private val dogRepository: DogRepositoryImpl) :
         dogs.postValue(Resource.Loading())
         try {
             if (internetConnection(this.getApplication())) {
-                val response = dogRepository.getDogList()
+                val response = dogRepository.getDogs()
                 dogs.postValue(handleDogResponse(response))
             } else {
                 dogs.postValue(Resource.Error("No Internet connection."))

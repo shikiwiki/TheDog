@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.domain.model.MDogItem
+import com.example.domain.model.MDog
 import com.example.thedog.R
 
 private const val TAG = "DogAdapter"
@@ -21,14 +21,14 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
     private lateinit var dogImage: ImageView
     private lateinit var dogName: TextView
 
-    private val differCallback = object : DiffUtil.ItemCallback<MDogItem>() {
-        override fun areItemsTheSame(oldItem: MDogItem, newItem: MDogItem): Boolean {
-            return oldItem.url == newItem.url
+    private val differCallback = object : DiffUtil.ItemCallback<MDog>() {
+        override fun areItemsTheSame(oldItem: MDog, newItem: MDog): Boolean {
+            return oldItem.imageUrl == newItem.imageUrl
         }
 
         override fun areContentsTheSame(
-            oldItem: MDogItem,
-            newItem: MDogItem
+            oldItem: MDog,
+            newItem: MDog
         ): Boolean {
             return oldItem == newItem
         }
@@ -47,7 +47,7 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
 
     override fun getItemCount(): Int = differ.currentList.size
 
-    private var onItemClickListener: ((MDogItem) -> Unit)? = null
+    private var onItemClickListener: ((MDog) -> Unit)? = null
 
     override fun onBindViewHolder(holder: DogViewHolder, position: Int) {
         Log.d(TAG, "Binding DogViewHolder.")
@@ -57,7 +57,7 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
         dogName = holder.itemView.findViewById(R.id.name)
 
         holder.itemView.apply {
-            Glide.with(this).load(dog.url).into(dogImage)
+            Glide.with(this).load(dog.imageUrl).into(dogImage)
             dogName.text = dog.breeds[0].name
 
             setOnClickListener {
@@ -69,7 +69,7 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
         Log.d(TAG, "DogViewHolder is bound.")
     }
 
-    fun setOnItemClickListener(listener: (MDogItem) -> Unit) {
+    fun setOnItemClickListener(listener: (MDog) -> Unit) {
         onItemClickListener = listener
     }
 }

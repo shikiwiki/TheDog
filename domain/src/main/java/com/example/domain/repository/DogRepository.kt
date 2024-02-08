@@ -1,14 +1,13 @@
 package com.example.domain.repository
 
 import com.example.domain.model.MDog
-import com.example.domain.model.MDogItem
 
 interface DogRepository {
-    suspend fun getDogList(): MDog
+    suspend fun getDogs(): List<MDog>?
 
-    suspend fun upsert(dogResponseItem: MDogItem): Long
+    suspend fun upsert(dog: MDog): Long
 
-    fun getLikedDogs(): List<MDogItem>
+    fun getLikedDogs(): List<MDog>?
 
-    suspend fun deleteDog(dogResponseItem: MDogItem)
+    suspend fun deleteDog(dog: MDog)
 }
