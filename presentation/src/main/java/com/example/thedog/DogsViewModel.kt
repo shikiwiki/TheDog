@@ -13,8 +13,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.data.repository.DogRepositoryImpl
 import com.example.data.util.Resource
-import com.example.domain.model.DogResponse
-import com.example.domain.model.DogResponseItem
+import com.example.domain.model.MDog
+import com.example.domain.model.MDogItem
 import kotlinx.coroutines.launch
 import okio.IOException
 import retrofit2.Response
@@ -27,9 +27,9 @@ class DogsViewModel
 //@Inject
 constructor(app: Application, private val dogRepository: DogRepositoryImpl) :
     AndroidViewModel(app) {
-    val dogs: MutableLiveData<Resource<DogResponse>> = MutableLiveData()
+    val dogs: MutableLiveData<Resource<MDog>> = MutableLiveData()
     var page = 1
-    var dogResponse: DogResponse? = null
+    var dogResponse: MDog? = null
 
     init {
         getDogs()
@@ -40,7 +40,7 @@ constructor(app: Application, private val dogRepository: DogRepositoryImpl) :
         dogsInternet()
     }
 
-    private fun handleDogResponse(response: Response<DogResponse>): Resource<DogResponse> {
+    private fun handleDogResponse(response: Response<MDog>): Resource<MDog> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 page++
@@ -58,17 +58,17 @@ constructor(app: Application, private val dogRepository: DogRepositoryImpl) :
         return Resource.Error(response.message())
     }
 
-    fun addToLikedDogs(dogResponseItem: DogResponseItem) = viewModelScope.launch {
+    fun addToLikedDogs(dogResponseItem: MDogItem) = viewModelScope.launch {
 //        Log.d(TAG, "Dog was added to liked dogs.")
         dogRepository.upsert(dogResponseItem)
     }
 
-    fun getLikedDogs(): LiveData<List<DogResponseItem>> {
+    fun getLikedDogs(): LiveData<List<MDogItem>> {
         Log.d(TAG, "Liked dogs were received.")
         return dogRepository.getLikedDogs()
     }
 
-    fun deleteDog(dogResponseItem: DogResponseItem) = viewModelScope.launch {
+    fun deleteDog(dogResponseItem: MDogItem) = viewModelScope.launch {
 //        Log.d(TAG, "Dog was deleted from liked dogs.")
         dogRepository.deleteDog(dogResponseItem)
     }

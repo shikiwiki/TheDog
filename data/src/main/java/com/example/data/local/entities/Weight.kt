@@ -1,4 +1,4 @@
-package com.example.domain.model
+package com.example.data.local.entities
 
 data class Weight(
     val imperial: String,

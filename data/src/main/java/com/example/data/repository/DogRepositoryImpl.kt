@@ -3,9 +3,10 @@ package com.example.data.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.data.local.DogResponseItemDatabase
+import com.example.data.local.entities.DogResponse
+import com.example.data.local.entities.DogResponseItem
 import com.example.data.retrofit.RetrofitInstance
-import com.example.domain.model.DogResponse
-import com.example.domain.model.DogResponseItem
+import com.example.data.util.toDomain
 import com.example.domain.repository.DogRepository
 import retrofit2.Response
 
@@ -18,7 +19,7 @@ class DogRepositoryImpl
 constructor(private val db: DogResponseItemDatabase) : DogRepository {
     override suspend fun getDogList(): Response<DogResponse> {
         Log.d(TAG, "Getting dogs list.")
-        return RetrofitInstance.api.getData()
+        return RetrofitInstance.api.getData().body()?.toDomain()
     }
 
     override suspend fun upsert(dogResponseItem: DogResponseItem): Long {
@@ -27,8 +28,8 @@ constructor(private val db: DogResponseItemDatabase) : DogRepository {
     }
 
     override fun getLikedDogs(): LiveData<List<DogResponseItem>> {
-//        Log.d(TAG, "Getting dogs list.")
-        return db.getDogResponseItemDao().getAllDogs()
+        Log.d(TAG, "Getting dogs list.")
+        return db.getDogResponseItemDao().getAllDogs().value?.toDomain()
     }
 
     override suspend fun deleteDog(dogResponseItem: DogResponseItem) {

@@ -2,7 +2,8 @@ package com.example.data.local
 
 import android.util.Log
 import androidx.room.TypeConverter
-import com.example.domain.model.Breed
+import com.example.data.local.entities.Breed
+import com.example.domain.model.MBreed
 
 private const val TAG = "Converters"
 

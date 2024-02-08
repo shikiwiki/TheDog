@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.domain.model.DogResponseItem
+import com.example.domain.model.MDogItem
 import com.example.thedog.R
 
 private const val TAG = "DogAdapter"
@@ -21,14 +21,14 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
     private lateinit var dogImage: ImageView
     private lateinit var dogName: TextView
 
-    private val differCallback = object : DiffUtil.ItemCallback<DogResponseItem>() {
-        override fun areItemsTheSame(oldItem: DogResponseItem, newItem: DogResponseItem): Boolean {
+    private val differCallback = object : DiffUtil.ItemCallback<MDogItem>() {
+        override fun areItemsTheSame(oldItem: MDogItem, newItem: MDogItem): Boolean {
             return oldItem.url == newItem.url
         }
 
         override fun areContentsTheSame(
-            oldItem: DogResponseItem,
-            newItem: DogResponseItem
+            oldItem: MDogItem,
+            newItem: MDogItem
         ): Boolean {
             return oldItem == newItem
         }
@@ -47,7 +47,7 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
 
     override fun getItemCount(): Int = differ.currentList.size
 
-    private var onItemClickListener: ((DogResponseItem) -> Unit)? = null
+    private var onItemClickListener: ((MDogItem) -> Unit)? = null
 
     override fun onBindViewHolder(holder: DogViewHolder, position: Int) {
         Log.d(TAG, "Binding DogViewHolder.")
@@ -69,7 +69,7 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
         Log.d(TAG, "DogViewHolder is bound.")
     }
 
-    fun setOnItemClickListener(listener: (DogResponseItem) -> Unit) {
+    fun setOnItemClickListener(listener: (MDogItem) -> Unit) {
         onItemClickListener = listener
     }
 }

@@ -13,13 +13,13 @@ private const val TAG = "RetrofitInstance"
 class RetrofitInstance {
     companion object {
         private val retrofit by lazy {
+            Log.d(TAG, "Instantiating retrofit.")
             val logger = HttpLoggingInterceptor()
             logger.setLevel(HttpLoggingInterceptor.Level.BODY)
             val client = OkHttpClient.Builder()
                 .addInterceptor(logger)
                 .build()
 
-            Log.d(TAG, "Instantiating retrofit.")
 
             Retrofit.Builder()
                 .baseUrl(BASE_URL)
