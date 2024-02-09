@@ -11,12 +11,14 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.data.remote.repository.DogRepositoryImpl
+import com.example.data.local.entities.toEntityModel
+import com.example.data.local.repository.DogLocalRepository
+import com.example.data.remote.dto.DogResponse
+import com.example.data.remote.repository.DogRemoteRepository
 import com.example.data.util.Resource
 import com.example.domain.model.MDogResponse
 import com.example.domain.model.MDog
 import kotlinx.coroutines.launch
-import okio.IOException
 import retrofit2.Response
 
 //import javax.inject.Inject
@@ -25,22 +27,31 @@ private const val TAG = "DogsViewModel"
 //@HiltViewModel
 class DogsViewModel
 //@Inject
-constructor(app: Application, private val dogRepository: DogRepositoryImpl) :
+constructor(
+    app: Application,
+    private val remoteRepository: DogRemoteRepository,
+    private val localRepository: DogLocalRepository
+) :
     AndroidViewModel(app) {
     val dogs: MutableLiveData<Resource<MDogResponse>> = MutableLiveData()
     var page = 1
-    var dogResponse: MDogResponse? = null
+    var dogResponse: DogResponse? = null
+
+    val dogsLivaData = MutableLiveData<List<MDog>>()
+    val likedLogsLivaData = MutableLiveData<List<MDog>>()
 
     init {
         getDogs()
     }
 
     fun getDogs() = viewModelScope.launch {
+        val result = remoteRepository.getDogs()
+        dogsLivaData.value = result
 //        Log.d(TAG, "All dogs were received.")
-        dogsInternet()
+//        dogsInternet()
     }
 
-    private fun handleDogResponse(response: Response<MDogResponse>): Resource<MDogResponse> {
+    private fun handleDogResponse(response: Response<DogResponse>): Resource<DogResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 page++
@@ -58,19 +69,20 @@ constructor(app: Application, private val dogRepository: DogRepositoryImpl) :
         return Resource.Error(response.message())
     }
 
-    fun addToLikedDogs(dogResponseItem: MDog) = viewModelScope.launch {
+    fun addToLikedDogs(dog: MDog) = viewModelScope.launch {
 //        Log.d(TAG, "Dog was added to liked dogs.")
-        dogRepository.upsert(dogResponseItem)
+        localRepository.upsert(dog.toEntityModel())
     }
 
     fun getLikedDogs(): LiveData<List<MDog>> {
         Log.d(TAG, "Liked dogs were received.")
-        return dogRepository.getLikedDogs()
+        likedLogsLivaData.value = localRepository.getLikedDogs()
+        return dogsLivaData
     }
 
-    fun deleteDog(dogResponseItem: MDog) = viewModelScope.launch {
+    fun deleteDog(dog: MDog) = viewModelScope.launch {
 //        Log.d(TAG, "Dog was deleted from liked dogs.")
-        dogRepository.deleteDog(dogResponseItem)
+        localRepository.deleteDog(dog.toEntityModel())
     }
 
     private fun internetConnection(context: Context): Boolean {
@@ -87,23 +99,23 @@ constructor(app: Application, private val dogRepository: DogRepositoryImpl) :
         }
     }
 
-    private suspend fun dogsInternet() {
-        dogs.postValue(Resource.Loading())
-        try {
-            if (internetConnection(this.getApplication())) {
-                val response = dogRepository.getDogs()
-                dogs.postValue(handleDogResponse(response))
-            } else {
-                dogs.postValue(Resource.Error("No Internet connection."))
-            }
-        } catch (t: Throwable) {
-            when (t) {
-                is IOException -> dogs.postValue(Resource.Error("Unable to connect."))
-                else -> dogs.postValue(Resource.Error("No signal."))
-            }
-        }
-        Log.d(TAG, "DogsInternet is successful.")
-    }
+//    private suspend fun dogsInternet() {
+//        dogs.postValue(Resource.Loading())
+//        try {
+//            if (internetConnection(this.getApplication())) {
+//                val response = remoteRepository.getDogs()
+//                dogs.postValue(handleDogResponse(response))
+//            } else {
+//                dogs.postValue(Resource.Error("No Internet connection."))
+//            }
+//        } catch (t: Throwable) {
+//            when (t) {
+//                is IOException -> dogs.postValue(Resource.Error("Unable to connect."))
+//                else -> dogs.postValue(Resource.Error("No signal."))
+//            }
+//        }
+//        Log.d(TAG, "DogsInternet is successful.")
+//    }
 
 
 }

@@ -3,14 +3,17 @@ package com.example.thedog
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.data.remote.repository.DogRepositoryImpl
+import com.example.data.local.repository.DogLocalRepository
+import com.example.data.remote.repository.DogRemoteRepository
 
 @Suppress("UNCHECKED_CAST")
 class DogsViewModelProviderFactory(
     val app: Application,
-    private val dogRepository: DogRepositoryImpl
-) : ViewModelProvider.Factory {
+    private val localRepository: DogLocalRepository,
+    private val remoteRepository: DogRemoteRepository,
+
+    ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return DogsViewModel(app, dogRepository) as T
+        return DogsViewModel(app, remoteRepository, localRepository) as T
     }
 }

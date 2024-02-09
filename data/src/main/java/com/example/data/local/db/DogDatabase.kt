@@ -7,19 +7,19 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.data.local.Converters
-import com.example.data.local.dao.DogResponseItemDao
-import com.example.data.local.entities.DogResponseItem
+import com.example.data.local.dao.DogDao
+import com.example.data.local.entities.DogEntity
 
 private const val TAG = "DogResponseItemDatabase"
 
-@Database(entities = [DogResponseItem::class], version = 1)
+@Database(entities = [DogEntity::class], version = 2)
 @TypeConverters(Converters::class)
-abstract class DogResponseItemDatabase : RoomDatabase() {
-    abstract fun getDogResponseItemDao(): DogResponseItemDao
+abstract class DogDatabase : RoomDatabase() {
+    abstract fun getDao(): DogDao
 
     companion object {
         @Volatile
-        private var instance: DogResponseItemDatabase? = null
+        private var instance: DogDatabase? = null
         private val LOCK = Any()
 
         operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
@@ -33,7 +33,7 @@ abstract class DogResponseItemDatabase : RoomDatabase() {
         private fun createDatabase(context: Context) =
             Room.databaseBuilder(
                 context.applicationContext,
-                DogResponseItemDatabase::class.java,
+                DogDatabase::class.java,
                 "dog_db.db"
             ).build()
     }

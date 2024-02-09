@@ -1,4 +1,4 @@
-package com.example.data.local.entities
+package com.example.data.remote.dto
 
 data class Breed(
     val bred_for: String = "",

@@ -1,7 +1,8 @@
 package com.example.data.remote.api
 
 import com.example.data.BuildConfig
-import com.example.data.local.entities.DogResponse
+import com.example.data.remote.dto.DogResponse
+import com.example.data.util.Constants.Companion.API_KEY
 import com.example.data.util.Constants.Companion.HAS_BREEDS
 import com.example.data.util.Constants.Companion.LIMIT_PER_PAGE
 import retrofit2.Response
@@ -27,6 +28,6 @@ interface DogApi {
         @Query("has_breeds")
         hasBreeds: String = HAS_BREEDS.toString(),
         @Query("api_key")
-        apiKey: String = BuildConfig.API_KEY
+        apiKey: String = API_KEY
     ): Response<DogResponse>
 }

@@ -1,7 +1,6 @@
-package com.example.data.remote.retrofit
+package com.example.data.remote.api
 
 import android.util.Log
-import com.example.data.remote.api.DogApi
 import com.example.data.util.Constants.Companion.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
