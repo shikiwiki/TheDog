@@ -11,7 +11,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.data.repository.DogRepositoryImpl
+import com.example.data.remote.repository.DogRepositoryImpl
 import com.example.data.util.Resource
 import com.example.domain.model.MDogResponse
 import com.example.domain.model.MDog

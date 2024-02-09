@@ -1,5 +1,7 @@
 package com.example.domain.model
 
+import java.io.Serializable
+
 data class MDog(
     val id: String,
     val name: String = "",
@@ -15,4 +17,4 @@ data class MDog(
     val imageUrl: String,
     val imageWidth: Int,
     val imageHeight: Int,
-)
+) : Serializable

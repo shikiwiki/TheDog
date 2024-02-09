@@ -1,9 +1,9 @@
-package com.example.data.repository
+package com.example.data.remote.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import com.example.data.local.DogResponseItemDatabase
-import com.example.data.retrofit.RetrofitInstance
+import com.example.data.local.db.DogResponseItemDatabase
+import com.example.data.remote.retrofit.RetrofitInstance
 import com.example.data.util.toDomain
 import com.example.domain.model.MDog
 import com.example.domain.repository.DogRepository
@@ -25,9 +25,9 @@ constructor(private val db: DogResponseItemDatabase) : DogRepository {
         return db.getDogResponseItemDao().upsert(dog)
     }
 
-    override fun getLikedDogs(): List<MDog>? {
+    override fun getLikedDogs(): LiveData<List<MDog>> {
         Log.d(TAG, "Getting dogs list.")
-        return db.getDogResponseItemDao().getAllDogs().value?.toDomain()
+        return db.getDogResponseItemDao().getAllDogs().value?.toDomain().
     }
 
     override suspend fun deleteDog(dog: MDog) {

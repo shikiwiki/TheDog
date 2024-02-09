@@ -3,7 +3,7 @@ package com.example.thedog
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.data.repository.DogRepositoryImpl
+import com.example.data.remote.repository.DogRepositoryImpl
 
 @Suppress("UNCHECKED_CAST")
 class DogsViewModelProviderFactory(

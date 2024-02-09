@@ -58,7 +58,7 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
 
         holder.itemView.apply {
             Glide.with(this).load(dog.imageUrl).into(dogImage)
-            dogName.text = dog.breeds[0].name
+            dogName.text = dog.name
 
             setOnClickListener {
                 onItemClickListener?.let {
