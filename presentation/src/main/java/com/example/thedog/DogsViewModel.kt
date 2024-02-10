@@ -1,27 +1,22 @@
 package com.example.thedog
 
 
-//import dagger.hilt.android.lifecycle.HiltViewModel
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.data.local.entities.toEntityModel
 import com.example.data.local.repository.DogLocalRepository
 import com.example.data.remote.repository.DogRemoteRepository
 import com.example.data.util.Resource
+import com.example.data.util.toEntityModel
 import com.example.domain.model.MDog
 import kotlinx.coroutines.launch
 
-//import javax.inject.Inject
 private const val TAG = "DogsViewModel"
 
-//@HiltViewModel
-class DogsViewModel
-//@Inject
-constructor(
+class DogsViewModel(
     app: Application,
     private val remoteRepository: DogRemoteRepository,
     private val localRepository: DogLocalRepository
@@ -39,17 +34,17 @@ constructor(
         val result = remoteRepository.getDogs()
         val resource = Resource.success(result)
         dogsLivaData.postValue(resource)
-//        Log.d(TAG, "All dogs were received.")
+        Log.d(TAG, "All dogs were received in VM.")
 //        dogsInternet()
     }
 
     fun addToLikedDogs(dog: MDog) = viewModelScope.launch {
-//        Log.d(TAG, "Dog was added to liked dogs.")
+        Log.d(TAG, "Dog was added to liked dogs.")
         localRepository.upsert(dog.toEntityModel())
     }
 
     fun getLikedDogs(): LiveData<Resource<List<MDog>>> {
-        Log.d(TAG, "Liked dogs were received.")
+        Log.d(TAG, "Liked dogs were received in VM.")
         val result = localRepository.getLikedDogs()
         val resource = Resource.success(result)
         likedLogsLivaData.value = resource
@@ -57,7 +52,7 @@ constructor(
     }
 
     fun deleteDog(dog: MDog) = viewModelScope.launch {
-//        Log.d(TAG, "Dog was deleted from liked dogs.")
+        Log.d(TAG, "Dog was deleted from liked dogs.")
         localRepository.deleteDog(dog.toEntityModel())
     }
 

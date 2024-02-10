@@ -1,4 +1,4 @@
-package com.example.data.remote.api
+package com.example.data.remote.network
 
 import android.util.Log
 import com.example.data.util.Constants.Companion.BASE_URL

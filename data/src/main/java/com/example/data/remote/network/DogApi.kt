@@ -1,4 +1,4 @@
-package com.example.data.remote.api
+package com.example.data.remote.network
 
 import com.example.data.remote.dto.DogResponse
 import com.example.data.util.Constants.Companion.API_KEY

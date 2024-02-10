@@ -8,7 +8,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.data.local.db.DogDatabase
 import com.example.data.local.repository.DogLocalRepository
-import com.example.data.remote.api.RetrofitInstance
+import com.example.data.remote.network.RetrofitInstance
 import com.example.data.remote.repository.DogRemoteRepository
 import com.example.thedog.databinding.ActivityMainBinding
 

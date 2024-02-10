@@ -1,7 +1,7 @@
 package com.example.data.remote.repository
 
 import android.util.Log
-import com.example.data.remote.api.DogApi
+import com.example.data.remote.network.DogApi
 import com.example.data.util.toDomain
 import com.example.domain.model.MDog
 import com.example.domain.repository.IDogRemoteRepository
@@ -20,10 +20,10 @@ class DogRemoteRepository(
                     it.toDomain()
                 }
             } else {
-                throw RuntimeException("Sorry")
+                throw RuntimeException("Sorry, problem occurred while getting dogs list.")
             }
         }.getOrElse {
-            throw Exception("Error")
+            throw Exception("Error. Getting dogs list: getOrElse block.")
         }
     }
 }

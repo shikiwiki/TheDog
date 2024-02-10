@@ -70,6 +70,7 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
     }
 
     fun setOnItemClickListener(listener: (MDog) -> Unit) {
+        Log.d(TAG, "Setting onItemClickListener.")
         onItemClickListener = listener
     }
 }
