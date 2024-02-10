@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        db = DogDatabase.invoke(this.applicationContext)
+        db = DogDatabase(this.applicationContext)
         val localRepository = DogLocalRepository(db.getDao())
         val remoteRepository = DogRemoteRepository(RetrofitInstance.api)
         val viewModelProviderFactory =

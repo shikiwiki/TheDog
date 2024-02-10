@@ -9,7 +9,7 @@
         android:name="com.example.thedog.DetailsFragment"
         android:label="DetailsFragment">
         <argument
-            android:name="dogResponseItem"
+            android:name="dog"
             app:argType="com.example.domain.model.MDog" />
     </fragment>
 

@@ -51,7 +51,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
         dogAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
-                putSerializable("dogResponseItem", it)
+                putSerializable("dog", it)
             }
             findNavController().navigate(R.id.action_dogsFragment_to_detailsFragment, bundle)
         }

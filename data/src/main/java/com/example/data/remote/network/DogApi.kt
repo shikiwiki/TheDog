@@ -25,7 +25,7 @@ interface DogApi {
         @Query("limit")
         limit: String = LIMIT_PER_PAGE.toString(),
         @Query("has_breeds")
-        hasBreeds: String = HAS_BREEDS.toString(),
+        hasBreeds: Int = HAS_BREEDS,
         @Query("api_key")
         apiKey: String = API_KEY
     ): Response<DogResponse>

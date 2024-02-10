@@ -8,12 +8,12 @@ import com.example.domain.model.DogEntityModel
 import com.example.domain.model.MDog
 import com.example.domain.repository.IDogLocalRepository
 
-private const val TAG = "DogRepositoryImpl"
+private const val TAG = "DogLocalRepository"
 
 class DogLocalRepository(private val dao: DogDao) : IDogLocalRepository {
 
     override suspend fun upsert(dog: DogEntityModel): Long {
-        Log.d(TAG, "Adding a dog to list of liked dogs.")
+        Log.d(TAG, "Adding a ${dog.name} to list of liked dogs.")
         return dao.upsert(dog.toEntity())
     }
 
@@ -23,7 +23,7 @@ class DogLocalRepository(private val dao: DogDao) : IDogLocalRepository {
     }
 
     override suspend fun deleteDog(dog: DogEntityModel) {
-        Log.d(TAG, "Deleting a dog from list of liked dogs.")
+        Log.d(TAG, "Deleting a ${dog.name} from list of liked dogs.")
         dao.deleteDog(dog.toEntity())
     }
 }

@@ -6,7 +6,7 @@ import com.example.data.util.toDomain
 import com.example.domain.model.MDog
 import com.example.domain.repository.IDogRemoteRepository
 
-private const val TAG = "DogApiRepository"
+private const val TAG = "DogRemoteRepository"
 
 class DogRemoteRepository(
     private val api: DogApi

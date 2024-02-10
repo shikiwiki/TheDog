@@ -24,16 +24,16 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         binding = FragmentDetailsBinding.bind(view)
 
         dogsViewModel = (activity as MainActivity).dogViewModel
-        val dogResponseItem = args.dogResponseItem
+        val dog = args.dog
 
         binding.webView.apply {
             webViewClient = WebViewClient()
-            dogResponseItem.imageUrl?.let {
+            dog.imageUrl?.let {
                 loadUrl(it)
             }
         }
         binding.like.setOnClickListener {
-            dogsViewModel.addToLikedDogs(dogResponseItem)
+            dogsViewModel.addToLikedDogs(dog)
             Snackbar.make(view, "Added to liked dogs.", Snackbar.LENGTH_SHORT).show()
         }
         Log.d(TAG, "DetailsFragment is created.")

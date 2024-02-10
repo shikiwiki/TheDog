@@ -6,7 +6,7 @@ import com.example.data.remote.dto.Breed
 
 private const val TAG = "Converters"
 
-class Converters {
+class Converters { //to delete
     @TypeConverter
     fun fromBreeds(breeds: List<Breed>): String {
         val sb = StringBuffer("")

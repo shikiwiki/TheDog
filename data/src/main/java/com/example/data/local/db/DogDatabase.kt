@@ -10,10 +10,10 @@ import com.example.data.local.Converters
 import com.example.data.local.dao.DogDao
 import com.example.data.local.entities.DogEntity
 
-private const val TAG = "DogResponseItemDatabase"
+private const val TAG = "DogDatabase"
 
 @Database(entities = [DogEntity::class], version = 2)
-@TypeConverters(Converters::class)
+@TypeConverters(Converters::class) //DogEntity lets get rid of it actually
 abstract class DogDatabase : RoomDatabase() {
     abstract fun getDao(): DogDao
 
@@ -35,7 +35,7 @@ abstract class DogDatabase : RoomDatabase() {
                 context.applicationContext,
                 DogDatabase::class.java,
                 "dog_db.db")
-//                .allowMainThreadQueries()
+                .allowMainThreadQueries()
                 .build()
     }
 }
