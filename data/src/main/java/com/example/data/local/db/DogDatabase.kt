@@ -34,7 +34,8 @@ abstract class DogDatabase : RoomDatabase() {
             Room.databaseBuilder(
                 context.applicationContext,
                 DogDatabase::class.java,
-                "dog_db.db"
-            ).build()
+                "dog_db.db")
+//                .allowMainThreadQueries()
+                .build()
     }
 }

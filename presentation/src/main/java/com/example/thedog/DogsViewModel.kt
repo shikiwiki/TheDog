@@ -39,7 +39,7 @@ class DogsViewModel(
     }
 
     fun addToLikedDogs(dog: MDog) = viewModelScope.launch {
-        Log.d(TAG, "Dog was added to liked dogs.")
+        Log.d(TAG, "Dog ${dog.name} was added to liked dogs.")
         localRepository.upsert(dog.toEntityModel())
     }
 
@@ -52,7 +52,7 @@ class DogsViewModel(
     }
 
     fun deleteDog(dog: MDog) = viewModelScope.launch {
-        Log.d(TAG, "Dog was deleted from liked dogs.")
+        Log.d(TAG, "Dog ${dog.name} was deleted from liked dogs.")
         localRepository.deleteDog(dog.toEntityModel())
     }
 
