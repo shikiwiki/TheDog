@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.data.local.repository.DogLocalRepository
 import com.example.data.remote.repository.DogRemoteRepository
 import com.example.data.util.Resource
+import com.example.data.util.Status
 import com.example.data.util.toEntityModel
 import com.example.domain.model.MDog
 import kotlinx.coroutines.launch
@@ -21,7 +22,7 @@ class DogsViewModel(
 ) :
     ViewModel() {
     var page = 1
-    val dogsLivaData = MutableLiveData<Resource<List<MDog>>>()
+    val dogsLivaData : MutableLiveData<Resource<List<MDog>>> = MutableLiveData()
     private val likedLogsLivaData = MutableLiveData<Resource<List<MDog>>>()
 
     init {
@@ -29,14 +30,16 @@ class DogsViewModel(
     }
 
     fun getDogs() = viewModelScope.launch {
+        dogsLivaData.postValue(Resource.loading(null))
         val result = remoteRepository.getDogs()
         val resource = Resource.success(result)
-        dogsLivaData.postValue(resource)
+//        dogsLivaData.postValue(resource)
+        dogsLivaData.postValue(handleDogResponse(resource))
         Log.d(TAG, "All dogs were received in VM.")
-//        dogsInternet()
     }
 
     fun addToLikedDogs(dog: MDog) = viewModelScope.launch {
+//        likedLogsLivaData.postValue(Resource.loading(null))
         Log.d(TAG, "Dog ${dog.name} was added to liked dogs.")
         localRepository.upsert(dog.toEntityModel())
     }
@@ -54,23 +57,23 @@ class DogsViewModel(
         localRepository.deleteDog(dog.toEntityModel())
     }
 
-//    private fun handleDogResponse(response: Response<DogResponse>): Resource<DogResponse> {
-//        if (response.isSuccessful) {
-//            response.body()?.let { resultResponse ->
+    private fun handleDogResponse(resource: Resource<List<MDog>>) : Resource<List<MDog>> {
+        if (resource.status == Status.SUCCESS) {
+            resource.data?.let { dogs ->
 //                page++
 //                if (dogResponse == null) {
-//                    dogResponse = resultResponse
+//                    dogResponse = dogs
 //                } else {
 //                    val oldDogs = dogResponse
-//                    val newDogs = resultResponse
+//                    val newDogs = dogs
 //                    oldDogs?.addAll(newDogs)
 //                }
-//                return Resource.Success(dogResponse ?: resultResponse)
-//            }
-//        }
-//        Log.d(TAG, "Handling DogsResponse.")
-//        return Resource.Error(response.message())
-//    }
+                return Resource.success(dogs)
+            }
+        }
+        Log.d(TAG, "Handling DogsResponse.")
+        return Resource.error(null, resource.message.toString())
+    }
 
 //    private fun internetConnection(context: Context): Boolean {
 //        (context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).apply {

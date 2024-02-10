@@ -56,18 +56,18 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
             findNavController().navigate(R.id.action_dogsFragment_to_detailsFragment, bundle)
         }
 
-        dogsViewModel.dogsLivaData.observe(viewLifecycleOwner) { response ->
-            when (response.status) {
+        dogsViewModel.dogsLivaData.observe(viewLifecycleOwner) { resource ->
+            when (resource.status) {
                 Status.SUCCESS -> {
                     hideProgressBar()
                     hideErrorMessage()
-                    response.data?.let { dogResponse ->
-                        dogAdapter.differ.submitList(dogResponse.toList())
-                        val totalPages = dogResponse.size / LIMIT_PER_PAGE + 2
-                        isLastPage = dogsViewModel.page == totalPages
-                        if (isLastPage) {
-                            binding.recyclerDogs.setPadding(0, 0, 0, 0)
-                        }
+                    resource.data?.let { dogs ->
+                        dogAdapter.differ.submitList(dogs)
+//                        val totalPages = dogs.size / LIMIT_PER_PAGE + 2
+//                        isLastPage = dogsViewModel.page == totalPages
+//                        if (isLastPage) {
+//                            binding.recyclerDogs.setPadding(0, 0, 0, 0)
+//                        }  //unnecessary
                     }
                 }
 
@@ -77,7 +77,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
                 Status.ERROR -> {
                     hideProgressBar()
-                    response.message?.let { message ->
+                    resource.message?.let { message ->
                         Toast.makeText(activity, "Sorry, error: $message", Toast.LENGTH_LONG).show()
                         showErrorMessage(message)
                     }

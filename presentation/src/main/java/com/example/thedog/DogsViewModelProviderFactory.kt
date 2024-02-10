@@ -10,7 +10,6 @@ import com.example.data.remote.repository.DogRemoteRepository
 class DogsViewModelProviderFactory(
     private val localRepository: DogLocalRepository,
     private val remoteRepository: DogRemoteRepository,
-
     ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return DogsViewModel(remoteRepository, localRepository) as T
