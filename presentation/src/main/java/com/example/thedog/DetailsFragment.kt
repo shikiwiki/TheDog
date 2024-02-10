@@ -27,7 +27,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
         binding.webView.apply {
             webViewClient = WebViewClient()
-            dogResponseItem.url?.let {
+            dogResponseItem.imageUrl?.let {
                 loadUrl(it)
             }
         }

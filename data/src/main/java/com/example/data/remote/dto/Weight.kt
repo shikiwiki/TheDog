@@ -1,4 +1,4 @@
-package com.example.domain.model
+package com.example.data.remote.dto
 
 data class Weight(
     val imperial: String,

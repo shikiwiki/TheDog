@@ -1,6 +1,6 @@
 package com.example.domain.model
 
-data class Height(
+data class MWeight(
     val imperial: String,
     val metric: String
 )

@@ -1,9 +1,10 @@
-package com.example.data.remote
+package com.example.data.remote.api
 
+import com.example.data.BuildConfig
+import com.example.data.remote.dto.DogResponse
 import com.example.data.util.Constants.Companion.API_KEY
 import com.example.data.util.Constants.Companion.HAS_BREEDS
 import com.example.data.util.Constants.Companion.LIMIT_PER_PAGE
-import com.example.domain.model.DogResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

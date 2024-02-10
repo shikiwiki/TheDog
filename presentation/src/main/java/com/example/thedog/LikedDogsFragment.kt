@@ -66,7 +66,7 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
             attachToRecyclerView(binding.recyclerLikedDogs)
         }
         dogsViewModel.getLikedDogs().observe(viewLifecycleOwner) { dogs ->
-            dogAdapter.differ.submitList(dogs)
+            dogAdapter.differ.submitList(dogs.data)
         }
         Log.d(TAG, "LikedDogsFragment is created.")
     }

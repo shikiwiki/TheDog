@@ -1,14 +1,18 @@
 package com.example.domain.model
 
-data class Breed(
+data class DogEntityModel (
+    val id: String,
+    val name: String = "",
     val bred_for: String = "",
     val breed_group: String = "",
     val country_code: String = "",
-    val height: Height = Height("0", "0"),
-    val id: Int = 0,
+    val height: String = "",
+    val weight: String = "",
+    val number: Int = 0,
     val life_span: String = "",
-    val name: String = "",
     val reference_image_id: String = "",
     val temperament: String = "",
-    val weight: Weight = Weight("0", "0")
+    val imageUrl: String,
+    val imageWidth: Int,
+    val imageHeight: Int
 )
