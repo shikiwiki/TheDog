@@ -24,7 +24,7 @@ class DogEntity(
     val imageHeight: Int
 )
 
-fun DogEntity.toEntityModel() : DogEntityModel {
+fun DogEntity.toEntityModel(): DogEntityModel {
     return DogEntityModel(
         id = this.id,
         name = this.name,
@@ -43,7 +43,7 @@ fun DogEntity.toEntityModel() : DogEntityModel {
     )
 }
 
-fun DogEntityModel.toEntity() : DogEntity {
+fun DogEntityModel.toEntity(): DogEntity {
     return DogEntity(
         id = this.id,
         name = this.name,
@@ -62,7 +62,7 @@ fun DogEntityModel.toEntity() : DogEntity {
     )
 }
 
-fun MDog.toEntityModel() : DogEntityModel {
+fun MDog.toEntityModel(): DogEntityModel {
     return DogEntityModel(
         id = this.id,
         name = this.name,

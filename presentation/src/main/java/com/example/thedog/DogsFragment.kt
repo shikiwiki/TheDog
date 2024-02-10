@@ -24,11 +24,11 @@ private const val TAG = "DogsFragment"
 
 class DogsFragment : Fragment(R.layout.fragment_dogs) {
     lateinit var dogsViewModel: DogsViewModel
-    lateinit var dogAdapter: DogAdapter
+    private lateinit var dogAdapter: DogAdapter
     private lateinit var retryButton: Button //or delete
     private lateinit var errorText: TextView //or delete
     private lateinit var itemDogsError: CardView
-    lateinit var binding: FragmentDogsBinding
+    private lateinit var binding: FragmentDogsBinding
 
     @SuppressLint("InflateParams")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -120,7 +120,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
         Log.d(TAG, "Error message is shown.")
     }
 
-    val scrollListener = object : RecyclerView.OnScrollListener() {
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
 

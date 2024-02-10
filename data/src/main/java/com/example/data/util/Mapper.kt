@@ -32,7 +32,7 @@ fun List<DogResponseItem>.toDomain(): List<MDog> {
     return this.map { it.toDomain() }.toMutableList()
 }
 
-fun MDog.toEntity() : DogEntity {
+fun MDog.toEntity(): DogEntity {
     return DogEntity(
         id = this.id,
         name = this.name,
@@ -51,7 +51,7 @@ fun MDog.toEntity() : DogEntity {
     )
 }
 
-fun DogEntity.toDomain() : MDog {
+fun DogEntity.toDomain(): MDog {
     return MDog(
         id = this.id,
         name = this.name,

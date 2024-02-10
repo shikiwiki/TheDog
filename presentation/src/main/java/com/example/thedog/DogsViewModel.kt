@@ -27,12 +27,9 @@ constructor(
     private val localRepository: DogLocalRepository
 ) :
     AndroidViewModel(app) {
-//    val dogs: MutableLiveData<Resource<MDogResponse>> = MutableLiveData()
     var page = 1
-//    var dogResponse: DogResponse? = null
-
     val dogsLivaData = MutableLiveData<Resource<List<MDog>>>()
-    val likedLogsLivaData = MutableLiveData<Resource<List<MDog>>>()
+    private val likedLogsLivaData = MutableLiveData<Resource<List<MDog>>>()
 
     init {
         getDogs()

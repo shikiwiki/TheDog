@@ -1,4 +1,4 @@
 package com.example.domain.model
 
-abstract class MDogResponse : MutableList<MDog>
+//abstract class MDogResponse : MutableList<MDog>
 

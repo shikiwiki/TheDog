@@ -18,7 +18,7 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
 
     lateinit var dogsViewModel: DogsViewModel
     lateinit var dogAdapter: DogAdapter
-    lateinit var binding: FragmentLikedDogsBinding
+    private lateinit var binding: FragmentLikedDogsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
