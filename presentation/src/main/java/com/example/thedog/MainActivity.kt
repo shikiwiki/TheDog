@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         val localRepository = DogLocalRepository(db.getDao())
         val remoteRepository = DogRemoteRepository(RetrofitInstance.api)
         val viewModelProviderFactory =
-            DogsViewModelProviderFactory(application, localRepository, remoteRepository)
+            DogsViewModelProviderFactory(localRepository, remoteRepository)
         dogViewModel = ViewModelProvider(this, viewModelProviderFactory)[DogsViewModel::class.java]
 
         val navHostFragment =

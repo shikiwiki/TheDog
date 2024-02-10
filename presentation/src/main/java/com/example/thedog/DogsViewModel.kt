@@ -1,11 +1,10 @@
 package com.example.thedog
 
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.local.repository.DogLocalRepository
 import com.example.data.remote.repository.DogRemoteRepository
@@ -17,11 +16,10 @@ import kotlinx.coroutines.launch
 private const val TAG = "DogsViewModel"
 
 class DogsViewModel(
-    app: Application,
     private val remoteRepository: DogRemoteRepository,
     private val localRepository: DogLocalRepository
 ) :
-    AndroidViewModel(app) {
+    ViewModel() {
     var page = 1
     val dogsLivaData = MutableLiveData<Resource<List<MDog>>>()
     private val likedLogsLivaData = MutableLiveData<Resource<List<MDog>>>()
