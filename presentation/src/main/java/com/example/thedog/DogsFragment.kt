@@ -16,7 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.data.util.Constants.Companion.LIMIT_PER_PAGE
-import com.example.data.util.Resource
+import com.example.data.util.Status
 import com.example.thedog.adapters.DogAdapter
 import com.example.thedog.databinding.FragmentDogsBinding
 
@@ -56,9 +56,9 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
             findNavController().navigate(R.id.action_dogsFragment_to_detailsFragment, bundle)
         }
 
-        dogsViewModel.dogs.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Success<*> -> {
+        dogsViewModel.dogsLivaData.observe(viewLifecycleOwner) { response ->
+            when (response.status) {
+                Status.SUCCESS -> {
                     hideProgressBar()
                     hideErrorMessage()
                     response.data?.let { dogResponse ->
@@ -71,11 +71,11 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
                     }
                 }
 
-                is Resource.Loading<*> -> {
+                Status.LOADING -> {
                     showProgressBar()
                 }
 
-                is Resource.Error<*> -> {
+                Status.ERROR -> {
                     hideProgressBar()
                     response.message?.let { message ->
                         Toast.makeText(activity, "Sorry, error: $message", Toast.LENGTH_LONG).show()
