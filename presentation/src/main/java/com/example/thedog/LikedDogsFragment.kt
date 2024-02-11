@@ -50,7 +50,6 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                //TODO TRY DIFFERENT POSITION GETTERS
                 val position = viewHolder.bindingAdapterPosition
                 val dog = dogAdapter.differ.currentList[position]
                 viewModel.deleteDog(dog)
