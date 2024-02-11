@@ -13,17 +13,16 @@ private const val TAG = "DetailsFragment"
 
 class DetailsFragment : Fragment(R.layout.fragment_details) {
 
-    private lateinit var dogsViewModel: DogsViewModel
+    private lateinit var viewModel: DogsViewModel
     private val args: DetailsFragmentArgs by navArgs()
     private lateinit var binding: FragmentDetailsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "Creating DetailsFragment.")
-
         binding = FragmentDetailsBinding.bind(view)
 
-        dogsViewModel = (activity as MainActivity).dogViewModel
+        viewModel = (activity as MainActivity).viewModel
         val dog = args.dog
 
         binding.webView.apply {
@@ -33,7 +32,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             }
         }
         binding.like.setOnClickListener {
-            dogsViewModel.addToLikedDogs(dog)
+            viewModel.addToLikedDogs(dog)
             Snackbar.make(view, "Added to liked dogs.", Snackbar.LENGTH_SHORT).show()
         }
         Log.d(TAG, "DetailsFragment is created.")

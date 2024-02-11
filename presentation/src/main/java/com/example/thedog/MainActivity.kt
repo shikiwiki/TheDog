@@ -16,7 +16,7 @@ private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var dogViewModel: DogsViewModel
+    lateinit var viewModel: DogsViewModel
     private lateinit var binding: ActivityMainBinding
     private lateinit var db: DogDatabase
 
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         val remoteRepository = DogRemoteRepository(RetrofitInstance.api)
         val viewModelProviderFactory =
             DogsViewModelProviderFactory(localRepository, remoteRepository)
-        dogViewModel = ViewModelProvider(this, viewModelProviderFactory)[DogsViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelProviderFactory)[DogsViewModel::class.java]
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.dogsNavHostFragment) as NavHostFragment

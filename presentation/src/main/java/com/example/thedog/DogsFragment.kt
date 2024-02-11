@@ -23,7 +23,7 @@ import com.example.thedog.databinding.FragmentDogsBinding
 private const val TAG = "DogsFragment"
 
 class DogsFragment : Fragment(R.layout.fragment_dogs) {
-    lateinit var dogsViewModel: DogsViewModel
+    lateinit var viewModel: DogsViewModel
     private lateinit var dogAdapter: DogAdapter
     private lateinit var retryButton: Button //or delete
     private lateinit var errorText: TextView //or delete
@@ -46,8 +46,8 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
         retryButton = errorView.findViewById(R.id.retryButton)
         errorText = errorView.findViewById(R.id.errorText)
 
-        dogsViewModel = (activity as MainActivity).dogViewModel
-        setupDogRecycler()
+        viewModel = (activity as MainActivity).viewModel
+        setupDogsRecyclerView()
 
         dogAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
@@ -56,7 +56,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
             findNavController().navigate(R.id.action_dogsFragment_to_detailsFragment, bundle)
         }
 
-        dogsViewModel.dogsLivaData.observe(viewLifecycleOwner) { resource ->
+        viewModel.dogsLivaData.observe(viewLifecycleOwner) { resource ->
             when (resource.status) {
                 Status.SUCCESS -> {
                     hideProgressBar()
@@ -85,7 +85,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
             }
         }
         retryButton.setOnClickListener {
-            dogsViewModel.getDogs()
+            viewModel.getDogs()
         }
         Log.d(TAG, "DogsFragment is created.")
     }
@@ -137,7 +137,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
             val shouldPaginate =
                 isNoErrors && isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning && isTotalMoreThenVisible && isScrolling
             if (shouldPaginate) {
-                dogsViewModel.getDogs()
+                viewModel.getDogs()
                 isScrolling = false
             }
         }
@@ -151,7 +151,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
         }
     }
 
-    private fun setupDogRecycler() {
+    private fun setupDogsRecyclerView() {
         Log.d(TAG, "Setting up DogRecycler.")
         dogAdapter = DogAdapter()
         binding.recyclerDogs.apply {

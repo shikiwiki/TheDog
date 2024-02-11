@@ -49,7 +49,7 @@ class DogsViewModel(
         val result = localRepository.getLikedDogs()
         val resource = Resource.success(result)
         likedLogsLivaData.value = resource
-        return dogsLivaData
+        return likedLogsLivaData
     }
 
     fun deleteDog(dog: MDog) = viewModelScope.launch {
