@@ -11,7 +11,7 @@ import com.example.data.remote.repository.DogRemoteRepository
 import com.example.data.util.Resource
 import com.example.data.util.Status
 import com.example.data.util.toEntityModel
-import com.example.domain.model.MDog
+import com.example.domain.model.Dog
 import kotlinx.coroutines.launch
 
 private const val TAG = "DogsViewModel"
@@ -22,9 +22,9 @@ class DogsViewModel(
 ) :
     ViewModel() {
     var page = 1
-    val dogsLivaData : MutableLiveData<Resource<MutableList<MDog>>> = MutableLiveData()
-    private val likedLogsLivaData = MutableLiveData<Resource<MutableList<MDog>>>()
-    var dogs : MutableList<MDog>? = null
+    val dogsLivaData: MutableLiveData<Resource<MutableList<Dog>>> = MutableLiveData()
+    private val likedLogsLivaData = MutableLiveData<Resource<MutableList<Dog>>>()
+    private var dogs: MutableList<Dog>? = null
 
     init {
         getDogs()
@@ -34,18 +34,16 @@ class DogsViewModel(
         dogsLivaData.postValue(Resource.loading(null))
         val result = remoteRepository.getDogs()
         val resource = Resource.success(result)
-//        dogsLivaData.postValue(resource)
         dogsLivaData.postValue(handleDogResponse(resource))
         Log.d(TAG, "All dogs were received in VM.")
     }
 
-    fun addToLikedDogs(dog: MDog) = viewModelScope.launch {
-//        likedLogsLivaData.postValue(Resource.loading(null))
+    fun addToLikedDogs(dog: Dog) = viewModelScope.launch {
         Log.d(TAG, "Dog ${dog.name} was added to liked dogs.")
         localRepository.upsert(dog.toEntityModel())
     }
 
-    fun getLikedDogs(): LiveData<Resource<MutableList<MDog>>> {
+    fun getLikedDogs(): LiveData<Resource<MutableList<Dog>>> {
         Log.d(TAG, "Liked dogs were received in VM.")
         val result = localRepository.getLikedDogs()
         val resource = Resource.success(result)
@@ -53,12 +51,12 @@ class DogsViewModel(
         return likedLogsLivaData
     }
 
-    fun deleteDog(dog: MDog) = viewModelScope.launch {
+    fun deleteDog(dog: Dog) = viewModelScope.launch {
         Log.d(TAG, "Dog ${dog.name} was deleted from liked dogs.")
         localRepository.deleteDog(dog.toEntityModel())
     }
 
-    private fun handleDogResponse(resource: Resource<MutableList<MDog>>) : Resource<MutableList<MDog>> {
+    private fun handleDogResponse(resource: Resource<MutableList<Dog>>): Resource<MutableList<Dog>> {
         if (resource.status == Status.SUCCESS) {
             resource.data?.let { resultDogs ->
                 page++
@@ -66,8 +64,7 @@ class DogsViewModel(
                     dogs = resultDogs
                 } else {
                     val oldDogs = dogs
-                    val newDogs = resultDogs
-                    oldDogs?.addAll(newDogs)
+                    oldDogs?.addAll(resultDogs)
                 }
                 return Resource.success(dogs ?: resultDogs)
             }
@@ -75,38 +72,4 @@ class DogsViewModel(
         Log.d(TAG, "Handling DogsResponse.")
         return Resource.error(null, resource.message.toString())
     }
-
-//    private fun internetConnection(context: Context): Boolean {
-//        (context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).apply {
-//            return getNetworkCapabilities(activeNetwork)?.run {
-//                Log.d(TAG, "Internet connection.")
-//                when {
-//                    hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-//                    hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-//                    hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-//                    else -> false
-//                }
-//            } ?: false
-//        }
-//    }
-
-//    private suspend fun dogsInternet() {
-//        dogs.postValue(Resource.Loading())
-//        try {
-//            if (internetConnection(this.getApplication())) {
-//                val response = remoteRepository.getDogs()
-//                dogs.postValue(handleDogResponse(response))
-//            } else {
-//                dogs.postValue(Resource.Error("No Internet connection."))
-//            }
-//        } catch (t: Throwable) {
-//            when (t) {
-//                is IOException -> dogs.postValue(Resource.Error("Unable to connect."))
-//                else -> dogs.postValue(Resource.Error("No signal."))
-//            }
-//        }
-//        Log.d(TAG, "DogsInternet is successful.")
-//    }
-
-
 }

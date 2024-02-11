@@ -1,7 +1,7 @@
 package com.example.domain.repository
 
-import com.example.domain.model.MDog
+import com.example.domain.model.Dog
 
 interface IDogRemoteRepository {
-    suspend fun getDogs(): List<MDog>?
+    suspend fun getDogs(): List<Dog>?
 }

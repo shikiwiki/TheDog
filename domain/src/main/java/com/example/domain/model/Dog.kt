@@ -2,7 +2,7 @@ package com.example.domain.model
 
 import java.io.Serializable
 
-data class MDog(
+data class Dog(
     val id: String = "",
     val name: String = "",
     val bredFor: String = "",

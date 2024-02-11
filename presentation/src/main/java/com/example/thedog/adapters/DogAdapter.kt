@@ -1,6 +1,5 @@
 package com.example.thedog.adapters
 
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.domain.model.MDog
+import com.example.domain.model.Dog
 import com.example.thedog.R
 
 private const val TAG = "DogAdapter"
@@ -22,12 +21,12 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
     private lateinit var dogImage: ImageView
     private lateinit var dogName: TextView
 
-    private val differCallback = object : DiffUtil.ItemCallback<MDog>() {
-        override fun areItemsTheSame(oldItem: MDog, newItem: MDog): Boolean {
+    private val differCallback = object : DiffUtil.ItemCallback<Dog>() {
+        override fun areItemsTheSame(oldItem: Dog, newItem: Dog): Boolean {
             return oldItem.imageUrl == newItem.imageUrl
         }
 
-        override fun areContentsTheSame(oldItem: MDog, newItem: MDog): Boolean {
+        override fun areContentsTheSame(oldItem: Dog, newItem: Dog): Boolean {
             return oldItem == newItem
         }
     }
@@ -65,9 +64,9 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
         Log.d(TAG, "DogViewHolder is bound.")
     }
 
-    private var onItemClickListener: ((MDog) -> Unit)? = null
+    private var onItemClickListener: ((Dog) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (MDog) -> Unit) {
+    fun setOnItemClickListener(listener: (Dog) -> Unit) {
         Log.d(TAG, "Setting onItemClickListener.")
         onItemClickListener = listener
     }

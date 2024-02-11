@@ -3,10 +3,10 @@ package com.example.data.util
 import com.example.data.local.entities.DogEntity
 import com.example.data.remote.dto.DogResponseItem
 import com.example.domain.model.DogEntityModel
-import com.example.domain.model.MDog
+import com.example.domain.model.Dog
 
-fun DogResponseItem.toDomain(): MDog {
-    return MDog(
+fun DogResponseItem.toDomain(): Dog {
+    return Dog(
         id = this.id,
         name = this.breeds[0].name,
         bredFor = this.breeds[0].bred_for,
@@ -24,8 +24,8 @@ fun DogResponseItem.toDomain(): MDog {
     )
 }
 
-fun DogEntity.toDomain(): MDog {
-    return MDog(
+fun DogEntity.toDomain(): Dog {
+    return Dog(
         id = this.id,
         name = this.name,
         bredFor = this.bred_for,
@@ -62,7 +62,7 @@ fun DogEntityModel.toEntity(): DogEntity {
     )
 }
 
-fun MDog.toEntityModel(): DogEntityModel {
+fun Dog.toEntityModel(): DogEntityModel {
     return DogEntityModel(
         id = this.id,
         name = this.name,
