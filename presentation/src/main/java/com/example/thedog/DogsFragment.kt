@@ -62,12 +62,12 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
                     hideProgressBar()
                     hideErrorMessage()
                     resource.data?.let { dogs ->
-                        dogAdapter.differ.submitList(dogs)
-//                        val totalPages = dogs.size / LIMIT_PER_PAGE + 2
-//                        isLastPage = dogsViewModel.page == totalPages
-//                        if (isLastPage) {
-//                            binding.recyclerDogs.setPadding(0, 0, 0, 0)
-//                        }  //unnecessary
+                        dogAdapter.differ.submitList(dogs.toList())
+                        val totalPages = dogs.size / LIMIT_PER_PAGE + 2
+                        isLastPage = viewModel.page == totalPages
+                        if (isLastPage) {
+                            binding.recyclerDogs.setPadding(0, 0, 0, 0)
+                        }
                     }
                 }
 

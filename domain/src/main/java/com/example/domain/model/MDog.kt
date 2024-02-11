@@ -3,7 +3,7 @@ package com.example.domain.model
 import java.io.Serializable
 
 data class MDog(
-    val id: String,
+    val id: String = "",
     val name: String = "",
     val bredFor: String = "",
     val breedGroup: String = "",
@@ -14,7 +14,7 @@ data class MDog(
     val lifeSpan: String = "",
     val referenceImageId: String = "",
     val temperament: String = "",
-    val imageUrl: String,
-    val imageWidth: Int,
-    val imageHeight: Int
+    val imageUrl: String = "",
+    val imageWidth: Int = 0,
+    val imageHeight: Int = 0
 ) : Serializable

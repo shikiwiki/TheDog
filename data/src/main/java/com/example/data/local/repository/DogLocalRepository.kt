@@ -17,9 +17,9 @@ class DogLocalRepository(private val dao: DogDao) : IDogLocalRepository {
         return dao.upsert(dog.toEntity())
     }
 
-    override fun getLikedDogs(): List<MDog> {
+    override fun getLikedDogs(): MutableList<MDog> { // make it return LiveDate!
         Log.d(TAG, "Getting list of liked dogs.")
-        return dao.getAllDogs().map { it.toDomain() }
+        return dao.getAllDogs().map { it.toDomain() }.toMutableList()
     }
 
     override suspend fun deleteDog(dog: DogEntityModel) {

@@ -11,14 +11,14 @@ private const val TAG = "DogRemoteRepository"
 class DogRemoteRepository(
     private val api: DogApi
 ) : IDogRemoteRepository {
-    override suspend fun getDogs(): List<MDog>? {
+    override suspend fun getDogs(): MutableList<MDog>? {
         Log.d(TAG, "Getting dogs list.")
         return runCatching {
             val response = api.getData()
             if (response.isSuccessful) {
                 response.body()?.map {
                     it.toDomain()
-                }
+                }?.toMutableList()
             } else {
                 throw RuntimeException("Sorry, problem occurred while getting dogs list.")
             }

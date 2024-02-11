@@ -22,8 +22,9 @@ class DogsViewModel(
 ) :
     ViewModel() {
     var page = 1
-    val dogsLivaData : MutableLiveData<Resource<List<MDog>>> = MutableLiveData()
-    private val likedLogsLivaData = MutableLiveData<Resource<List<MDog>>>()
+    val dogsLivaData : MutableLiveData<Resource<MutableList<MDog>>> = MutableLiveData()
+    private val likedLogsLivaData = MutableLiveData<Resource<MutableList<MDog>>>()
+    var dogs : MutableList<MDog>? = null
 
     init {
         getDogs()
@@ -44,7 +45,7 @@ class DogsViewModel(
         localRepository.upsert(dog.toEntityModel())
     }
 
-    fun getLikedDogs(): LiveData<Resource<List<MDog>>> {
+    fun getLikedDogs(): LiveData<Resource<MutableList<MDog>>> {
         Log.d(TAG, "Liked dogs were received in VM.")
         val result = localRepository.getLikedDogs()
         val resource = Resource.success(result)
@@ -57,18 +58,18 @@ class DogsViewModel(
         localRepository.deleteDog(dog.toEntityModel())
     }
 
-    private fun handleDogResponse(resource: Resource<List<MDog>>) : Resource<List<MDog>> {
+    private fun handleDogResponse(resource: Resource<MutableList<MDog>>) : Resource<MutableList<MDog>> {
         if (resource.status == Status.SUCCESS) {
-            resource.data?.let { dogs ->
-//                page++
-//                if (dogResponse == null) {
-//                    dogResponse = dogs
-//                } else {
-//                    val oldDogs = dogResponse
-//                    val newDogs = dogs
-//                    oldDogs?.addAll(newDogs)
-//                }
-                return Resource.success(dogs)
+            resource.data?.let { resultDogs ->
+                page++
+                if (dogs == null) {
+                    dogs = resultDogs
+                } else {
+                    val oldDogs = dogs
+                    val newDogs = resultDogs
+                    oldDogs?.addAll(newDogs)
+                }
+                return Resource.success(dogs ?: resultDogs)
             }
         }
         Log.d(TAG, "Handling DogsResponse.")
