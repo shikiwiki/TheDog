@@ -1,4 +1,4 @@
-package com.example.data.remote.api
+package com.example.data.remote.network
 
 import android.util.Log
 import com.example.data.util.Constants.Companion.BASE_URL
@@ -18,7 +18,6 @@ class RetrofitInstance {
             val client = OkHttpClient.Builder()
                 .addInterceptor(logger)
                 .build()
-
 
             Retrofit.Builder()
                 .baseUrl(BASE_URL)

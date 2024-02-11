@@ -10,29 +10,29 @@ import com.example.thedog.databinding.FragmentDetailsBinding
 import com.google.android.material.snackbar.Snackbar
 
 private const val TAG = "DetailsFragment"
+
 class DetailsFragment : Fragment(R.layout.fragment_details) {
 
-    lateinit var dogsViewModel: DogsViewModel
-    val args: DetailsFragmentArgs by navArgs()
-    lateinit var binding: FragmentDetailsBinding
+    private lateinit var viewModel: DogsViewModel
+    private val args: DetailsFragmentArgs by navArgs()
+    private lateinit var binding: FragmentDetailsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "Creating DetailsFragment.")
-
         binding = FragmentDetailsBinding.bind(view)
 
-        dogsViewModel = (activity as MainActivity).dogViewModel
-        val dogResponseItem = args.dogResponseItem
+        viewModel = (activity as MainActivity).viewModel
+        val dog = args.dog
 
         binding.webView.apply {
             webViewClient = WebViewClient()
-            dogResponseItem.imageUrl?.let {
+            dog.imageUrl?.let {
                 loadUrl(it)
             }
         }
         binding.like.setOnClickListener {
-            dogsViewModel.addToLikedDogs(dogResponseItem)
+            viewModel.addToLikedDogs(dog)
             Snackbar.make(view, "Added to liked dogs.", Snackbar.LENGTH_SHORT).show()
         }
         Log.d(TAG, "DetailsFragment is created.")

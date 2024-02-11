@@ -1,15 +1,15 @@
 package com.example.data.remote.repository
 
 import android.util.Log
-import com.example.data.remote.api.DogApi
+import com.example.data.remote.network.DogApi
 import com.example.data.util.toDomain
 import com.example.domain.model.MDog
 import com.example.domain.repository.IDogRemoteRepository
 
-private const val TAG = "DogApiRepository"
+private const val TAG = "DogRemoteRepository"
 
 class DogRemoteRepository(
-    val api: DogApi
+    private val api: DogApi
 ) : IDogRemoteRepository {
     override suspend fun getDogs(): List<MDog>? {
         Log.d(TAG, "Getting dogs list.")
@@ -20,26 +20,10 @@ class DogRemoteRepository(
                     it.toDomain()
                 }
             } else {
-                throw RuntimeException("Sorry")
+                throw RuntimeException("Sorry, problem occurred while getting dogs list.")
             }
         }.getOrElse {
-            throw Exception("Error")
+            throw Exception("Error. Getting dogs list: getOrElse block.")
         }
     }
-//
-//    override suspend fun getAllCharacters(offset: Int, limit: Int): List<CharacterItemModel> {
-//        val formattedTimestamp = timestamp.generateFormattedTimestamp(timestamp.generateTimestamp())
-//        val hash = md5.md5(formattedTimestamp + PRIVATE_KEY + PUBLIC_KEY)
-//        return runCatching {
-//            val response =
-//                retrofit.getCharacters(formattedTimestamp, PUBLIC_KEY, hash, offset, limit)
-//            if (response.code == 200) {
-//                response.data.results.map { it.toCharacterItemModel() }
-//            } else {
-//                throw MarvelApiException("Error ${response.code} ${response.status}")
-//            }
-//        }.getOrElse {
-//            throw MarvelApiException("Error during network request ${it.localizedMessage} ${it.cause} ${it.message}")
-//        }
-//    }
 }

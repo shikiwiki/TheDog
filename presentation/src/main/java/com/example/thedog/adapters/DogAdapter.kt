@@ -1,5 +1,6 @@
 package com.example.thedog.adapters
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -26,10 +27,7 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
             return oldItem.imageUrl == newItem.imageUrl
         }
 
-        override fun areContentsTheSame(
-            oldItem: MDog,
-            newItem: MDog
-        ): Boolean {
+        override fun areContentsTheSame(oldItem: MDog, newItem: MDog): Boolean {
             return oldItem == newItem
         }
     }
@@ -46,8 +44,6 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
     }
 
     override fun getItemCount(): Int = differ.currentList.size
-
-    private var onItemClickListener: ((MDog) -> Unit)? = null
 
     override fun onBindViewHolder(holder: DogViewHolder, position: Int) {
         Log.d(TAG, "Binding DogViewHolder.")
@@ -69,7 +65,10 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
         Log.d(TAG, "DogViewHolder is bound.")
     }
 
+    private var onItemClickListener: ((MDog) -> Unit)? = null
+
     fun setOnItemClickListener(listener: (MDog) -> Unit) {
+        Log.d(TAG, "Setting onItemClickListener.")
         onItemClickListener = listener
     }
 }

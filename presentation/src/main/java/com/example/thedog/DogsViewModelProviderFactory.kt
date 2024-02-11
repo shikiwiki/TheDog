@@ -8,12 +8,10 @@ import com.example.data.remote.repository.DogRemoteRepository
 
 @Suppress("UNCHECKED_CAST")
 class DogsViewModelProviderFactory(
-    val app: Application,
     private val localRepository: DogLocalRepository,
     private val remoteRepository: DogRemoteRepository,
-
     ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return DogsViewModel(app, remoteRepository, localRepository) as T
+        return DogsViewModel(remoteRepository, localRepository) as T
     }
 }

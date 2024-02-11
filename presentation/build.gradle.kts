@@ -93,7 +93,6 @@ dependencies {
 
 //    ...do I need it in presentation?
     implementation(libs.androidx.legacy.support.v4)
-
 }
 
 kapt {

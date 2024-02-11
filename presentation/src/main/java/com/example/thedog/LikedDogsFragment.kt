@@ -16,9 +16,9 @@ private const val TAG = "LikedDogsFragment"
 
 class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
 
-    lateinit var dogsViewModel: DogsViewModel
+    lateinit var viewModel: DogsViewModel
     lateinit var dogAdapter: DogAdapter
-    lateinit var binding: FragmentLikedDogsBinding
+    private lateinit var binding: FragmentLikedDogsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -27,12 +27,12 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
 
         binding = FragmentLikedDogsBinding.bind(view)
 
-        dogsViewModel = (activity as MainActivity).dogViewModel
-        setupLikedDogsRecycler()
+        viewModel = (activity as MainActivity).viewModel
+        setupLikedDogsRecyclerView()
 
         dogAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
-                putSerializable("dogResponseItem", it)
+                putSerializable("dog", it)
             }
             findNavController().navigate(R.id.action_likedDogsFragment_to_detailsFragment, bundle)
         }
@@ -53,10 +53,10 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
                 //TODO TRY DIFFERENT POSITION GETTERS
                 val position = viewHolder.bindingAdapterPosition
                 val dog = dogAdapter.differ.currentList[position]
-                dogsViewModel.deleteDog(dog)
+                viewModel.deleteDog(dog)
                 Snackbar.make(view, "Removed from liked dogs.", Snackbar.LENGTH_LONG).apply {
                     setAction("Undo") {
-                        dogsViewModel.addToLikedDogs(dog)
+                        viewModel.addToLikedDogs(dog)
                     }
                     show()
                 }
@@ -65,13 +65,13 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
         ItemTouchHelper(itemTouchHelperCallback).apply {
             attachToRecyclerView(binding.recyclerLikedDogs)
         }
-        dogsViewModel.getLikedDogs().observe(viewLifecycleOwner) { dogs ->
+        viewModel.getLikedDogs().observe(viewLifecycleOwner) { dogs ->
             dogAdapter.differ.submitList(dogs.data)
         }
         Log.d(TAG, "LikedDogsFragment is created.")
     }
 
-    private fun setupLikedDogsRecycler() {
+    private fun setupLikedDogsRecyclerView() {
         Log.d(TAG, "Setting up LikedDogsRecycler.")
         dogAdapter = DogAdapter()
         binding.recyclerLikedDogs.apply {

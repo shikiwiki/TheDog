@@ -54,7 +54,4 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit2.converter.gson)
     implementation(libs.logging.interceptor)
-
-//    ...do I need it in domain?
-//    implementation(libs.androidx.legacy.support.v4)
 }

@@ -1,6 +1,5 @@
-package com.example.data.remote.api
+package com.example.data.remote.network
 
-import com.example.data.BuildConfig
 import com.example.data.remote.dto.DogResponse
 import com.example.data.util.Constants.Companion.API_KEY
 import com.example.data.util.Constants.Companion.HAS_BREEDS
@@ -26,7 +25,7 @@ interface DogApi {
         @Query("limit")
         limit: String = LIMIT_PER_PAGE.toString(),
         @Query("has_breeds")
-        hasBreeds: String = HAS_BREEDS.toString(),
+        hasBreeds: Int = HAS_BREEDS,
         @Query("api_key")
         apiKey: String = API_KEY
     ): Response<DogResponse>

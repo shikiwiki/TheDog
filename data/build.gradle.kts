@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-kapt")
-//    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -14,7 +13,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-//        buildConfigField("String", "API_KEY", "live_78uH11IyabCdKAj68Sf1exNbi2vyrC2zBBnl0D2m3gWvbYjMjemv4WTZbMWd8e43")
     }
 
     buildTypes {
@@ -35,7 +33,6 @@ android {
     }
     buildFeatures {
         viewBinding = true
-        buildConfig = true
     }
 }
 
@@ -59,21 +56,4 @@ dependencies {
     //noinspection KaptUsageInsteadOfKsp
     kapt(libs.room.compiler)
     implementation (libs.room.ktx)
-    //    ...do I need it in data?
-//    implementation(libs.androidx.legacy.support.v4)
 }
-
-//secrets {
-//    // Change the properties file from the default "local.properties" in your root project
-//    // to another properties file in your root project.
-//    propertiesFileName = "secrets.properties"
-//
-//    // A properties file containing default secret values. This file can be checked in version
-//    // control.
-//    defaultPropertiesFileName = "secrets.defaults.properties"
-//
-//    // Configure which keys should be ignored by the plugin by providing regular expressions.
-//    // "sdk.dir" is ignored by default.
-//    ignoreList.add("keyToIgnore") // Ignore the key "keyToIgnore"
-//    ignoreList.add("sdk.*")       // Ignore all keys matching the regexp "sdk.*"
-//}

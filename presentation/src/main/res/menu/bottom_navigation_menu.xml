@@ -5,7 +5,7 @@
         android:title="@string/all_dogs"
         android:icon="@drawable/baseline_format_list_bulleted_24" />
 
-    <item android:id="@+id/favouritesFragment"
+    <item android:id="@+id/likedDogsFragment"
         android:title="@string/liked_dogs"
         android:icon="@drawable/baseline_favorite_24" />
 
