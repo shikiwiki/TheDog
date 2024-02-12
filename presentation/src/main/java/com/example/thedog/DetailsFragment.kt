@@ -3,6 +3,7 @@ package com.example.thedog
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.webkit.WebSettings
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -24,6 +25,9 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
         viewModel = (activity as MainActivity).viewModel
         val dog = args.dog
+
+        val webSettings: WebSettings = binding.webView.settings
+
 
         binding.webView.apply {
             webViewClient = WebViewClient()
