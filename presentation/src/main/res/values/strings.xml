@@ -16,6 +16,6 @@
     <string name="country">Country:</string>
     <string name="height">Height, cm:</string>
     <string name="weight">Weight, kg:</string>
-    <string name="lifespan">Lifespan, years:</string>
+    <string name="lifespan">Lifespan:</string>
     <string name="temperament">Temperament:</string>
 </resources>

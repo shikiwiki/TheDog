@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fragment_background"
+    android:background="@color/papaya_whip"
     tools:context=".DetailsFragment">
 
     <ScrollView
@@ -28,22 +28,16 @@
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/image"
-                app:layout_constraintBottom_toTopOf="@+id/name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:contentDescription="@string/image" />
 
             <TextView
                 android:id="@+id/name"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="wrap_content"
                 android:text="@string/name"
-                android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@+id/breedGroup"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image" />
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -52,15 +46,18 @@
 
                 <TextView
                     android:id="@+id/bredForCell"
-                    android:layout_width="100dp"
+                    android:layout_width="110dp"
                     android:layout_height="70dp"
                     android:text="@string/bred_for"
+                    android:textSize="17sp"
                     android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/bredFor"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
                     android:visibility="visible" />
 
             </LinearLayout>
@@ -72,15 +69,18 @@
 
                 <TextView
                     android:id="@+id/breedGroupCell"
-                    android:layout_width="100dp"
+                    android:layout_width="110dp"
                     android:layout_height="70dp"
                     android:text="@string/breed_group"
+                    android:textSize="17sp"
                     android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/breedGroup"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
                     android:visibility="visible" />
             </LinearLayout>
 
@@ -91,15 +91,18 @@
 
                 <TextView
                     android:id="@+id/heightCell"
-                    android:layout_width="100dp"
+                    android:layout_width="110dp"
                     android:layout_height="70dp"
                     android:text="@string/height"
+                    android:textSize="17sp"
                     android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/height"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
                     android:visibility="visible" />
             </LinearLayout>
 
@@ -110,15 +113,18 @@
 
                 <TextView
                     android:id="@+id/weightCell"
-                    android:layout_width="100dp"
+                    android:layout_width="110dp"
                     android:layout_height="70dp"
                     android:text="@string/weight"
+                    android:textSize="17sp"
                     android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/weight"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
                     android:visibility="visible" />
             </LinearLayout>
 
@@ -129,15 +135,18 @@
 
                 <TextView
                     android:id="@+id/lifeSpanCell"
-                    android:layout_width="100dp"
+                    android:layout_width="110dp"
                     android:layout_height="70dp"
                     android:text="@string/lifespan"
+                    android:textSize="17sp"
                     android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/lifeSpan"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
                     android:visibility="visible" />
             </LinearLayout>
 
@@ -148,15 +157,18 @@
 
                 <TextView
                     android:id="@+id/temperamentCell"
-                    android:layout_width="100dp"
+                    android:layout_width="110dp"
                     android:layout_height="70dp"
                     android:text="@string/temperament"
+                    android:textSize="17sp"
                     android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/temperament"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
                     android:visibility="visible" />
             </LinearLayout>
         </LinearLayout>

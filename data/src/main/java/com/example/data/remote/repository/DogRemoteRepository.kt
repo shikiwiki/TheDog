@@ -8,9 +8,8 @@ import com.example.domain.repository.IDogRemoteRepository
 
 private const val TAG = "DogRemoteRepository"
 
-class DogRemoteRepository(
-    private val api: DogApi
-) : IDogRemoteRepository {
+class DogRemoteRepository(private val api: DogApi) : IDogRemoteRepository {
+
     override suspend fun getDogs(): MutableList<Dog>? {
         Log.d(TAG, "Getting dogs list.")
         return runCatching {
