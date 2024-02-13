@@ -22,7 +22,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     private val name : TextView by lazy { binding.root.findViewById(R.id.name) }
     private val bredFor : TextView by lazy { binding.root.findViewById(R.id.bredFor) }
     private val breedGroup : TextView by lazy { binding.root.findViewById(R.id.breedGroup) }
-    private val countryCode : TextView by lazy { binding.root.findViewById(R.id.countryCode) }
     private val height : TextView by lazy { binding.root.findViewById(R.id.height) }
     private val weight : TextView by lazy { binding.root.findViewById(R.id.weight) }
     private val lifeSpan : TextView by lazy { binding.root.findViewById(R.id.lifeSpan) }
@@ -41,7 +40,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             name.text = it.name
             bredFor.text = it.bredFor
             breedGroup.text = it.breedGroup
-            countryCode.text = it.countryCode
             height.text = it.height
             weight.text = it.weight
             lifeSpan.text = it.lifeSpan

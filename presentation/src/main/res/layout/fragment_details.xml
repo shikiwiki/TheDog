@@ -4,19 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fragment_background"
+    android:background="@color/papaya_whip"
     tools:context=".DetailsFragment">
 
     <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -28,100 +28,151 @@
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/image"
-                app:layout_constraintBottom_toBottomOf="@+id/name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:contentDescription="@string/image" />
 
             <TextView
                 android:id="@+id/name"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:text="@string/hello_blank_fragment"
-                android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@+id/image"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/bredFor" />
+                android:layout_height="wrap_content"
+                android:text="@string/name"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
 
-            <TextView
-                android:id="@+id/bredFor"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:text="@string/hello_blank_fragment"
-                android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@+id/name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/breedGroup" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/breedGroup"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:text="@string/hello_blank_fragment"
-                android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@+id/bredFor"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/countryCode" />
+                <TextView
+                    android:id="@+id/bredForCell"
+                    android:layout_width="110dp"
+                    android:layout_height="70dp"
+                    android:text="@string/bred_for"
+                    android:textSize="17sp"
+                    android:visibility="visible" />
 
-            <TextView
-                android:id="@+id/countryCode"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:text="@string/hello_blank_fragment"
-                android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@+id/breedGroup"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/height" />
+                <TextView
+                    android:id="@+id/bredFor"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
-            <TextView
-                android:id="@+id/height"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:text="@string/hello_blank_fragment"
-                android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@+id/countryCode"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/weight" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/weight"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:text="@string/hello_blank_fragment"
-                android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@+id/height"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lifeSpan" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/lifeSpan"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:text="@string/hello_blank_fragment"
-                android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@+id/weight"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/temperament" />
+                <TextView
+                    android:id="@+id/breedGroupCell"
+                    android:layout_width="110dp"
+                    android:layout_height="70dp"
+                    android:text="@string/breed_group"
+                    android:textSize="17sp"
+                    android:visibility="visible" />
 
-            <TextView
-                android:id="@+id/temperament"
+                <TextView
+                    android:id="@+id/breedGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:text="@string/hello_blank_fragment"
-                android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@+id/lifeSpan"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="parent" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/heightCell"
+                    android:layout_width="110dp"
+                    android:layout_height="70dp"
+                    android:text="@string/height"
+                    android:textSize="17sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/height"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/weightCell"
+                    android:layout_width="110dp"
+                    android:layout_height="70dp"
+                    android:text="@string/weight"
+                    android:textSize="17sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/weight"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lifeSpanCell"
+                    android:layout_width="110dp"
+                    android:layout_height="70dp"
+                    android:text="@string/lifespan"
+                    android:textSize="17sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/lifeSpan"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/temperamentCell"
+                    android:layout_width="110dp"
+                    android:layout_height="70dp"
+                    android:text="@string/temperament"
+                    android:textSize="17sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/temperament"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+            </LinearLayout>
         </LinearLayout>
+
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

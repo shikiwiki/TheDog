@@ -10,4 +10,12 @@
     <string name="like">Like</string>
     <string name="no_internet">No Internet</string>
     <string name="retry">Retry</string>
+    <string name="name">Name</string>
+    <string name="bred_for">Bred for:</string>
+    <string name="breed_group">Breed Group:</string>
+    <string name="country">Country:</string>
+    <string name="height">Height, cm:</string>
+    <string name="weight">Weight, kg:</string>
+    <string name="lifespan">Lifespan:</string>
+    <string name="temperament">Temperament:</string>
 </resources>
