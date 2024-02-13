@@ -5,7 +5,6 @@ data class DogEntityModel (
     val name: String = "",
     val bredFor: String = "",
     val breedGroup: String = "",
-    val countryCode: String = "",
     val height: String = "",
     val weight: String = "",
     val number: Int = 0,
