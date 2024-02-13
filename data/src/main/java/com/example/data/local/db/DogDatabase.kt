@@ -5,15 +5,12 @@ import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
-import com.example.data.local.Converters
 import com.example.data.local.dao.DogDao
 import com.example.data.local.entities.DogEntity
 
 private const val TAG = "DogDatabase"
 
 @Database(entities = [DogEntity::class], version = 2)
-@TypeConverters(Converters::class) //DogEntity lets get rid of it actually
 abstract class DogDatabase : RoomDatabase() {
     abstract fun getDao(): DogDao
 
@@ -34,7 +31,8 @@ abstract class DogDatabase : RoomDatabase() {
             Room.databaseBuilder(
                 context.applicationContext,
                 DogDatabase::class.java,
-                "dog_db.db")
+                "dog_db.db"
+            )
                 .allowMainThreadQueries()
                 .build()
     }

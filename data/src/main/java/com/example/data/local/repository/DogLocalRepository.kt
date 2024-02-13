@@ -5,7 +5,7 @@ import com.example.data.local.dao.DogDao
 import com.example.data.util.toDomain
 import com.example.data.util.toEntity
 import com.example.domain.model.DogEntityModel
-import com.example.domain.model.MDog
+import com.example.domain.model.Dog
 import com.example.domain.repository.IDogLocalRepository
 
 private const val TAG = "DogLocalRepository"
@@ -17,9 +17,9 @@ class DogLocalRepository(private val dao: DogDao) : IDogLocalRepository {
         return dao.upsert(dog.toEntity())
     }
 
-    override fun getLikedDogs(): List<MDog> {
+    override fun getLikedDogs(): MutableList<Dog> { // make it return LiveDate!
         Log.d(TAG, "Getting list of liked dogs.")
-        return dao.getAllDogs().map { it.toDomain() }
+        return dao.getAllDogs().map { it.toDomain() }.toMutableList()
     }
 
     override suspend fun deleteDog(dog: DogEntityModel) {

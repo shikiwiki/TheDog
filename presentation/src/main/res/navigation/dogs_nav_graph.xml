@@ -10,7 +10,7 @@
         android:label="DetailsFragment">
         <argument
             android:name="dog"
-            app:argType="com.example.domain.model.MDog" />
+            app:argType="com.example.domain.model.Dog" />
     </fragment>
 
     <fragment
