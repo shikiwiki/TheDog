@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/papaya_whip">
+    android:background="@color/papaya_whip"
+    android:id="@+id/dogsFragment">
 
     <TextView
         android:layout_width="wrap_content"

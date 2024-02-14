@@ -49,6 +49,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
         viewModel = (activity as MainActivity).viewModel
         setupDogsRecyclerView()
 
+
         dogAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
                 putSerializable("dog", it)
