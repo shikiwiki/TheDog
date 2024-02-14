@@ -7,7 +7,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.thedog.databinding.FragmentDetailsBinding

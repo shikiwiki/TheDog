@@ -25,8 +25,8 @@ private const val TAG = "DogsFragment"
 class DogsFragment : Fragment(R.layout.fragment_dogs) {
     lateinit var viewModel: DogsViewModel
     private lateinit var dogAdapter: DogAdapter
-    private lateinit var retryButton: Button //or delete
-    private lateinit var errorText: TextView //or delete
+    private lateinit var retryButton: Button
+    private lateinit var errorText: TextView
     private lateinit var itemDogsError: CardView
     private lateinit var binding: FragmentDogsBinding
 
