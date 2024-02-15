@@ -31,7 +31,7 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
         }
     }
 
-    val differ = AsyncListDiffer(this, differCallback)
+    var differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DogViewHolder {
         Log.d(TAG, "Creating DogViewHolder.")

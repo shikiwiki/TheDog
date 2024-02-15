@@ -24,7 +24,7 @@ import com.example.thedog.databinding.FragmentDogsBinding
 private const val TAG = "DogsFragment"
 
 class DogsFragment : Fragment(R.layout.fragment_dogs) {
-    lateinit var viewModel: DogsViewModel
+    val viewModel: DogsViewModel by lazy { (activity as MainActivity).viewModel }
     private lateinit var dogAdapter: DogAdapter
     private lateinit var retryButton: Button
     private lateinit var errorText: TextView
@@ -42,37 +42,11 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
         itemDogsError = view.findViewById(R.id.dogItemError)
 
+        setupDogsRecyclerView()
+
         binding.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.getDogs()
-            viewModel.dogsLivaData.observe(viewLifecycleOwner) { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        hideProgressBar()
-                        hideErrorMessage()
-                        resource.data?.let { dogs ->
-                            dogAdapter.differ.submitList(dogs.toList())
-                            val totalPages = dogs.size / LIMIT_PER_PAGE + 2
-                            isLastPage = viewModel.page == totalPages
-                            if (isLastPage) {
-                                binding.recyclerDogs.setPadding(0, 0, 0, 0)
-                            }
-                        }
-                    }
-
-                    Status.LOADING -> {
-                        showProgressBar()
-                    }
-
-                    Status.ERROR -> {
-                        hideProgressBar()
-                        resource.message?.let { message ->
-                            Toast.makeText(activity, "Sorry, error: $message", Toast.LENGTH_LONG).show()
-                            showErrorMessage(message)
-                        }
-                    }
-                }
-            }
-            dogAdapter.notifyDataSetChanged()
+            viewModel.updateDogs()
+            observeViewModel()
             binding.swipeRefreshLayout.isRefreshing = false
         }
 
@@ -83,10 +57,6 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
         retryButton = errorView.findViewById(R.id.retryButton)
         errorText = errorView.findViewById(R.id.errorText)
 
-        viewModel = (activity as MainActivity).viewModel
-        setupDogsRecyclerView()
-
-
         dogAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
                 putSerializable("dog", it)
@@ -94,6 +64,14 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
             findNavController().navigate(R.id.action_dogsFragment_to_detailsFragment, bundle)
         }
 
+        observeViewModel()
+        retryButton.setOnClickListener {
+            viewModel.getDogs()
+        }
+        Log.d(TAG, "DogsFragment is created.")
+    }
+
+    private fun observeViewModel() {
         viewModel.dogsLivaData.observe(viewLifecycleOwner) { resource ->
             when (resource.status) {
                 Status.SUCCESS -> {
@@ -116,16 +94,13 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
                 Status.ERROR -> {
                     hideProgressBar()
                     resource.message?.let { message ->
-                        Toast.makeText(activity, "Sorry, error: $message", Toast.LENGTH_LONG).show()
+                        Toast.makeText(activity, "Sorry, error: $message", Toast.LENGTH_LONG)
+                            .show()
                         showErrorMessage(message)
                     }
                 }
             }
         }
-        retryButton.setOnClickListener {
-            viewModel.getDogs()
-        }
-        Log.d(TAG, "DogsFragment is created.")
     }
 
     var isError = false
