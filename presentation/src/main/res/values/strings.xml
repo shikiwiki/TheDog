@@ -18,4 +18,5 @@
     <string name="weight">Weight, kg:</string>
     <string name="lifespan">Lifespan:</string>
     <string name="temperament">Temperament:</string>
+    <string name="logo">logo</string>
 </resources>
