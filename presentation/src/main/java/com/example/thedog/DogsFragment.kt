@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.data.util.Constants.Companion.LIMIT_PER_PAGE
 import com.example.data.util.Status
 import com.example.thedog.adapters.DogAdapter
@@ -25,12 +24,12 @@ private const val TAG = "DogsFragment"
 
 class DogsFragment : Fragment(R.layout.fragment_dogs) {
     val viewModel: DogsViewModel by lazy { (activity as MainActivity).viewModel }
-    private val dogAdapter: DogAdapter by lazy { DogAdapter() }
-    private val retryButton: Button by lazy { binding.root.findViewById(R.id.retryButton) }
-    private val errorText: TextView by lazy { binding.root.findViewById(R.id.errorText) }
+    private val dogAdapter: DogAdapter = DogAdapter()
+    private var retryButton: Button? =
+        null //by lazy { binding.root.findViewById(R.id.retryButton) }
+    private var errorText: TextView? = null //by lazy { binding.root.findViewById(R.id.errorText) }
     private val itemDogsError: CardView by lazy { binding.root.findViewById(R.id.dogItemError) }
     private lateinit var binding: FragmentDogsBinding
-//    private val swipeRefreshLayout: SwipeRefreshLayout by lazy { binding.swipeRefreshLayout }
 
 
     @SuppressLint("InflateParams")
@@ -54,8 +53,8 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
             requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val errorView: View = inflater.inflate(R.layout.fragment_error, null)
 
-//        retryButton = errorView.findViewById(R.id.retryButton)
-//        errorText = errorView.findViewById(R.id.errorText)
+        retryButton = errorView.findViewById(R.id.retryButton)
+        errorText = errorView.findViewById(R.id.errorText)
 
         dogAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
@@ -65,7 +64,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
         }
 
         observeViewModel()
-        retryButton.setOnClickListener {
+        retryButton!!.setOnClickListener {
             viewModel.getDogs()
         }
         Log.d(TAG, "DogsFragment is created.")
@@ -128,7 +127,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
     private fun showErrorMessage(message: String) {
         itemDogsError.visibility = View.VISIBLE
-        errorText.text = message
+        errorText!!.text = message
         isError = true
         Log.d(TAG, "Error message is shown.")
     }
@@ -166,7 +165,6 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
     private fun setupDogsRecyclerView() {
         Log.d(TAG, "Setting up DogRecycler.")
-//        dogAdapter = DogAdapter()
         binding.recyclerDogs.apply {
             adapter = dogAdapter
             layoutManager = LinearLayoutManager(activity)

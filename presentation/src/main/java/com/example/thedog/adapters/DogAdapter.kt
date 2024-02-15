@@ -18,9 +18,6 @@ private const val TAG = "DogAdapter"
 class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
     inner class DogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    private lateinit var dogImage: ImageView
-    private lateinit var dogName: TextView
-
     private val differCallback = object : DiffUtil.ItemCallback<Dog>() {
         override fun areItemsTheSame(oldItem: Dog, newItem: Dog): Boolean {
             return oldItem.imageUrl == newItem.imageUrl
@@ -48,8 +45,8 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
         Log.d(TAG, "Binding DogViewHolder.")
         val dog = differ.currentList[position]
 
-        dogImage = holder.itemView.findViewById(R.id.image)
-        dogName = holder.itemView.findViewById(R.id.name)
+        val dogImage: ImageView = holder.itemView.findViewById(R.id.image)
+        val dogName: TextView = holder.itemView.findViewById(R.id.name)
 
         holder.itemView.apply {
             Glide.with(this).load(dog.imageUrl).into(dogImage)
