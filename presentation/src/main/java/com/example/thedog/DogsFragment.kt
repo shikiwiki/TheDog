@@ -25,10 +25,10 @@ private const val TAG = "DogsFragment"
 
 class DogsFragment : Fragment(R.layout.fragment_dogs) {
     val viewModel: DogsViewModel by lazy { (activity as MainActivity).viewModel }
-    private lateinit var dogAdapter: DogAdapter
-    private lateinit var retryButton: Button
-    private lateinit var errorText: TextView
-    private lateinit var itemDogsError: CardView
+    private val dogAdapter: DogAdapter by lazy { DogAdapter() }
+    private val retryButton: Button by lazy { binding.root.findViewById(R.id.retryButton) }
+    private val errorText: TextView by lazy { binding.root.findViewById(R.id.errorText) }
+    private val itemDogsError: CardView by lazy { binding.root.findViewById(R.id.dogItemError) }
     private lateinit var binding: FragmentDogsBinding
 //    private val swipeRefreshLayout: SwipeRefreshLayout by lazy { binding.swipeRefreshLayout }
 
@@ -40,7 +40,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
         binding = FragmentDogsBinding.bind(view)
 
-        itemDogsError = view.findViewById(R.id.dogItemError)
+//        itemDogsError = view.findViewById(R.id.dogItemError)
 
         setupDogsRecyclerView()
 
@@ -54,8 +54,8 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
             requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val errorView: View = inflater.inflate(R.layout.fragment_error, null)
 
-        retryButton = errorView.findViewById(R.id.retryButton)
-        errorText = errorView.findViewById(R.id.errorText)
+//        retryButton = errorView.findViewById(R.id.retryButton)
+//        errorText = errorView.findViewById(R.id.errorText)
 
         dogAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
@@ -166,7 +166,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
     private fun setupDogsRecyclerView() {
         Log.d(TAG, "Setting up DogRecycler.")
-        dogAdapter = DogAdapter()
+//        dogAdapter = DogAdapter()
         binding.recyclerDogs.apply {
             adapter = dogAdapter
             layoutManager = LinearLayoutManager(activity)
