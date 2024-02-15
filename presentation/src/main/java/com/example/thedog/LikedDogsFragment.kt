@@ -16,7 +16,7 @@ private const val TAG = "LikedDogsFragment"
 
 class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
 
-    lateinit var viewModel: DogsViewModel
+    private val viewModel: DogsViewModel by lazy { (activity as MainActivity).viewModel }
     lateinit var dogAdapter: DogAdapter
     private lateinit var binding: FragmentLikedDogsBinding
 
@@ -27,7 +27,6 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
 
         binding = FragmentLikedDogsBinding.bind(view)
 
-        viewModel = (activity as MainActivity).viewModel
         setupLikedDogsRecyclerView()
 
         dogAdapter.setOnItemClickListener {

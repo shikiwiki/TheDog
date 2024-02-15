@@ -16,7 +16,7 @@ private const val TAG = "DetailsFragment"
 
 class DetailsFragment : Fragment(R.layout.fragment_details) {
 
-    private lateinit var viewModel: DogsViewModel
+    private val viewModel: DogsViewModel by lazy { (activity as MainActivity).viewModel }
     private val args: DetailsFragmentArgs by navArgs()
     private lateinit var binding: FragmentDetailsBinding
     private val image: ImageView by lazy { binding.root.findViewById(R.id.image) }
@@ -33,7 +33,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         Log.d(TAG, "Creating DetailsFragment.")
         binding = FragmentDetailsBinding.bind(view)
 
-        viewModel = (activity as MainActivity).viewModel
         val dog = args.dog
 
         dog.also {

@@ -57,6 +57,7 @@ class DogsViewModel(
     }
 
     private fun handleDogResponse(resource: Resource<MutableList<Dog>>): Resource<MutableList<Dog>> {
+        Log.d(TAG, "Handling DogsResponse.")
         if (resource.status == Status.SUCCESS) {
             resource.data?.let { resultDogs ->
                 page++
@@ -69,7 +70,28 @@ class DogsViewModel(
                 return Resource.success(dogs ?: resultDogs)
             }
         }
-        Log.d(TAG, "Handling DogsResponse.")
+        Log.d(TAG, "DogsResponse processed.")
+        return Resource.error(null, resource.message.toString())
+    }
+
+    fun updateDogs() = viewModelScope.launch {
+        dogsLivaData.postValue(Resource.loading(null))
+        val result = remoteRepository.getDogs()
+        val resource = Resource.success(result)
+        dogsLivaData.postValue(handleDogResponseWithUpdate(resource))
+        Log.d(TAG, "All dogs were updated in VM.")
+    }
+
+    private fun handleDogResponseWithUpdate(resource: Resource<MutableList<Dog>>): Resource<MutableList<Dog>> {
+        Log.d(TAG, "Handling DogsResponse with update.")
+        if (resource.status == Status.SUCCESS) {
+            resource.data?.let { resultDogs ->
+                page++
+                dogs = resultDogs
+                return Resource.success(dogs)
+            }
+        }
+        Log.d(TAG, "Updated DogsResponse processed.")
         return Resource.error(null, resource.message.toString())
     }
 }

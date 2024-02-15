@@ -15,13 +15,12 @@ import androidx.core.view.WindowInsetsCompat
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
 
-    private lateinit var logo: ImageView
+    private val logo: ImageView by lazy { findViewById(R.id.logo) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_splash_screen)
 
-        logo = findViewById(R.id.logo)
         logo.alpha = 0F
         logo.animate().setDuration(1500).alpha(1f).withEndAction {
             val i = Intent(this, MainActivity::class.java)

@@ -23,12 +23,14 @@ import com.example.thedog.databinding.FragmentDogsBinding
 private const val TAG = "DogsFragment"
 
 class DogsFragment : Fragment(R.layout.fragment_dogs) {
-    lateinit var viewModel: DogsViewModel
-    private lateinit var dogAdapter: DogAdapter
-    private lateinit var retryButton: Button
-    private lateinit var errorText: TextView
-    private lateinit var itemDogsError: CardView
+    val viewModel: DogsViewModel by lazy { (activity as MainActivity).viewModel }
+    private val dogAdapter: DogAdapter = DogAdapter()
+    private var retryButton: Button? =
+        null //by lazy { binding.root.findViewById(R.id.retryButton) }
+    private var errorText: TextView? = null //by lazy { binding.root.findViewById(R.id.errorText) }
+    private val itemDogsError: CardView by lazy { binding.root.findViewById(R.id.dogItemError) }
     private lateinit var binding: FragmentDogsBinding
+
 
     @SuppressLint("InflateParams")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,7 +39,15 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
         binding = FragmentDogsBinding.bind(view)
 
-        itemDogsError = view.findViewById(R.id.dogItemError)
+//        itemDogsError = view.findViewById(R.id.dogItemError)
+
+        setupDogsRecyclerView()
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.updateDogs()
+            observeViewModel()
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
 
         val inflater =
             requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -46,10 +56,6 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
         retryButton = errorView.findViewById(R.id.retryButton)
         errorText = errorView.findViewById(R.id.errorText)
 
-        viewModel = (activity as MainActivity).viewModel
-        setupDogsRecyclerView()
-
-
         dogAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
                 putSerializable("dog", it)
@@ -57,6 +63,14 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
             findNavController().navigate(R.id.action_dogsFragment_to_detailsFragment, bundle)
         }
 
+        observeViewModel()
+        retryButton!!.setOnClickListener {
+            viewModel.getDogs()
+        }
+        Log.d(TAG, "DogsFragment is created.")
+    }
+
+    private fun observeViewModel() {
         viewModel.dogsLivaData.observe(viewLifecycleOwner) { resource ->
             when (resource.status) {
                 Status.SUCCESS -> {
@@ -79,16 +93,13 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
                 Status.ERROR -> {
                     hideProgressBar()
                     resource.message?.let { message ->
-                        Toast.makeText(activity, "Sorry, error: $message", Toast.LENGTH_LONG).show()
+                        Toast.makeText(activity, "Sorry, error: $message", Toast.LENGTH_LONG)
+                            .show()
                         showErrorMessage(message)
                     }
                 }
             }
         }
-        retryButton.setOnClickListener {
-            viewModel.getDogs()
-        }
-        Log.d(TAG, "DogsFragment is created.")
     }
 
     var isError = false
@@ -116,7 +127,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
     private fun showErrorMessage(message: String) {
         itemDogsError.visibility = View.VISIBLE
-        errorText.text = message
+        errorText!!.text = message
         isError = true
         Log.d(TAG, "Error message is shown.")
     }
@@ -154,7 +165,6 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
     private fun setupDogsRecyclerView() {
         Log.d(TAG, "Setting up DogRecycler.")
-        dogAdapter = DogAdapter()
         binding.recyclerDogs.apply {
             adapter = dogAdapter
             layoutManager = LinearLayoutManager(activity)
@@ -162,4 +172,5 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
         }
         Log.d(TAG, "DogRecycler is set up.")
     }
+
 }
