@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.data.util.Constants.Companion.LIMIT_PER_PAGE
 import com.example.data.util.Status
 import com.example.thedog.adapters.DogAdapter
@@ -29,6 +30,8 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
     private lateinit var errorText: TextView
     private lateinit var itemDogsError: CardView
     private lateinit var binding: FragmentDogsBinding
+//    private val swipeRefreshLayout: SwipeRefreshLayout by lazy { binding.swipeRefreshLayout }
+
 
     @SuppressLint("InflateParams")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,6 +41,40 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
         binding = FragmentDogsBinding.bind(view)
 
         itemDogsError = view.findViewById(R.id.dogItemError)
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.getDogs()
+            viewModel.dogsLivaData.observe(viewLifecycleOwner) { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        hideProgressBar()
+                        hideErrorMessage()
+                        resource.data?.let { dogs ->
+                            dogAdapter.differ.submitList(dogs.toList())
+                            val totalPages = dogs.size / LIMIT_PER_PAGE + 2
+                            isLastPage = viewModel.page == totalPages
+                            if (isLastPage) {
+                                binding.recyclerDogs.setPadding(0, 0, 0, 0)
+                            }
+                        }
+                    }
+
+                    Status.LOADING -> {
+                        showProgressBar()
+                    }
+
+                    Status.ERROR -> {
+                        hideProgressBar()
+                        resource.message?.let { message ->
+                            Toast.makeText(activity, "Sorry, error: $message", Toast.LENGTH_LONG).show()
+                            showErrorMessage(message)
+                        }
+                    }
+                }
+            }
+            dogAdapter.notifyDataSetChanged()
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
 
         val inflater =
             requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -162,4 +199,5 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
         }
         Log.d(TAG, "DogRecycler is set up.")
     }
+
 }

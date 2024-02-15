@@ -53,6 +53,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.legacy.support.v4)
 
 //    Hilt
     implementation(libs.hilt.android)
@@ -91,8 +92,8 @@ dependencies {
     //noinspection KaptUsageInsteadOfKsp
     kapt(libs.glide.compiler)
 
-//    ...do I need it in presentation?
-    implementation(libs.androidx.legacy.support.v4)
+    // Swipe to refresh
+   implementation(libs.androidx.swiperefreshlayout)
 }
 
 kapt {
