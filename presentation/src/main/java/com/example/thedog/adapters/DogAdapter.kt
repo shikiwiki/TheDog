@@ -18,19 +18,11 @@ import com.google.android.material.snackbar.Snackbar
 
 private const val TAG = "DogAdapter"
 
-class DogAdapter(
-    private val viewModel: DogsViewModel
-) : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
+class DogAdapter(private val viewModel: DogsViewModel) : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
     inner class DogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val dogImage: ImageView = itemView.findViewById(R.id.image)
         val dogName: TextView = itemView.findViewById(R.id.name)
         val likeButton: FloatingActionButton = itemView.findViewById(R.id.itemLikeButton)
-
-//        init {
-//            likeButton.setOnClickListener {
-//                viewModel.addToLikedDogs(thi)
-//            }
-//        }
     }
 
     private val differCallback = object : DiffUtil.ItemCallback<Dog>() {

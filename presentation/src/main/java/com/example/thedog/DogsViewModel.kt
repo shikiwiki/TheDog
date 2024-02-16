@@ -12,6 +12,8 @@ import com.example.data.util.Resource
 import com.example.data.util.Status
 import com.example.data.util.toEntityModel
 import com.example.domain.model.Dog
+import com.example.domain.useCases.GetAllDogsUseCase
+import com.example.domain.useCases.GetLikedDogsUseCase
 import kotlinx.coroutines.launch
 
 private const val TAG = "DogsViewModel"
@@ -25,6 +27,8 @@ class DogsViewModel(
     val dogsLivaData: MutableLiveData<Resource<MutableList<Dog>>> = MutableLiveData()
     private val likedLogsLivaData = MutableLiveData<Resource<MutableList<Dog>>>()
     private var dogs: MutableList<Dog>? = null
+    private val getAllDogsUsecase = GetAllDogsUseCase(remoteRepository, localRepository)
+    private val getLikedDogsUsecase = GetLikedDogsUseCase(localRepository)
 
     init {
         getDogs()
@@ -32,7 +36,8 @@ class DogsViewModel(
 
     fun getDogs() = viewModelScope.launch {
         dogsLivaData.postValue(Resource.loading(null))
-        val result = remoteRepository.getDogs()
+        val result = getAllDogsUsecase.getAllDogs()
+//        val result = remoteRepository.getDogs()
         val resource = Resource.success(result)
         dogsLivaData.postValue(handleDogResponse(resource))
         Log.d(TAG, "All dogs were received in VM.")

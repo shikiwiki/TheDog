@@ -6,7 +6,7 @@ import com.example.domain.model.Dog
 interface IDogLocalRepository {
     suspend fun upsert(dog: DogEntityModel): Long
 
-    fun getLikedDogs(): List<Dog>?
+    fun getLikedDogs(): MutableList<Dog>?
 
     suspend fun deleteDog(dog: DogEntityModel)
 }
