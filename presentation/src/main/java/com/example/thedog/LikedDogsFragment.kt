@@ -17,7 +17,7 @@ private const val TAG = "LikedDogsFragment"
 class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
 
     private val viewModel: DogsViewModel by lazy { (activity as MainActivity).viewModel }
-    lateinit var dogAdapter: DogAdapter
+    private val dogAdapter: DogAdapter by lazy { DogAdapter(viewModel) }
     private lateinit var binding: FragmentLikedDogsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -71,7 +71,6 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
 
     private fun setupLikedDogsRecyclerView() {
         Log.d(TAG, "Setting up LikedDogsRecycler.")
-        dogAdapter = DogAdapter()
         binding.recyclerLikedDogs.apply {
             adapter = dogAdapter
             layoutManager = LinearLayoutManager(activity)

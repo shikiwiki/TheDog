@@ -53,7 +53,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
         binding.like.setOnClickListener {
             viewModel.addToLikedDogs(dog)
-            Snackbar.make(view, "Added to liked dogs.", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(view, "Added to liked dogs.",500).show()
         }
         Log.d(TAG, "DetailsFragment is created.")
     }

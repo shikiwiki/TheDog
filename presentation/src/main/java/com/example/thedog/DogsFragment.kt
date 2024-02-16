@@ -24,10 +24,9 @@ private const val TAG = "DogsFragment"
 
 class DogsFragment : Fragment(R.layout.fragment_dogs) {
     val viewModel: DogsViewModel by lazy { (activity as MainActivity).viewModel }
-    private val dogAdapter: DogAdapter = DogAdapter()
-    private var retryButton: Button? =
-        null //by lazy { binding.root.findViewById(R.id.retryButton) }
-    private var errorText: TextView? = null //by lazy { binding.root.findViewById(R.id.errorText) }
+    private val dogAdapter: DogAdapter by lazy { DogAdapter(viewModel) }
+    private var retryButton: Button? = null
+    private var errorText: TextView? = null
     private val itemDogsError: CardView by lazy { binding.root.findViewById(R.id.dogItemError) }
     private lateinit var binding: FragmentDogsBinding
 

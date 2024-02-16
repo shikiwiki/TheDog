@@ -11,12 +11,27 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.domain.model.Dog
+import com.example.thedog.DogsViewModel
 import com.example.thedog.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 
 private const val TAG = "DogAdapter"
 
-class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
-    inner class DogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+class DogAdapter(
+    private val viewModel: DogsViewModel
+) : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
+    inner class DogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val dogImage: ImageView = itemView.findViewById(R.id.image)
+        val dogName: TextView = itemView.findViewById(R.id.name)
+        val likeButton: FloatingActionButton = itemView.findViewById(R.id.itemLikeButton)
+
+//        init {
+//            likeButton.setOnClickListener {
+//                viewModel.addToLikedDogs(thi)
+//            }
+//        }
+    }
 
     private val differCallback = object : DiffUtil.ItemCallback<Dog>() {
         override fun areItemsTheSame(oldItem: Dog, newItem: Dog): Boolean {
@@ -45,18 +60,18 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
         Log.d(TAG, "Binding DogViewHolder.")
         val dog = differ.currentList[position]
 
-        val dogImage: ImageView = holder.itemView.findViewById(R.id.image)
-        val dogName: TextView = holder.itemView.findViewById(R.id.name)
-
         holder.itemView.apply {
-            Glide.with(this).load(dog.imageUrl).into(dogImage)
-            dogName.text = dog.name
+            Glide.with(this).load(dog.imageUrl).into(holder.dogImage)
+            holder.dogName.text = dog.name
 
             setOnClickListener {
-                onItemClickListener?.let {
-                    it(dog)
-                }
+                onItemClickListener?.let { it(dog) }
             }
+        }
+
+        holder.likeButton.setOnClickListener{
+            viewModel.addToLikedDogs(dog)
+            Snackbar.make(it, "Added to liked dogs.",500).show()
         }
         Log.d(TAG, "DogViewHolder is bound.")
     }
