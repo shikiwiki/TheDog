@@ -15,5 +15,6 @@ data class Dog(
     val temperament: String = "",
     val imageUrl: String = "",
     val imageWidth: Int = 0,
-    val imageHeight: Int = 0
+    val imageHeight: Int = 0,
+    val isLiked: Boolean = false
 ) : Serializable

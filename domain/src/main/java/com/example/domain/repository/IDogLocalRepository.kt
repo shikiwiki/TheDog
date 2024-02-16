@@ -1,12 +1,11 @@
 package com.example.domain.repository
 
-import com.example.domain.model.DogEntityModel
 import com.example.domain.model.Dog
 
 interface IDogLocalRepository {
-    suspend fun upsert(dog: DogEntityModel): Long
+    suspend fun upsert(dog: Dog): Long
 
-    fun getLikedDogs(): List<Dog>?
+    fun getLikedDogs(): MutableList<Dog>?
 
-    suspend fun deleteDog(dog: DogEntityModel)
+    suspend fun deleteDog(dog: Dog)
 }
