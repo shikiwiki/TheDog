@@ -4,11 +4,15 @@ import com.example.domain.model.Dog
 import com.example.domain.repository.IDogLocalRepository
 import com.example.domain.repository.IDogRemoteRepository
 
-class GetAllDogsUseCase(
+class AllDogsUseCase(
     private val remoteRepository: IDogRemoteRepository,
     private val localRepository: IDogLocalRepository
 ) {
     suspend fun getAllDogs(): MutableList<Dog>? {
-        return remoteRepository.getDogs()
+        val likedDogs = localRepository.getLikedDogs()
+        val allDogs = remoteRepository.getDogs()
+        likedDogs?.let { allDogs?.removeAll(it) }
+
+        return allDogs
     }
 }
