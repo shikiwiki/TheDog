@@ -1,4 +1,4 @@
-package com.example.thedog
+package com.example.thedog.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +9,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.example.thedog.DogsViewModel
+import com.example.thedog.MainActivity
+import com.example.thedog.R
 import com.example.thedog.databinding.FragmentDetailsBinding
 import com.google.android.material.snackbar.Snackbar
 
@@ -53,7 +56,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
         binding.like.setOnClickListener {
             viewModel.addToLikedDogs(dog)
-            Snackbar.make(view, "Added to liked dogs.",500).show()
+            Snackbar.make(view, "Added to liked dogs.", 500).show()
         }
         Log.d(TAG, "DetailsFragment is created.")
     }

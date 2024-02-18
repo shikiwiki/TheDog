@@ -1,4 +1,4 @@
-package com.example.thedog
+package com.example.thedog.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +8,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.thedog.DogsViewModel
+import com.example.thedog.MainActivity
+import com.example.thedog.R
 import com.example.thedog.adapters.DogAdapter
 import com.example.thedog.databinding.FragmentLikedDogsBinding
 import com.google.android.material.snackbar.Snackbar
