@@ -11,7 +11,10 @@ class AllDogsUseCase(
     suspend fun getAllDogs(): MutableList<Dog>? {
         val likedDogs = localRepository.getLikedDogs()
         val allDogs = remoteRepository.getDogs()
-        likedDogs?.let { allDogs?.removeAll(it) }
+        if (allDogs.isNullOrEmpty()) {
+            return null
+        }
+        likedDogs?.let { allDogs.removeAll(it) }
 
         return allDogs
     }

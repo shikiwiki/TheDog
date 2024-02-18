@@ -84,7 +84,11 @@ class DogsViewModel(
     fun updateDogs() = viewModelScope.launch {
         dogsLivaData.postValue(Resource.loading(null))
         val result = allDogsUseCase.getAllDogs()
-        val resource = Resource.success(result)
+        val resource: Resource<MutableList<Dog>> = if (result == null) {
+            Resource.error(null, "No Internet")
+        } else {
+            Resource.success(result)
+        }
         dogsLivaData.postValue(handleDogResponseWithUpdate(resource))
         Log.d(TAG, "All dogs were updated in VM.")
     }
