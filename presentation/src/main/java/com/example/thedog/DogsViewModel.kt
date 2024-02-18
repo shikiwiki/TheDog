@@ -78,7 +78,7 @@ class DogsViewModel(
             }
         }
         Log.d(TAG, "DogsResponse processed.")
-        return Resource.error(null, resource.message.toString())
+        return Resource.error(null, "No Internet")
     }
 
     fun updateDogs() = viewModelScope.launch {
@@ -103,6 +103,6 @@ class DogsViewModel(
             }
         }
         Log.d(TAG, "Updated DogsResponse processed.")
-        return Resource.error(null, resource.message.toString())
+        return Resource.error(null, "No Internet")
     }
 }
