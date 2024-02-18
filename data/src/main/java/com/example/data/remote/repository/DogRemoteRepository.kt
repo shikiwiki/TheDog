@@ -22,7 +22,8 @@ class DogRemoteRepository(private val api: DogApi) : IDogRemoteRepository {
                 throw RuntimeException("Sorry, problem occurred while getting dogs list.")
             }
         }.getOrElse {
-            throw Exception("Error. Getting dogs list: getOrElse block.")
+            return null
+//            throw Exception("Error. Getting dogs list: getOrElse block.")
         }
     }
 }

@@ -16,13 +16,14 @@ import com.example.domain.useCases.LikedDogsUseCase
 import kotlinx.coroutines.launch
 
 private const val TAG = "DogsViewModel"
+private const val INITIAL_PAGE = 1
 
 class DogsViewModel(
     remoteRepository: DogRemoteRepository,
     localRepository: DogLocalRepository
 ) : ViewModel() {
 
-    var page = 1
+    var page = INITIAL_PAGE
     val dogsLivaData: MutableLiveData<Resource<MutableList<Dog>>> = MutableLiveData()
     private val likedLogsLivaData = MutableLiveData<Resource<MutableList<Dog>>>()
     private var dogs: MutableList<Dog>? = null
@@ -45,6 +46,7 @@ class DogsViewModel(
     fun addToLikedDogs(dog: Dog) = viewModelScope.launch {
         Log.d(TAG, "Dog ${dog.name} was added to liked dogs.")
         likedDogsUseCase.addToLikedDogs(dog)
+        updateDogs()
     }
 
     fun getLikedDogs(): LiveData<Resource<MutableList<Dog>>> {
@@ -58,6 +60,7 @@ class DogsViewModel(
     fun deleteDog(dog: Dog) = viewModelScope.launch {
         Log.d(TAG, "Dog ${dog.name} was deleted from liked dogs.")
         likedDogsUseCase.deleteDog(dog)
+        getLikedDogs()
     }
 
     private fun handleDogResponse(resource: Resource<MutableList<Dog>>): Resource<MutableList<Dog>> {
@@ -75,13 +78,17 @@ class DogsViewModel(
             }
         }
         Log.d(TAG, "DogsResponse processed.")
-        return Resource.error(null, resource.message.toString())
+        return Resource.error(null, "No Internet")
     }
 
     fun updateDogs() = viewModelScope.launch {
         dogsLivaData.postValue(Resource.loading(null))
         val result = allDogsUseCase.getAllDogs()
-        val resource = Resource.success(result)
+        val resource: Resource<MutableList<Dog>> = if (result == null) {
+            Resource.error(null, "No Internet")
+        } else {
+            Resource.success(result)
+        }
         dogsLivaData.postValue(handleDogResponseWithUpdate(resource))
         Log.d(TAG, "All dogs were updated in VM.")
     }
@@ -96,6 +103,6 @@ class DogsViewModel(
             }
         }
         Log.d(TAG, "Updated DogsResponse processed.")
-        return Resource.error(null, resource.message.toString())
+        return Resource.error(null, "No Internet")
     }
 }
