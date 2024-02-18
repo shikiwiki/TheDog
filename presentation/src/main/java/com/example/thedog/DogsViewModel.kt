@@ -45,6 +45,7 @@ class DogsViewModel(
     fun addToLikedDogs(dog: Dog) = viewModelScope.launch {
         Log.d(TAG, "Dog ${dog.name} was added to liked dogs.")
         likedDogsUseCase.addToLikedDogs(dog)
+        updateDogs()
     }
 
     fun getLikedDogs(): LiveData<Resource<MutableList<Dog>>> {
@@ -58,6 +59,7 @@ class DogsViewModel(
     fun deleteDog(dog: Dog) = viewModelScope.launch {
         Log.d(TAG, "Dog ${dog.name} was deleted from liked dogs.")
         likedDogsUseCase.deleteDog(dog)
+        getLikedDogs()
     }
 
     private fun handleDogResponse(resource: Resource<MutableList<Dog>>): Resource<MutableList<Dog>> {

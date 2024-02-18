@@ -6,6 +6,7 @@ class Constants {
         const val BASE_URL = "https://api.thedogapi.com/"
         const val HAS_BREEDS = 1
         const val LIMIT_PER_PAGE = 20
+        const val ORDER = "ASC"
 
     }
 }
