@@ -58,6 +58,7 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
                 Snackbar.make(view, "Removed from liked dogs.", Snackbar.LENGTH_LONG).apply {
                     setAction("Undo") {
                         viewModel.addToLikedDogs(dog)
+                        viewModel.getLikedDogs()
                     }
                     show()
                 }

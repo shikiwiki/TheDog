@@ -41,8 +41,6 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
         binding = FragmentDogsBinding.bind(view)
 
-//        itemDogsError = view.findViewById(R.id.dogItemError)
-
         setupDogsRecyclerView()
 
         binding.swipeRefreshLayout.setOnRefreshListener {
