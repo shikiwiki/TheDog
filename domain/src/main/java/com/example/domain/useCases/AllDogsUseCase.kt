@@ -8,14 +8,33 @@ class AllDogsUseCase(
     private val remoteRepository: IDogRemoteRepository,
     private val localRepository: IDogLocalRepository
 ) {
-    suspend fun getAllDogs(): MutableList<Dog>? {
-        val likedDogs = localRepository.getLikedDogs()
+    suspend fun getAllNotLikedDogs(): MutableList<Dog>? {
         val allDogs = remoteRepository.getDogs()
         if (allDogs.isNullOrEmpty()) {
             return null
         }
+        val likedDogs = localRepository.getLikedDogs()
         likedDogs?.let { allDogs.removeAll(it) }
 
+        return allDogs
+    }
+
+    suspend fun getAllDogs(): MutableList<Dog>? {
+        val allDogs = remoteRepository.getDogs()
+        if (allDogs.isNullOrEmpty()) {
+            return null
+        }
+        val likedDogs = localRepository.getLikedDogs()
+
+        if (likedDogs.isNullOrEmpty()) {
+            return allDogs
+        }
+
+        allDogs.forEach {
+            if (likedDogs.contains(it)) {
+                it.isLiked = true
+            }
+        }
         return allDogs
     }
 }

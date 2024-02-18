@@ -1,16 +1,11 @@
 package com.example.thedog.fragments
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.AbsListView
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,13 +21,10 @@ import com.example.thedog.databinding.FragmentDogsBinding
 private const val TAG = "DogsFragment"
 
 class DogsFragment : Fragment(R.layout.fragment_dogs) {
+
     val viewModel: DogsViewModel by lazy { (activity as MainActivity).viewModel }
     private val dogAdapter: DogAdapter by lazy { DogAdapter(viewModel) }
-    private var retryButton: Button? = null
-    private var errorText: TextView? = null
-    private val itemDogsError: CardView by lazy { binding.root.findViewById(R.id.dogItemError) }
     private lateinit var binding: FragmentDogsBinding
-
 
     @SuppressLint("InflateParams")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,13 +41,6 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
             binding.swipeRefreshLayout.isRefreshing = false
         }
 
-        val inflater =
-            requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val errorView: View = inflater.inflate(R.layout.fragment_error, null)
-
-        retryButton = errorView.findViewById(R.id.retryButton)
-        errorText = errorView.findViewById(R.id.errorText)
-
         dogAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
                 putSerializable("dog", it)
@@ -64,9 +49,6 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
         }
 
         observeViewModel()
-        retryButton!!.setOnClickListener {
-            viewModel.getDogs()
-        }
         Log.d(TAG, "DogsFragment is created.")
     }
 
@@ -75,7 +57,6 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
             when (resource.status) {
                 Status.SUCCESS -> {
                     hideProgressBar()
-                    hideErrorMessage()
                     resource.data?.let { dogs ->
                         dogAdapter.differ.submitList(dogs.toList())
                         val totalPages = dogs.size / Constants.LIMIT_PER_PAGE + 2
@@ -95,7 +76,6 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
                     resource.message?.let { message ->
                         Toast.makeText(activity, "Sorry, $message", Toast.LENGTH_LONG)
                             .show()
-                        showErrorMessage(message)
                     }
                 }
             }
@@ -119,19 +99,6 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
         Log.d(TAG, "ProgressBar is shown.")
     }
 
-    private fun hideErrorMessage() {
-        itemDogsError.visibility = View.INVISIBLE
-        isError = false
-        Log.d(TAG, "Error message is hidden.")
-    }
-
-    private fun showErrorMessage(message: String) {
-        itemDogsError.visibility = View.VISIBLE
-        errorText!!.text = message
-        isError = true
-        Log.d(TAG, "Error message is shown.")
-    }
-
     private val scrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
@@ -141,13 +108,12 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
             val visibleItemCount = layoutManager.childCount
             val totalItemCount = layoutManager.itemCount
 
-            val isNoErrors = !isError
             val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
             val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
             val isNotAtBeginning = firstVisibleItemPosition >= 0
             val isTotalMoreThenVisible = totalItemCount >= Constants.LIMIT_PER_PAGE
             val shouldPaginate =
-                isNoErrors && isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning && isTotalMoreThenVisible && isScrolling
+                !isError && isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning && isTotalMoreThenVisible && isScrolling
             if (shouldPaginate) {
                 viewModel.getDogs()
                 isScrolling = false
@@ -172,5 +138,4 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
         }
         Log.d(TAG, "DogRecycler is set up.")
     }
-
 }

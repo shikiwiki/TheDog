@@ -37,7 +37,7 @@ class DogsViewModel(
 
     fun getDogs() = viewModelScope.launch {
         dogsLivaData.postValue(Resource.loading(null))
-        val result = allDogsUseCase.getAllDogs()
+        val result = allDogsUseCase.getAllNotLikedDogs()
         val resource = Resource.success(result)
         dogsLivaData.postValue(handleDogResponse(resource))
         Log.d(TAG, "All dogs were received in VM.")
@@ -60,7 +60,6 @@ class DogsViewModel(
     fun deleteDog(dog: Dog) = viewModelScope.launch {
         Log.d(TAG, "Dog ${dog.name} was deleted from liked dogs.")
         likedDogsUseCase.deleteDog(dog)
-        getLikedDogs()
     }
 
     private fun handleDogResponse(resource: Resource<MutableList<Dog>>): Resource<MutableList<Dog>> {
@@ -83,7 +82,7 @@ class DogsViewModel(
 
     fun updateDogs() = viewModelScope.launch {
         dogsLivaData.postValue(Resource.loading(null))
-        val result = allDogsUseCase.getAllDogs()
+        val result = allDogsUseCase.getAllNotLikedDogs()
         val resource: Resource<MutableList<Dog>> =
             if (result != null) {
                 Resource.success(result)

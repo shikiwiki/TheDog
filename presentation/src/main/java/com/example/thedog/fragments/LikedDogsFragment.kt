@@ -55,10 +55,13 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
                 val position = viewHolder.bindingAdapterPosition
                 val dog = dogAdapter.differ.currentList[position]
                 viewModel.deleteDog(dog)
-                Snackbar.make(view, "Removed from liked dogs.", Snackbar.LENGTH_LONG).apply {
+                viewModel.getLikedDogs()
+                dogAdapter.differ.submitList(viewModel.getLikedDogs().value?.data)
+                Snackbar.make(view, "Removed from liked dogs.", Snackbar.LENGTH_SHORT).apply {
                     setAction("Undo") {
                         viewModel.addToLikedDogs(dog)
                         viewModel.getLikedDogs()
+                        dogAdapter.differ.submitList(viewModel.getLikedDogs().value?.data)
                     }
                     show()
                 }
