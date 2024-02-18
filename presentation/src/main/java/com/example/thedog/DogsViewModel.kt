@@ -16,13 +16,14 @@ import com.example.domain.useCases.LikedDogsUseCase
 import kotlinx.coroutines.launch
 
 private const val TAG = "DogsViewModel"
+private const val INITIAL_PAGE = 1
 
 class DogsViewModel(
     remoteRepository: DogRemoteRepository,
     localRepository: DogLocalRepository
 ) : ViewModel() {
 
-    var page = 1
+    var page = INITIAL_PAGE
     val dogsLivaData: MutableLiveData<Resource<MutableList<Dog>>> = MutableLiveData()
     private val likedLogsLivaData = MutableLiveData<Resource<MutableList<Dog>>>()
     private var dogs: MutableList<Dog>? = null
