@@ -1,4 +1,4 @@
-package com.example.thedog
+package com.example.thedog.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -15,8 +15,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.data.util.Constants.Companion.LIMIT_PER_PAGE
+import com.example.data.util.Constants
 import com.example.data.util.Status
+import com.example.thedog.DogsViewModel
+import com.example.thedog.MainActivity
+import com.example.thedog.R
 import com.example.thedog.adapters.DogAdapter
 import com.example.thedog.databinding.FragmentDogsBinding
 
@@ -77,7 +80,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
                     hideErrorMessage()
                     resource.data?.let { dogs ->
                         dogAdapter.differ.submitList(dogs.toList())
-                        val totalPages = dogs.size / LIMIT_PER_PAGE + 2
+                        val totalPages = dogs.size / Constants.LIMIT_PER_PAGE + 2
                         isLastPage = viewModel.page == totalPages
                         if (isLastPage) {
                             binding.recyclerDogs.setPadding(0, 0, 0, 0)
@@ -144,7 +147,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
             val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
             val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
             val isNotAtBeginning = firstVisibleItemPosition >= 0
-            val isTotalMoreThenVisible = totalItemCount >= LIMIT_PER_PAGE
+            val isTotalMoreThenVisible = totalItemCount >= Constants.LIMIT_PER_PAGE
             val shouldPaginate =
                 isNoErrors && isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning && isTotalMoreThenVisible && isScrolling
             if (shouldPaginate) {
