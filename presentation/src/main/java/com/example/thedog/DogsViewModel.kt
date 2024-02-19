@@ -46,7 +46,6 @@ class DogsViewModel(
     fun addDog(dog: Dog) = viewModelScope.launch {
         Log.d(TAG, "Dog ${dog.name} was added to liked dogs.")
         likedDogsUseCase.likeDog(dog)
-//        updateDogs()
     }
 
     fun getLikedDogs(): LiveData<Resource<MutableList<Dog>>> {

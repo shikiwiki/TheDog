@@ -33,6 +33,7 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
         setupLikedDogsRecyclerView()
 
         dogAdapter.setOnItemClickListener {
+            it.isLiked = true
             val bundle = Bundle().apply {
                 putSerializable("dog", it)
             }

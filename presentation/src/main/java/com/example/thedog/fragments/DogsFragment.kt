@@ -74,7 +74,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
                 Status.ERROR -> {
                     hideProgressBar()
                     resource.message?.let { message ->
-                        Toast.makeText(activity, "Sorry, $message", Toast.LENGTH_LONG)
+                        Toast.makeText(activity, "Sorry, $message", Toast.LENGTH_SHORT)
                             .show()
                     }
                 }
