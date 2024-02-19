@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -18,12 +19,10 @@ import com.google.android.material.snackbar.Snackbar
 
 private const val TAG = "DogAdapter"
 
-class DogAdapter(private val viewModel: DogsViewModel) : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
-    inner class DogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val dogImage: ImageView = itemView.findViewById(R.id.image)
-        val dogName: TextView = itemView.findViewById(R.id.name)
-        val likeButton: FloatingActionButton = itemView.findViewById(R.id.itemLikeButton)
-    }
+class DogAdapter(
+    private val viewModel: DogsViewModel
+) : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
+    inner class DogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     private val differCallback = object : DiffUtil.ItemCallback<Dog>() {
         override fun areItemsTheSame(oldItem: Dog, newItem: Dog): Boolean {
@@ -52,18 +51,41 @@ class DogAdapter(private val viewModel: DogsViewModel) : RecyclerView.Adapter<Do
         Log.d(TAG, "Binding DogViewHolder.")
         val dog = differ.currentList[position]
 
-        holder.itemView.apply {
-            Glide.with(this).load(dog.imageUrl).into(holder.dogImage)
-            holder.dogName.text = dog.name
+        val dogImage: ImageView = holder.itemView.findViewById(R.id.image)
+        val dogName: TextView = holder.itemView.findViewById(R.id.name)
+        val likeButton: FloatingActionButton = holder.itemView.findViewById(R.id.itemLikeButton)
+        val dislikeButton: FloatingActionButton =
+            holder.itemView.findViewById(R.id.itemDislikeButton)
 
+        holder.itemView.apply {
+            Glide.with(this).load(dog.imageUrl).into(dogImage)
+            dogName.text = dog.name
+            likeButton.isVisible = !dog.isLiked
+            dislikeButton.isVisible = dog.isLiked
             setOnClickListener {
                 onItemClickListener?.let { it(dog) }
             }
         }
 
-        holder.likeButton.setOnClickListener{
-            viewModel.addToLikedDogs(dog)
-            Snackbar.make(it, "Added to liked dogs.",500).show()
+        if (inDogFragment) {
+            likeButton.setOnClickListener {
+                viewModel.addDog(dog)
+                dog.isLiked = true
+                likeButton.isVisible = false
+                dislikeButton.isVisible = true
+                Snackbar.make(it, "Added to liked dogs.", 500).show()
+            }
+
+            dislikeButton.setOnClickListener {
+                viewModel.deleteDog(dog)
+                dog.isLiked = false
+                dislikeButton.isVisible = false
+                likeButton.isVisible = true
+                Snackbar.make(it, "Deleted from liked dogs.", 500).show()
+            }
+        } else {
+            likeButton.isVisible = false
+            dislikeButton.isVisible = false
         }
         Log.d(TAG, "DogViewHolder is bound.")
     }
@@ -73,5 +95,15 @@ class DogAdapter(private val viewModel: DogsViewModel) : RecyclerView.Adapter<Do
     fun setOnItemClickListener(listener: (Dog) -> Unit) {
         Log.d(TAG, "Setting onItemClickListener.")
         onItemClickListener = listener
+    }
+
+    private var inDogFragment = true
+
+    fun isInDogsFragment() {
+        inDogFragment = true
+    }
+
+    fun isInLikedDogsFragment() {
+        inDogFragment = false
     }
 }

@@ -43,10 +43,9 @@ class DogsViewModel(
         Log.d(TAG, "All dogs were received in VM.")
     }
 
-    fun addToLikedDogs(dog: Dog) = viewModelScope.launch {
+    fun addDog(dog: Dog) = viewModelScope.launch {
         Log.d(TAG, "Dog ${dog.name} was added to liked dogs.")
-        likedDogsUseCase.addToLikedDogs(dog)
-        updateDogs()
+        likedDogsUseCase.likeDog(dog)
     }
 
     fun getLikedDogs(): LiveData<Resource<MutableList<Dog>>> {
@@ -60,7 +59,6 @@ class DogsViewModel(
     fun deleteDog(dog: Dog) = viewModelScope.launch {
         Log.d(TAG, "Dog ${dog.name} was deleted from liked dogs.")
         likedDogsUseCase.deleteDog(dog)
-        getLikedDogs()
     }
 
     private fun handleDogResponse(resource: Resource<MutableList<Dog>>): Resource<MutableList<Dog>> {
@@ -83,12 +81,13 @@ class DogsViewModel(
 
     fun updateDogs() = viewModelScope.launch {
         dogsLivaData.postValue(Resource.loading(null))
-        val result = allDogsUseCase.getAllDogs()
-        val resource: Resource<MutableList<Dog>> = if (result == null) {
-            Resource.error(null, "No Internet")
-        } else {
-            Resource.success(result)
-        }
+        val result = allDogsUseCase.getAllNotLikedDogs()
+        val resource: Resource<MutableList<Dog>> =
+            if (result != null) {
+                Resource.success(result)
+            } else {
+                Resource.error(null, "No Internet")
+            }
         dogsLivaData.postValue(handleDogResponseWithUpdate(resource))
         Log.d(TAG, "All dogs were updated in VM.")
     }

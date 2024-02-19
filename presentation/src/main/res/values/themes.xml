@@ -11,9 +11,4 @@
         <item name="android:statusBarColor">@color/salmon</item>
     </style>
 
-<!--    <style name="Theme.TheDog" parent="Base.Theme.TheDog" />-->
-
-    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">@color/aqua</item>
-    </style>
 </resources>

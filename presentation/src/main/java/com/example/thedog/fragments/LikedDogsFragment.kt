@@ -33,6 +33,7 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
         setupLikedDogsRecyclerView()
 
         dogAdapter.setOnItemClickListener {
+            it.isLiked = true
             val bundle = Bundle().apply {
                 putSerializable("dog", it)
             }
@@ -55,9 +56,13 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
                 val position = viewHolder.bindingAdapterPosition
                 val dog = dogAdapter.differ.currentList[position]
                 viewModel.deleteDog(dog)
-                Snackbar.make(view, "Removed from liked dogs.", Snackbar.LENGTH_LONG).apply {
+                viewModel.getLikedDogs()
+                dogAdapter.differ.submitList(viewModel.getLikedDogs().value?.data)
+                Snackbar.make(view, "Removed from liked dogs.", Snackbar.LENGTH_SHORT).apply {
                     setAction("Undo") {
-                        viewModel.addToLikedDogs(dog)
+                        viewModel.addDog(dog)
+                        viewModel.getLikedDogs()
+                        dogAdapter.differ.submitList(viewModel.getLikedDogs().value?.data)
                     }
                     show()
                 }
@@ -74,6 +79,7 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
 
     private fun setupLikedDogsRecyclerView() {
         Log.d(TAG, "Setting up LikedDogsRecycler.")
+        dogAdapter.isInLikedDogsFragment()
         binding.recyclerLikedDogs.apply {
             adapter = dogAdapter
             layoutManager = LinearLayoutManager(activity)
