@@ -59,7 +59,7 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
                 dogAdapter.differ.submitList(viewModel.getLikedDogs().value?.data)
                 Snackbar.make(view, "Removed from liked dogs.", Snackbar.LENGTH_SHORT).apply {
                     setAction("Undo") {
-                        viewModel.addToLikedDogs(dog)
+                        viewModel.addDog(dog)
                         viewModel.getLikedDogs()
                         dogAdapter.differ.submitList(viewModel.getLikedDogs().value?.data)
                     }
@@ -78,6 +78,7 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
 
     private fun setupLikedDogsRecyclerView() {
         Log.d(TAG, "Setting up LikedDogsRecycler.")
+        dogAdapter.isInLikedDogsFragment()
         binding.recyclerLikedDogs.apply {
             adapter = dogAdapter
             layoutManager = LinearLayoutManager(activity)

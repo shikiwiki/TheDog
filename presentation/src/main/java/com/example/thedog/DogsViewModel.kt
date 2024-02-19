@@ -37,16 +37,16 @@ class DogsViewModel(
 
     fun getDogs() = viewModelScope.launch {
         dogsLivaData.postValue(Resource.loading(null))
-        val result = allDogsUseCase.getAllNotLikedDogs()
+        val result = allDogsUseCase.getAllDogs()
         val resource = Resource.success(result)
         dogsLivaData.postValue(handleDogResponse(resource))
         Log.d(TAG, "All dogs were received in VM.")
     }
 
-    fun addToLikedDogs(dog: Dog) = viewModelScope.launch {
+    fun addDog(dog: Dog) = viewModelScope.launch {
         Log.d(TAG, "Dog ${dog.name} was added to liked dogs.")
-        likedDogsUseCase.addToLikedDogs(dog)
-        updateDogs()
+        likedDogsUseCase.likeDog(dog)
+//        updateDogs()
     }
 
     fun getLikedDogs(): LiveData<Resource<MutableList<Dog>>> {

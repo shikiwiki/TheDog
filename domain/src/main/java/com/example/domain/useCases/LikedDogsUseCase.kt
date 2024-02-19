@@ -12,7 +12,7 @@ class LikedDogsUseCase(private val localRepository: IDogLocalRepository) {
         localRepository.deleteDog(dog)
     }
 
-    suspend fun addToLikedDogs(dog: Dog) {
+    suspend fun likeDog(dog: Dog) {
         localRepository.upsert(dog)
     }
 }

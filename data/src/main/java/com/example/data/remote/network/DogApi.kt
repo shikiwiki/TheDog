@@ -27,8 +27,6 @@ interface DogApi {
         limit: String = LIMIT_PER_PAGE.toString(),
         @Query("order")
         order: String = ORDER_RANDOM,
-//        @Query("page")
-//        page: String = PAGE,
         @Query("has_breeds")
         hasBreeds: Int = HAS_BREEDS,
         @Query("api_key")

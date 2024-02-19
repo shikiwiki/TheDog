@@ -55,8 +55,15 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         }
 
         binding.like.setOnClickListener {
-            viewModel.addToLikedDogs(dog)
-            Snackbar.make(view, "Added to liked dogs.", 500).show()
+            if (!dog.isLiked) {
+                viewModel.addDog(dog)
+                dog.isLiked = true
+                Snackbar.make(it, "Added to liked dogs.", 500).show()
+            } else {
+                viewModel.deleteDog(dog)
+                dog.isLiked = false
+                Snackbar.make(it, "Deleted from liked dogs.", 500).show()
+            }
         }
         Log.d(TAG, "DetailsFragment is created.")
     }
