@@ -6,21 +6,24 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.local.repository.DogLocalRepository
-import com.example.data.remote.repository.DogRemoteRepository
 import com.example.data.util.Resource
 import com.example.data.util.Status
 import com.example.domain.model.Dog
 import com.example.domain.useCases.AllDogsUseCase
 import com.example.domain.useCases.LikedDogsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 private const val TAG = "DogsViewModel"
 private const val INITIAL_PAGE = 1
 
-class DogsViewModel(
-    remoteRepository: DogRemoteRepository,
-    localRepository: DogLocalRepository
+@HiltViewModel
+class DogsViewModel @Inject constructor(
+    private val allDogsUseCase: AllDogsUseCase,
+    private val likedDogsUseCase: LikedDogsUseCase
+//    private val remoteRepository: DogRemoteRepository,
+//    private val localRepository: DogLocalRepository
 ) : ViewModel() {
 
     var page = INITIAL_PAGE
@@ -28,8 +31,8 @@ class DogsViewModel(
     private val likedLogsLivaData = MutableLiveData<Resource<MutableList<Dog>>>()
     private var dogs: MutableList<Dog>? = null
 
-    private val allDogsUseCase = AllDogsUseCase(remoteRepository, localRepository)
-    private val likedDogsUseCase = LikedDogsUseCase(localRepository)
+//    private val allDogsUseCase = AllDogsUseCase(remoteRepository, localRepository)
+//    private val likedDogsUseCase = LikedDogsUseCase(localRepository)
 
     init {
         getDogs()
