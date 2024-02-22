@@ -5,11 +5,13 @@ import com.example.data.remote.network.DogApi
 import com.example.data.util.toDomain
 import com.example.domain.model.Dog
 import com.example.domain.repository.IDogRemoteRepository
+import javax.inject.Inject
+import javax.inject.Singleton
 
 private const val TAG = "DogRemoteRepository"
 
-class DogRemoteRepository(private val api: DogApi) : IDogRemoteRepository {
-
+@Singleton
+class DogRemoteRepository @Inject constructor(private val api: DogApi) : IDogRemoteRepository {
     override suspend fun getDogs(): MutableList<Dog>? {
         Log.d(TAG, "Getting dogs list.")
         return runCatching {

@@ -4,14 +4,15 @@ import android.content.Context
 import androidx.room.Room
 import com.example.data.local.dao.DogDao
 import com.example.data.local.db.DogDatabase
-import com.example.data.local.repository.DogLocalRepository
 import com.example.data.remote.network.DogApi
-import com.example.data.remote.repository.DogRemoteRepository
+import com.example.data.util.Constants.Companion.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -20,7 +21,7 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideAppDatabase(@ApplicationContext context: Context): DogDatabase {
+    fun provideDogDatabase(@ApplicationContext context: Context): DogDatabase {
         return Room.databaseBuilder(
             context.applicationContext,
             DogDatabase::class.java,
@@ -30,21 +31,24 @@ class DataModule {
             .build()
     }
 
-//    @Provides
-//    fun provideDogDao(database: CharactersLocalRepository): CharactersDao {
-//        return database.characterDao()
-//    }
-
-
     @Provides
     @Singleton
-    fun provideDogLocalRepository(dao: DogDao): DogLocalRepository {
-        return DogLocalRepository(dao)
+    fun provideDogDao(dogDatabase: DogDatabase): DogDao {
+        return dogDatabase.getDao()
     }
 
     @Provides
     @Singleton
-    fun provideDogRemoteRepository(api: DogApi): DogRemoteRepository {
-        return DogRemoteRepository(api)
+    fun provideRetrofit(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDogApi(retrofit: Retrofit): DogApi {
+        return retrofit.create(DogApi::class.java)
     }
 }

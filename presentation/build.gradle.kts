@@ -95,6 +95,9 @@ dependencies {
 
     // Swipe to refresh
     implementation(libs.androidx.swiperefreshlayout)
+
+//    kapt(libs.artifactId)
+
 }
 
 kapt {

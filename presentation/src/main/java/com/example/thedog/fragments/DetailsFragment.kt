@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.thedog.DogsViewModel
@@ -16,12 +17,14 @@ import com.example.thedog.R
 import com.example.thedog.databinding.FragmentDetailsBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "DetailsFragment"
 
+@AndroidEntryPoint
 class DetailsFragment : Fragment(R.layout.fragment_details) {
 
-    private val viewModel: DogsViewModel by lazy { (activity as MainActivity).viewModel }
+    private val viewModel by viewModels<DogsViewModel>()
     private val args: DetailsFragmentArgs by navArgs()
     private lateinit var binding: FragmentDetailsBinding
     private val image: ImageView by lazy { binding.root.findViewById(R.id.image) }
