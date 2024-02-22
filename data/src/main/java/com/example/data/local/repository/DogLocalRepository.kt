@@ -6,10 +6,13 @@ import com.example.data.util.toDomain
 import com.example.data.util.toEntity
 import com.example.domain.model.Dog
 import com.example.domain.repository.IDogLocalRepository
+import javax.inject.Inject
+import javax.inject.Singleton
 
 private const val TAG = "DogLocalRepository"
 
-class DogLocalRepository(private val dao: DogDao) : IDogLocalRepository {
+@Singleton
+class DogLocalRepository @Inject constructor(private val dao: DogDao) : IDogLocalRepository {
 
     override suspend fun upsert(dog: Dog): Long {
         Log.d(TAG, "Adding ${dog.name} to list of liked dogs.")

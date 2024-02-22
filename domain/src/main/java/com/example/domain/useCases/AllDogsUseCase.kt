@@ -3,8 +3,9 @@ package com.example.domain.useCases
 import com.example.domain.model.Dog
 import com.example.domain.repository.IDogLocalRepository
 import com.example.domain.repository.IDogRemoteRepository
+import javax.inject.Inject
 
-class AllDogsUseCase(
+class AllDogsUseCase @Inject constructor(
     private val remoteRepository: IDogRemoteRepository,
     private val localRepository: IDogLocalRepository
 ) {
@@ -14,7 +15,7 @@ class AllDogsUseCase(
             return null
         }
         val likedDogs = localRepository.getLikedDogs()
-        likedDogs?.let { allDogs.removeAll(it) }
+        likedDogs?.let { allDogs.removeAll(it.toSet()) }
 
         return allDogs
     }

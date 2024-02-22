@@ -7,22 +7,24 @@ import android.view.View
 import android.widget.AbsListView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.data.util.Constants
 import com.example.data.util.Status
 import com.example.thedog.DogsViewModel
-import com.example.thedog.MainActivity
 import com.example.thedog.R
 import com.example.thedog.adapters.DogAdapter
 import com.example.thedog.databinding.FragmentDogsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "DogsFragment"
 
+@AndroidEntryPoint
 class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
-    val viewModel: DogsViewModel by lazy { (activity as MainActivity).viewModel }
+    private val viewModel by viewModels<DogsViewModel>()
     private val dogAdapter: DogAdapter by lazy { DogAdapter(viewModel) }
     private lateinit var binding: FragmentDogsBinding
 

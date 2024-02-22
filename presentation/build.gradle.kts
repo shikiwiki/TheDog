@@ -1,8 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("com.google.dagger.hilt.android")
     id("androidx.navigation.safeargs.kotlin")
+    id("dagger.hilt.android.plugin")
     kotlin("kapt")
 }
 
@@ -58,6 +58,7 @@ dependencies {
 //    Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+    implementation(libs.androidx.fragment.ktx)
 
 //    RecyclerView
     implementation(libs.androidx.recyclerview)
@@ -93,7 +94,10 @@ dependencies {
     kapt(libs.glide.compiler)
 
     // Swipe to refresh
-   implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.androidx.swiperefreshlayout)
+
+//    kapt(libs.artifactId)
+
 }
 
 kapt {

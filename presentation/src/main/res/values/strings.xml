@@ -1,19 +1,11 @@
 <resources>
     <string name="app_name">TheDog</string>
     <string name="image">Image</string>
-    <string name="the_dog">The Dog</string>
-    <string name="liked">liked</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="liked_dogs">Liked dogs</string>
-    <string name="dog">Dog</string>
     <string name="all_dogs">All dogs</string>
     <string name="like">Like</string>
-    <string name="no_internet">No Internet</string>
-    <string name="retry">Retry</string>
-    <string name="name">Name</string>
     <string name="bred_for">Bred for:</string>
     <string name="breed_group">Breed Group:</string>
-    <string name="country">Country:</string>
     <string name="height">Height, cm:</string>
     <string name="weight">Weight, kg:</string>
     <string name="lifespan">Lifespan:</string>

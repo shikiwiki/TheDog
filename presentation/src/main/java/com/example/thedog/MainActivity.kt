@@ -3,35 +3,23 @@ package com.example.thedog
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.example.data.local.db.DogDatabase
-import com.example.data.local.repository.DogLocalRepository
-import com.example.data.remote.network.RetrofitInstance
-import com.example.data.remote.repository.DogRemoteRepository
 import com.example.thedog.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "MainActivity"
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    lateinit var viewModel: DogsViewModel
     private lateinit var binding: ActivityMainBinding
-    private lateinit var db: DogDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "Creating MainActivity")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        db = DogDatabase(this.applicationContext)
-        val localRepository = DogLocalRepository(db.getDao())
-        val remoteRepository = DogRemoteRepository(RetrofitInstance.api)
-        val viewModelProviderFactory =
-            DogsViewModelProviderFactory(localRepository, remoteRepository)
-        viewModel = ViewModelProvider(this, viewModelProviderFactory)[DogsViewModel::class.java]
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.dogsNavHostFragment) as NavHostFragment
