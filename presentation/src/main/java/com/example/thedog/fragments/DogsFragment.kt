@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieDrawable
 import com.example.data.util.Constants
 import com.example.data.util.Status
 import com.example.thedog.DogsViewModel
@@ -59,6 +60,11 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
             when (resource.status) {
                 Status.SUCCESS -> {
                     hideProgressBar()
+                    binding.apply {
+                        lottieView.pauseAnimation()
+                        lottieView.visibility - View.INVISIBLE
+                    }
+//                    binding.lottieView.stop
                     resource.data?.let { dogs ->
                         dogAdapter.differ.submitList(dogs.toList())
                         val totalPages = dogs.size / Constants.LIMIT_PER_PAGE + 2
@@ -71,9 +77,21 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
                 Status.LOADING -> {
                     showProgressBar()
+                    binding.apply {
+                        lottieView.visibility = View.VISIBLE
+                        lottieView.setMinProgress(0f)
+                        lottieView.setMaxProgress(1f)
+                        lottieView.playAnimation()
+                        lottieView.repeatCount = LottieDrawable.INFINITE
+//                    binding.lottieView.repeatMode = LottieDrawable.RESTART
+                    }
                 }
 
                 Status.ERROR -> {
+                    binding.apply {
+                        lottieView.pauseAnimation()
+                        lottieView.visibility - View.INVISIBLE
+                    }
                     hideProgressBar()
                     resource.message?.let { message ->
                         Toast.makeText(activity, "Sorry, $message", Toast.LENGTH_SHORT)
