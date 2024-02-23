@@ -5,6 +5,8 @@ import com.example.data.remote.network.DogApi
 import com.example.data.util.toDomain
 import com.example.domain.model.Dog
 import com.example.domain.repository.IDogRemoteRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,19 +14,17 @@ private const val TAG = "DogRemoteRepository"
 
 @Singleton
 class DogRemoteRepository @Inject constructor(private val api: DogApi) : IDogRemoteRepository {
-    override suspend fun getDogs(): MutableList<Dog>? {
+    override suspend fun getDogs(): Flow<MutableList<Dog>?> = flow {
         Log.d(TAG, "Getting dogs list.")
-        return runCatching {
+        runCatching {
             val response = api.getData()
             if (response.isSuccessful) {
-                response.body()?.map {
-                    it.toDomain()
-                }?.toMutableList()
+                emit(response.body()?.map { it.toDomain() }?.toMutableList())
             } else {
                 throw RuntimeException("Sorry, problem occurred while getting dogs list.")
             }
         }.getOrElse {
-            return null
+            emit(null)
 //            throw Exception("Error. Getting dogs list: getOrElse block.")
         }
     }
