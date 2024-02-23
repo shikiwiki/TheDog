@@ -22,8 +22,6 @@ private const val INITIAL_PAGE = 1
 class DogsViewModel @Inject constructor(
     private val allDogsUseCase: AllDogsUseCase,
     private val likedDogsUseCase: LikedDogsUseCase
-//    private val remoteRepository: DogRemoteRepository,
-//    private val localRepository: DogLocalRepository
 ) : ViewModel() {
 
     var page = INITIAL_PAGE
@@ -31,18 +29,17 @@ class DogsViewModel @Inject constructor(
     private val likedLogsLivaData = MutableLiveData<Resource<MutableList<Dog>>>()
     private var dogs: MutableList<Dog>? = null
 
-//    private val allDogsUseCase = AllDogsUseCase(remoteRepository, localRepository)
-//    private val likedDogsUseCase = LikedDogsUseCase(localRepository)
-
     init {
         getDogs()
     }
 
     fun getDogs() = viewModelScope.launch {
         dogsLivaData.postValue(Resource.loading(null))
-        val result = allDogsUseCase.getAllDogs()
-        val resource = Resource.success(result)
-        dogsLivaData.postValue(handleDogResponse(resource))
+        val allDogsFlow = allDogsUseCase.getAllDogs()
+        allDogsFlow.collect { allDogs ->
+            val resource = Resource.success(allDogs)
+            dogsLivaData.postValue(handleDogResponse(resource))
+        }
         Log.d(TAG, "All dogs were received in VM.")
     }
 
@@ -53,8 +50,8 @@ class DogsViewModel @Inject constructor(
 
     fun getLikedDogs(): LiveData<Resource<MutableList<Dog>>> {
         Log.d(TAG, "Liked dogs were received in VM.")
-        val result = likedDogsUseCase.getLikedDogs()
-        val resource = Resource.success(result)
+        val likedDogs = likedDogsUseCase.getLikedDogs()
+        val resource = Resource.success(likedDogs)
         likedLogsLivaData.value = resource
         return likedLogsLivaData
     }
@@ -84,14 +81,17 @@ class DogsViewModel @Inject constructor(
 
     fun updateDogs() = viewModelScope.launch {
         dogsLivaData.postValue(Resource.loading(null))
-        val result = allDogsUseCase.getAllNotLikedDogs()
-        val resource: Resource<MutableList<Dog>> =
-            if (result != null) {
-                Resource.success(result)
-            } else {
-                Resource.error(null, "No Internet")
-            }
-        dogsLivaData.postValue(handleDogResponseWithUpdate(resource))
+
+        val allDogsFlow = allDogsUseCase.getAllDogs()
+        allDogsFlow.collect { allDogs ->
+            val resource: Resource<MutableList<Dog>> =
+                if (allDogs != null) {
+                    Resource.success(allDogs)
+                } else {
+                    Resource.error(null, "No Internet")
+                }
+            dogsLivaData.postValue(handleDogResponseWithUpdate(resource))
+        }
         Log.d(TAG, "All dogs were updated in VM.")
     }
 

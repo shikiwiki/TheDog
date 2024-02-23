@@ -19,7 +19,7 @@ class DogLocalRepository @Inject constructor(private val dao: DogDao) : IDogLoca
         return dao.upsert(dog.toEntity())
     }
 
-    override fun getLikedDogs(): MutableList<Dog> { // make it return LiveDate!
+    override fun getLikedDogs(): MutableList<Dog> {
         Log.d(TAG, "Getting list of liked dogs.")
         return dao.getAllDogs().map { it.toDomain() }.toMutableList()
     }
