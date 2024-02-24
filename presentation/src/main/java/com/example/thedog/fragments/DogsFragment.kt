@@ -1,5 +1,7 @@
 package com.example.thedog.fragments
 
+import android.animation.Animator
+import android.animation.Animator.AnimatorListener
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieDrawable
 import com.example.data.util.Constants
 import com.example.data.util.Status
 import com.example.thedog.DogsViewModel
@@ -59,6 +62,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
             when (resource.status) {
                 Status.SUCCESS -> {
                     hideProgressBar()
+                    hideAnimation()
                     resource.data?.let { dogs ->
                         dogAdapter.differ.submitList(dogs.toList())
                         val totalPages = dogs.size / Constants.LIMIT_PER_PAGE + 2
@@ -71,9 +75,14 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
                 Status.LOADING -> {
                     showProgressBar()
+                    showAnimation()
                 }
 
                 Status.ERROR -> {
+                    binding.apply {
+                        lottieView.pauseAnimation()
+                        lottieView.visibility - View.INVISIBLE
+                    }
                     hideProgressBar()
                     resource.message?.let { message ->
                         Toast.makeText(activity, "Sorry, $message", Toast.LENGTH_SHORT)
@@ -81,6 +90,40 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
                     }
                 }
             }
+        }
+    }
+
+    private fun hideAnimation() {
+        binding.apply {
+            lottieView.pauseAnimation()
+            lottieView.visibility - View.GONE
+        }
+    }
+
+    private fun showAnimation() {
+        binding.apply {
+            lottieView.setMinAndMaxProgress(0f, 1f)
+            lottieView.visibility = View.VISIBLE
+            lottieView.repeatCount = LottieDrawable.INFINITE
+            lottieView.playAnimation()
+            lottieView.addAnimatorListener(object : AnimatorListener {
+                override fun onAnimationStart(animation: Animator) {
+
+                }
+
+                override fun onAnimationEnd(animation: Animator) {
+                    lottieView.visibility = View.GONE
+                }
+
+                override fun onAnimationCancel(animation: Animator) {
+                    lottieView.visibility = View.INVISIBLE
+                }
+
+                override fun onAnimationRepeat(animation: Animator) {
+
+                }
+
+            })
         }
     }
 
