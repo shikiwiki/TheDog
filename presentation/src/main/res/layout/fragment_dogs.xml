@@ -23,12 +23,12 @@
         android:id="@+id/lottieView"
         android:layout_width="400dp"
         android:layout_height="400dp"
-        android:visibility="invisible"
-        app:lottie_autoPlay="false"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:lottie_autoPlay="false"
         app:lottie_fileName="dog-animation.json" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

@@ -60,6 +60,10 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
     private fun observeViewModel() {
         viewModel.dogsLivaData.observe(viewLifecycleOwner) { resource ->
             when (resource.status) {
+                Status.LOADING -> {
+                    showProgressBar()
+                    showAnimation()
+                }
                 Status.SUCCESS -> {
                     hideProgressBar()
                     hideAnimation()
@@ -72,18 +76,9 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
                         }
                     }
                 }
-
-                Status.LOADING -> {
-                    showProgressBar()
-                    showAnimation()
-                }
-
                 Status.ERROR -> {
-                    binding.apply {
-                        lottieView.pauseAnimation()
-                        lottieView.visibility - View.INVISIBLE
-                    }
                     hideProgressBar()
+                    hideAnimation()
                     resource.message?.let { message ->
                         Toast.makeText(activity, "Sorry, $message", Toast.LENGTH_SHORT)
                             .show()
@@ -95,35 +90,28 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
     private fun hideAnimation() {
         binding.apply {
+            lottieView.visibility - View.INVISIBLE
             lottieView.pauseAnimation()
-            lottieView.visibility - View.GONE
         }
     }
 
     private fun showAnimation() {
         binding.apply {
             lottieView.setMinAndMaxProgress(0f, 1f)
-            lottieView.visibility = View.VISIBLE
             lottieView.repeatCount = LottieDrawable.INFINITE
-            lottieView.playAnimation()
             lottieView.addAnimatorListener(object : AnimatorListener {
                 override fun onAnimationStart(animation: Animator) {
-
+                    lottieView.visibility = View.VISIBLE
                 }
-
                 override fun onAnimationEnd(animation: Animator) {
-                    lottieView.visibility = View.GONE
+                    lottieView.visibility = View.INVISIBLE
                 }
-
                 override fun onAnimationCancel(animation: Animator) {
                     lottieView.visibility = View.INVISIBLE
                 }
-
-                override fun onAnimationRepeat(animation: Animator) {
-
-                }
-
+                override fun onAnimationRepeat(animation: Animator) {}
             })
+            lottieView.playAnimation()
         }
     }
 
