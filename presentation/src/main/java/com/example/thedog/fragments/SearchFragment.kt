@@ -1,49 +1,62 @@
 package com.example.thedog.fragments
 
-import android.animation.Animator
-import android.animation.Animator.AnimatorListener
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AbsListView
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.airbnb.lottie.LottieDrawable
 import com.example.data.util.Constants
+import com.example.data.util.Constants.Companion.SEARCH_INPUT_DELAY
 import com.example.data.util.Status
 import com.example.thedog.DogsViewModel
 import com.example.thedog.R
 import com.example.thedog.adapters.DogAdapter
-import com.example.thedog.databinding.FragmentDogsBinding
+import com.example.thedog.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-private const val TAG = "DogsFragment"
+private const val TAG = "SearchFragment"
 
 @AndroidEntryPoint
-class DogsFragment : Fragment(R.layout.fragment_dogs) {
+class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private val viewModel by viewModels<DogsViewModel>()
     private val dogAdapter: DogAdapter by lazy { DogAdapter(viewModel) }
-    private lateinit var binding: FragmentDogsBinding
+    private lateinit var binding: FragmentSearchBinding
+    private var inputText = ""
 
     @SuppressLint("InflateParams")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d(TAG, "Creating DogsFragment.")
+        Log.d(TAG, "Creating SearchFragment.")
 
-        binding = FragmentDogsBinding.bind(view)
+        binding = FragmentSearchBinding.bind(view)
 
-        setupDogsRecyclerView()
+        setupSearchDogsRecyclerView()
 
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.updateDogs()
-            observeViewModel()
-            binding.swipeRefreshLayout.isRefreshing = false
+        var job: Job? = null
+        binding.searchField.addTextChangedListener { inputBreed ->
+            job?.cancel()
+            job = MainScope().launch {
+                delay(SEARCH_INPUT_DELAY)
+                val breed = inputBreed.toString()
+                inputBreed?.let {
+                    if (breed.isNotEmpty() && breed != inputText) {
+                        inputText = breed
+                        viewModel.searchDogs(breed)
+                    }
+                }
+            }
         }
 
         dogAdapter.setOnItemClickListener {
@@ -54,64 +67,36 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
         }
 
         observeViewModel()
-        Log.d(TAG, "DogsFragment is created.")
+        Log.d(TAG, "SearchFragment is created.")
     }
 
     private fun observeViewModel() {
-        viewModel.allDogsLivaData.observe(viewLifecycleOwner) { resource ->
+        viewModel.searchDogsLivaData.observe(viewLifecycleOwner) { resource ->
             when (resource.status) {
                 Status.LOADING -> {
                     showProgressBar()
-                    showAnimation()
                 }
+
                 Status.SUCCESS -> {
                     hideProgressBar()
-                    hideAnimation()
                     resource.data?.let { dogs ->
                         dogAdapter.differ.submitList(dogs.toList())
                         val totalPages = dogs.size / Constants.LIMIT_PER_PAGE + 2
-                        isLastPage = viewModel.allDogsPage == totalPages
+                        isLastPage = viewModel.searchDogsPage == totalPages
                         if (isLastPage) {
-                            binding.recyclerDogs.setPadding(0, 0, 0, 0)
+                            binding.recyclerSearchDogs.setPadding(0, 0, 0, 0)
                         }
                     }
                 }
+
                 Status.ERROR -> {
                     hideProgressBar()
-                    hideAnimation()
                     resource.message?.let { message ->
                         Toast.makeText(activity, "Sorry, $message", Toast.LENGTH_SHORT)
                             .show()
                     }
                 }
             }
-        }
-    }
-
-    private fun hideAnimation() {
-        binding.apply {
-            lottieView.visibility - View.INVISIBLE
-            lottieView.pauseAnimation()
-        }
-    }
-
-    private fun showAnimation() {
-        binding.apply {
-            lottieView.setMinAndMaxProgress(0f, 1f)
-            lottieView.repeatCount = LottieDrawable.INFINITE
-            lottieView.addAnimatorListener(object : AnimatorListener {
-                override fun onAnimationStart(animation: Animator) {
-                    lottieView.visibility = View.VISIBLE
-                }
-                override fun onAnimationEnd(animation: Animator) {
-                    lottieView.visibility = View.INVISIBLE
-                }
-                override fun onAnimationCancel(animation: Animator) {
-                    lottieView.visibility = View.INVISIBLE
-                }
-                override fun onAnimationRepeat(animation: Animator) {}
-            })
-            lottieView.playAnimation()
         }
     }
 
@@ -162,14 +147,14 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
         }
     }
 
-    private fun setupDogsRecyclerView() {
-        Log.d(TAG, "Setting up DogRecycler.")
+    private fun setupSearchDogsRecyclerView() {
+        Log.d(TAG, "Setting up Search DogRecycler.")
         dogAdapter.isInDogsFragment()
-        binding.recyclerDogs.apply {
+        binding.recyclerSearchDogs.apply {
             adapter = dogAdapter
             layoutManager = LinearLayoutManager(activity)
-            addOnScrollListener(this@DogsFragment.scrollListener)
+            addOnScrollListener(this@SearchFragment.scrollListener)
         }
-        Log.d(TAG, "DogRecycler is set up.")
+        Log.d(TAG, "Search DogRecycler is set up.")
     }
 }

@@ -25,7 +25,20 @@ class DogRemoteRepository @Inject constructor(private val api: DogApi) : IDogRem
             }
         }.getOrElse {
             emit(null)
-//            throw Exception("Error. Getting dogs list: getOrElse block.")
+        }
+    }
+
+    override suspend fun searchDogs(searchQuery: String): Flow<MutableList<Dog>?> = flow {
+        Log.d(TAG, "Searching for dogs.")
+        runCatching {
+            val response = api.searchData(searchQuery)
+            if (response.isSuccessful) {
+                emit(response.body()?.map { it.toDomain() }?.toMutableList())
+            } else {
+                throw RuntimeException("Sorry, problem occurred while searching dogs.")
+            }
+        }.getOrElse {
+            emit(null)
         }
     }
 }
