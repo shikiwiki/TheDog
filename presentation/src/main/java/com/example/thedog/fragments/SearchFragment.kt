@@ -63,7 +63,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             val bundle = Bundle().apply {
                 putSerializable("dog", it)
             }
-            findNavController().navigate(R.id.action_dogsFragment_to_detailsFragment, bundle)
+            findNavController().navigate(R.id.action_searchFragment_to_detailsFragment, bundle)
         }
 
         observeViewModel()

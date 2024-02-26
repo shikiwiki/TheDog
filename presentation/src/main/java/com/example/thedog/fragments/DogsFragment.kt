@@ -61,11 +61,9 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
         viewModel.allDogsLivaData.observe(viewLifecycleOwner) { resource ->
             when (resource.status) {
                 Status.LOADING -> {
-                    showProgressBar()
                     showAnimation()
                 }
                 Status.SUCCESS -> {
-                    hideProgressBar()
                     hideAnimation()
                     resource.data?.let { dogs ->
                         dogAdapter.differ.submitList(dogs.toList())
@@ -77,7 +75,6 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
                     }
                 }
                 Status.ERROR -> {
-                    hideProgressBar()
                     hideAnimation()
                     resource.message?.let { message ->
                         Toast.makeText(activity, "Sorry, $message", Toast.LENGTH_SHORT)
@@ -119,18 +116,6 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
     var isLoading = false
     var isLastPage = false
     var isScrolling = false
-
-    private fun hideProgressBar() {
-        binding.progressBar.visibility = View.INVISIBLE
-        isLoading = false
-        Log.d(TAG, "ProgressBar is hidden.")
-    }
-
-    private fun showProgressBar() {
-        binding.progressBar.visibility = View.VISIBLE
-        isLoading = true
-        Log.d(TAG, "ProgressBar is shown.")
-    }
 
     private val scrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
