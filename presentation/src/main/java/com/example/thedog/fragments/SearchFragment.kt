@@ -1,6 +1,5 @@
 package com.example.thedog.fragments
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -35,7 +34,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private lateinit var binding: FragmentSearchBinding
     private var inputText = ""
 
-    @SuppressLint("InflateParams")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "Creating SearchFragment.")
@@ -72,12 +70,16 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun observeViewModel() {
         viewModel.searchDogsLivaData.observe(viewLifecycleOwner) { resource ->
+            Log.d(TAG, "Observing ViewModel's searchDogsLivaData")
             when (resource.status) {
                 Status.LOADING -> {
+                    Log.d(TAG, "Status LOADING from ViewModel's searchDogsLivaData")
                     showProgressBar()
                 }
 
                 Status.SUCCESS -> {
+                    Log.d(TAG, "Status SUCCESS from ViewModel's searchDogsLivaData")
+                    Log.d(TAG, "The first item of the result: ${resource.data?.get(0)?.name}")
                     hideProgressBar()
                     resource.data?.let { dogs ->
                         dogAdapter.differ.submitList(dogs.toList())
@@ -90,6 +92,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 }
 
                 Status.ERROR -> {
+                    Log.d(TAG, "Status ERROR from ViewModel's searchDogsLivaData")
                     hideProgressBar()
                     resource.message?.let { message ->
                         Toast.makeText(activity, "Sorry, $message", Toast.LENGTH_SHORT)

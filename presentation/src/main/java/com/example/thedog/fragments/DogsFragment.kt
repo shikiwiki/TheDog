@@ -2,7 +2,6 @@ package com.example.thedog.fragments
 
 import android.animation.Animator
 import android.animation.Animator.AnimatorListener
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -31,7 +30,6 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
     private val dogAdapter: DogAdapter by lazy { DogAdapter(viewModel) }
     private lateinit var binding: FragmentDogsBinding
 
-    @SuppressLint("InflateParams")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "Creating DogsFragment.")
@@ -59,11 +57,14 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
     private fun observeViewModel() {
         viewModel.allDogsLivaData.observe(viewLifecycleOwner) { resource ->
+            Log.d(TAG, "Observing ViewModel's dogsLivaData")
             when (resource.status) {
                 Status.LOADING -> {
+                    Log.d(TAG, "Status LOADING from ViewModel's allDogsLivaData")
                     showAnimation()
                 }
                 Status.SUCCESS -> {
+                    Log.d(TAG, "Status SUCCESS from ViewModel's allDogsLivaData")
                     hideAnimation()
                     resource.data?.let { dogs ->
                         dogAdapter.differ.submitList(dogs.toList())
@@ -75,6 +76,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
                     }
                 }
                 Status.ERROR -> {
+                    Log.d(TAG, "Status ERROR from ViewModel's allDogsLivaData")
                     hideAnimation()
                     resource.message?.let { message ->
                         Toast.makeText(activity, "Sorry, $message", Toast.LENGTH_SHORT)

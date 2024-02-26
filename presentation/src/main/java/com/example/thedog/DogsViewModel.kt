@@ -57,6 +57,7 @@ class DogsViewModel @Inject constructor(
         val searchDogsFlow = searchDogsUseCase.searchDogs(searchQuery)
         searchDogsFlow.collect {searchDogs ->
             val resource = Resource.success(searchDogs)
+            Log.d(TAG, "The first item of the result: ${resource.data?.get(0)?.name}")
             searchDogsLivaData.postValue(handleSearchDogResponse(resource))
         }
         Log.d(TAG, "Being Searched dogs were received in VM.")
@@ -133,16 +134,18 @@ class DogsViewModel @Inject constructor(
         if (resource.status == Status.SUCCESS) {
             resource.data?.let { resultDogs ->
                 searchDogsPage++
-                if (searchDogs == null) {
+                if (searchDogs == null || searchDogs != resultDogs) {
                     searchDogs = resultDogs
-                } else {
-                    val oldDogs = searchDogs
-                    oldDogs?.addAll(resultDogs)
+//                } else {
+//                    if ()
+//                    searchDogs = resultDogs
+//                    val oldDogs = searchDogs
+//                    oldDogs?.addAll(resultDogs)
                 }
-                return Resource.success(dogs ?: resultDogs)
+                return Resource.success(searchDogs ?: resultDogs)
             }
         }
         Log.d(TAG, "Search DogsResponse processed.")
-        return Resource.error(null, "No Internet")
+        return Resource.error(null, "Not found.")
     }
 }
