@@ -1,6 +1,7 @@
 package com.example.data.util
 
 import com.example.data.local.entities.DogEntity
+import com.example.data.remote.dto.BreedResponseItem
 import com.example.data.remote.dto.DogResponseItem
 import com.example.domain.model.Dog
 
@@ -19,6 +20,24 @@ fun DogResponseItem.toDomain(): Dog {
         imageUrl = this.url,
         imageWidth = this.width,
         imageHeight = this.height
+    )
+}
+
+fun BreedResponseItem.toDomain(): Dog {
+    return Dog(
+        id = this.image.id,
+        name = this.name,
+        bredFor = this.bred_for,
+        breedGroup = this.breed_group,
+        height = this.height.metric,
+        weight = this.weight.metric,
+        number = this.id.toInt(),
+        lifeSpan = this.life_span,
+        referenceImageId = this.reference_image_id,
+        temperament = this.temperament,
+        imageUrl = this.image.url,
+        imageWidth = this.image.width.toInt(),
+        imageHeight = this.image.height.toInt()
     )
 }
 

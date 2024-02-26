@@ -1,7 +1,9 @@
 <resources>
+
     <style name="Base.Theme.TheDog" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/main_background</item>
         <item name="colorPrimaryVariant">@color/fragment_background</item>
+        <item name="android:navigationBarColor">@color/salmon</item>
         <item name="android:statusBarColor">@color/salmon</item>
     </style>
 
@@ -9,6 +11,7 @@
         <item name="colorPrimary">@color/main_background</item>
         <item name="colorPrimaryVariant">@color/fragment_background</item>
         <item name="android:statusBarColor">@color/salmon</item>
+        <item name="android:background">@color/white</item>
     </style>
 
 </resources>

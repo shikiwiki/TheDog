@@ -1,85 +1,99 @@
 package com.example.thedog.fragments
 
-import android.animation.Animator
-import android.animation.Animator.AnimatorListener
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AbsListView
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.airbnb.lottie.LottieDrawable
 import com.example.data.util.Constants
+import com.example.data.util.Constants.Companion.SEARCH_INPUT_DELAY
 import com.example.data.util.Status
 import com.example.thedog.DogsViewModel
 import com.example.thedog.R
 import com.example.thedog.adapters.DogAdapter
-import com.example.thedog.databinding.FragmentDogsBinding
+import com.example.thedog.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-private const val TAG = "DogsFragment"
+private const val TAG = "SearchFragment"
 
 @AndroidEntryPoint
-class DogsFragment : Fragment(R.layout.fragment_dogs) {
+class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private val viewModel by viewModels<DogsViewModel>()
     private val dogAdapter: DogAdapter by lazy { DogAdapter(viewModel) }
-    private lateinit var binding: FragmentDogsBinding
+    private lateinit var binding: FragmentSearchBinding
+    private var inputText = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d(TAG, "Creating DogsFragment.")
+        Log.d(TAG, "Creating SearchFragment.")
 
-        binding = FragmentDogsBinding.bind(view)
+        binding = FragmentSearchBinding.bind(view)
 
-        setupDogsRecyclerView()
+        setupSearchDogsRecyclerView()
 
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.updateDogs()
-            observeViewModel()
-            binding.swipeRefreshLayout.isRefreshing = false
+        var job: Job? = null
+        binding.searchField.addTextChangedListener { inputBreed ->
+            job?.cancel()
+            job = MainScope().launch {
+                delay(SEARCH_INPUT_DELAY)
+                val breed = inputBreed.toString()
+                inputBreed?.let {
+                    if (breed.isNotEmpty() && breed != inputText) {
+                        inputText = breed
+                        viewModel.searchDogs(breed)
+                    }
+                }
+            }
         }
 
         dogAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
                 putSerializable("dog", it)
             }
-            findNavController().navigate(R.id.action_dogsFragment_to_detailsFragment, bundle)
+            findNavController().navigate(R.id.action_searchFragment_to_detailsFragment, bundle)
         }
 
         observeViewModel()
-        Log.d(TAG, "DogsFragment is created.")
+        Log.d(TAG, "SearchFragment is created.")
     }
 
     private fun observeViewModel() {
-        viewModel.allDogsLivaData.observe(viewLifecycleOwner) { resource ->
-            Log.d(TAG, "Observing ViewModel's dogsLivaData")
+        viewModel.searchDogsLivaData.observe(viewLifecycleOwner) { resource ->
+            Log.d(TAG, "Observing ViewModel's searchDogsLivaData")
             when (resource.status) {
                 Status.LOADING -> {
-                    Log.d(TAG, "Status LOADING from ViewModel's allDogsLivaData")
-                    showAnimation()
+                    Log.d(TAG, "Status LOADING from ViewModel's searchDogsLivaData")
+                    showProgressBar()
                 }
 
                 Status.SUCCESS -> {
-                    Log.d(TAG, "Status SUCCESS from ViewModel's allDogsLivaData")
-                    hideAnimation()
+                    Log.d(TAG, "Status SUCCESS from ViewModel's searchDogsLivaData")
+                    Log.d(TAG, "The first item of the result: ${resource.data?.get(0)?.name}")
+                    hideProgressBar()
                     resource.data?.let { dogs ->
                         dogAdapter.differ.submitList(dogs.toList())
                         val totalPages = dogs.size / Constants.LIMIT_PER_PAGE + 2
-                        isLastPage = viewModel.allDogsPage == totalPages
+                        isLastPage = viewModel.searchDogsPage == totalPages
                         if (isLastPage) {
-                            binding.recyclerDogs.setPadding(0, 0, 0, 0)
+                            binding.recyclerSearchDogs.setPadding(0, 0, 0, 0)
                         }
                     }
                 }
 
                 Status.ERROR -> {
-                    Log.d(TAG, "Status ERROR from ViewModel's allDogsLivaData")
-                    hideAnimation()
+                    Log.d(TAG, "Status ERROR from ViewModel's searchDogsLivaData")
+                    hideProgressBar()
                     resource.message?.let { message ->
                         Toast.makeText(activity, "Sorry, $message", Toast.LENGTH_SHORT)
                             .show()
@@ -89,43 +103,24 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
         }
     }
 
-    private fun hideAnimation() {
-        Log.d(TAG, "Hiding animation.")
-
-        binding.apply {
-            lottieView.visibility - View.INVISIBLE
-            lottieView.pauseAnimation()
-        }
-    }
-
-    private fun showAnimation() {
-        Log.d(TAG, "Showing animation.")
-        binding.apply {
-            lottieView.setMinAndMaxProgress(0f, 1f)
-            lottieView.repeatCount = LottieDrawable.INFINITE
-            lottieView.addAnimatorListener(object : AnimatorListener {
-                override fun onAnimationStart(animation: Animator) {
-                    lottieView.visibility = View.VISIBLE
-                }
-
-                override fun onAnimationEnd(animation: Animator) {
-                    lottieView.visibility = View.INVISIBLE
-                }
-
-                override fun onAnimationCancel(animation: Animator) {
-                    lottieView.visibility = View.INVISIBLE
-                }
-
-                override fun onAnimationRepeat(animation: Animator) {}
-            })
-            lottieView.playAnimation()
-        }
-    }
-
     var isError = false
     var isLoading = false
     var isLastPage = false
     var isScrolling = false
+
+    private fun hideProgressBar() {
+        Log.d(TAG, "Hiding progressbar.")
+        binding.progressBar.visibility = View.INVISIBLE
+        isLoading = false
+        Log.d(TAG, "ProgressBar is hidden.")
+    }
+
+    private fun showProgressBar() {
+        Log.d(TAG, "Showing progressbar.")
+        binding.progressBar.visibility = View.VISIBLE
+        isLoading = true
+        Log.d(TAG, "ProgressBar is shown.")
+    }
 
     private val scrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -157,14 +152,14 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
         }
     }
 
-    private fun setupDogsRecyclerView() {
-        Log.d(TAG, "Setting up DogRecycler.")
+    private fun setupSearchDogsRecyclerView() {
+        Log.d(TAG, "Setting up Search DogRecycler.")
         dogAdapter.isInDogsFragment()
-        binding.recyclerDogs.apply {
+        binding.recyclerSearchDogs.apply {
             adapter = dogAdapter
             layoutManager = LinearLayoutManager(activity)
-            addOnScrollListener(this@DogsFragment.scrollListener)
+            addOnScrollListener(this@SearchFragment.scrollListener)
         }
-        Log.d(TAG, "DogRecycler is set up.")
+        Log.d(TAG, "Search DogRecycler is set up.")
     }
 }

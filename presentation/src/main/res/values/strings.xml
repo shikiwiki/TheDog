@@ -13,4 +13,6 @@
     <string name="logo">logo</string>
     <string name="dislike">Dislike</string>
     <string name="dog_name">Dog name</string>
+    <string name="search">Search</string>
+    <string name="input_breed">Input breed</string>
 </resources>
