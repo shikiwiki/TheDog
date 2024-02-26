@@ -109,12 +109,14 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     var isScrolling = false
 
     private fun hideProgressBar() {
+        Log.d(TAG, "Hiding progressbar.")
         binding.progressBar.visibility = View.INVISIBLE
         isLoading = false
         Log.d(TAG, "ProgressBar is hidden.")
     }
 
     private fun showProgressBar() {
+        Log.d(TAG, "Showing progressbar.")
         binding.progressBar.visibility = View.VISIBLE
         isLoading = true
         Log.d(TAG, "ProgressBar is shown.")

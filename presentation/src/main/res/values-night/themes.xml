@@ -1,7 +1,16 @@
 <resources>
-    <!-- Base application theme. -->
+
     <style name="Base.Theme.TheDog" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/main_background</item>
+        <item name="colorPrimaryVariant">@color/fragment_background</item>
+        <item name="android:navigationBarColor">@color/salmon</item>
+        <item name="android:statusBarColor">@color/salmon</item>
+    </style>
+
+    <style name="Base.Theme.SplashScreen" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/main_background</item>
+        <item name="colorPrimaryVariant">@color/fragment_background</item>
+        <item name="android:statusBarColor">@color/salmon</item>
+        <item name="android:background">@color/white</item>
     </style>
 </resources>

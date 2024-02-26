@@ -10,27 +10,33 @@
         android:id="@+id/searchField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/input_breed"
+        android:layout_marginTop="20dp"
         android:autofillHints="@string/input_breed"
+        android:drawableStart="@drawable/baseline_search_24"
+        android:drawablePadding="10dp"
+        android:hint="@string/input_breed"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/dark_gray"
         android:inputType="text"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerSearchDogs"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="70dp"
-            android:layout_marginEnd="8dp"
-            android:clipToPadding="false"
-            android:paddingBottom="50dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerSearchDogs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="8dp"
+        android:clipToPadding="false"
+        android:paddingBottom="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/progressBar"

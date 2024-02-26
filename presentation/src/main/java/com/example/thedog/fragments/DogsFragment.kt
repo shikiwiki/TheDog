@@ -63,6 +63,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
                     Log.d(TAG, "Status LOADING from ViewModel's allDogsLivaData")
                     showAnimation()
                 }
+
                 Status.SUCCESS -> {
                     Log.d(TAG, "Status SUCCESS from ViewModel's allDogsLivaData")
                     hideAnimation()
@@ -75,6 +76,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
                         }
                     }
                 }
+
                 Status.ERROR -> {
                     Log.d(TAG, "Status ERROR from ViewModel's allDogsLivaData")
                     hideAnimation()
@@ -88,6 +90,8 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
     }
 
     private fun hideAnimation() {
+        Log.d(TAG, "Hiding animation.")
+
         binding.apply {
             lottieView.visibility - View.INVISIBLE
             lottieView.pauseAnimation()
@@ -95,6 +99,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
     }
 
     private fun showAnimation() {
+        Log.d(TAG, "Showing animation.")
         binding.apply {
             lottieView.setMinAndMaxProgress(0f, 1f)
             lottieView.repeatCount = LottieDrawable.INFINITE
@@ -102,12 +107,15 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
                 override fun onAnimationStart(animation: Animator) {
                     lottieView.visibility = View.VISIBLE
                 }
+
                 override fun onAnimationEnd(animation: Animator) {
                     lottieView.visibility = View.INVISIBLE
                 }
+
                 override fun onAnimationCancel(animation: Animator) {
                     lottieView.visibility = View.INVISIBLE
                 }
+
                 override fun onAnimationRepeat(animation: Animator) {}
             })
             lottieView.playAnimation()
