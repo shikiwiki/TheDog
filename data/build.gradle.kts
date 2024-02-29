@@ -11,7 +11,6 @@ android {
     defaultConfig {
         minSdk = 24
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -38,20 +37,17 @@ android {
 
 dependencies {
     implementation(project(":domain"))
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 
-    //    Hilt
+//    Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 
-    //    Retrofit
+//    Retrofit
     implementation(libs.retrofit)
     implementation(libs.retrofit2.converter.gson)
     implementation(libs.logging.interceptor)
 
-    // Room
+//    Room
     implementation (libs.androidx.room.runtime)
     //noinspection KaptUsageInsteadOfKsp
     kapt(libs.room.compiler)

@@ -31,11 +31,9 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
     private lateinit var binding: FragmentDogsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "Creating DogsFragment.")
-
+        super.onViewCreated(view, savedInstanceState)
         binding = FragmentDogsBinding.bind(view)
-
         setupDogsRecyclerView()
 
         binding.swipeRefreshLayout.setOnRefreshListener {
@@ -81,8 +79,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
                     Log.d(TAG, "Status ERROR from ViewModel's allDogsLivaData")
                     hideAnimation()
                     resource.message?.let { message ->
-                        Toast.makeText(activity, "Sorry, $message", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(activity, "Sorry, $message", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -96,6 +93,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
             lottieView.visibility - View.INVISIBLE
             lottieView.pauseAnimation()
         }
+        Log.d(TAG, "Animation is hidden.")
     }
 
     private fun showAnimation() {
@@ -120,6 +118,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
             })
             lottieView.playAnimation()
         }
+        Log.d(TAG, "Animation is shown.")
     }
 
     var isError = false
@@ -159,7 +158,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
     private fun setupDogsRecyclerView() {
         Log.d(TAG, "Setting up DogRecycler.")
-        dogAdapter.isInDogsFragment()
+        dogAdapter.isInDogsOrSearchFragment()
         binding.recyclerDogs.apply {
             adapter = dogAdapter
             layoutManager = LinearLayoutManager(activity)

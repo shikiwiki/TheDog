@@ -35,11 +35,9 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private var inputText = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "Creating SearchFragment.")
-
+        super.onViewCreated(view, savedInstanceState)
         binding = FragmentSearchBinding.bind(view)
-
         setupSearchDogsRecyclerView()
 
         var job: Job? = null
@@ -79,7 +77,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
                 Status.SUCCESS -> {
                     Log.d(TAG, "Status SUCCESS from ViewModel's searchDogsLivaData")
-                    Log.d(TAG, "The first item of the result: ${resource.data?.get(0)?.name}")
                     hideProgressBar()
                     resource.data?.let { dogs ->
                         dogAdapter.differ.submitList(dogs.toList())
@@ -95,8 +92,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     Log.d(TAG, "Status ERROR from ViewModel's searchDogsLivaData")
                     hideProgressBar()
                     resource.message?.let { message ->
-                        Toast.makeText(activity, "Sorry, $message", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(activity, "Sorry, $message", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -145,7 +141,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
-
             if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                 isScrolling = true
             }
@@ -154,7 +149,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun setupSearchDogsRecyclerView() {
         Log.d(TAG, "Setting up Search DogRecycler.")
-        dogAdapter.isInDogsFragment()
+        dogAdapter.isInDogsOrSearchFragment()
         binding.recyclerSearchDogs.apply {
             adapter = dogAdapter
             layoutManager = LinearLayoutManager(activity)

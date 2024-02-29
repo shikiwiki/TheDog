@@ -21,26 +21,18 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class DataModule {
 
-    @Provides
-    @Singleton
-    fun provideDogDatabase(@ApplicationContext context: Context): DogDatabase {
-        return Room.databaseBuilder(
+    @Provides @Singleton
+    fun provideDogDatabase(@ApplicationContext context: Context): DogDatabase =
+        Room.databaseBuilder(
             context.applicationContext,
             DogDatabase::class.java,
             "dog_db.db"
-        )
-            .allowMainThreadQueries()
-            .build()
-    }
+        ).allowMainThreadQueries().build()
 
-    @Provides
-    @Singleton
-    fun provideDogDao(dogDatabase: DogDatabase): DogDao {
-        return dogDatabase.getDao()
-    }
+    @Provides @Singleton
+    fun provideDogDao(dogDatabase: DogDatabase): DogDao = dogDatabase.getDao()
 
-    @Provides
-    @Singleton
+    @Provides @Singleton
     fun provideRetrofit(): Retrofit {
         val logger = HttpLoggingInterceptor()
         logger.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -54,9 +46,6 @@ class DataModule {
             .build()
     }
 
-    @Provides
-    @Singleton
-    fun provideDogApi(retrofit: Retrofit): DogApi {
-        return retrofit.create(DogApi::class.java)
-    }
+    @Provides @Singleton
+    fun provideDogApi(retrofit: Retrofit): DogApi = retrofit.create(DogApi::class.java)
 }

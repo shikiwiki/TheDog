@@ -16,8 +16,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -42,7 +40,6 @@ android {
 }
 
 dependencies {
-
     implementation(project(":data"))
     implementation(project(":domain"))
     implementation(libs.androidx.core.ktx)
@@ -50,9 +47,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.androidx.legacy.support.v4)
 
 //    Hilt
@@ -67,39 +61,37 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
 
-    // Architectural Components
+//    Architectural Components
     implementation(libs.androidx.lifecycle.viewmodel)
 
-    // Coroutines
+//    Coroutines
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.jetbrains.kotlinx.coroutines.android)
 
-    // Room
+//    Room
     implementation(libs.androidx.room.runtime)
     //noinspection KaptUsageInsteadOfKsp
     kapt(libs.room.compiler)
 
-    //    Retrofit
+//    Retrofit
     implementation(libs.retrofit)
     implementation(libs.retrofit2.converter.gson)
     implementation(libs.logging.interceptor)
 
-    // Coroutine Lifecycle Scopes
+//    Coroutine Lifecycle Scopes
     implementation(libs.androidx.lifecycle.viewmodel.ktx.v270)
     implementation(libs.lifecycle.runtime.ktx)
 
-    // Glide
+//    Glide
     implementation(libs.glide)
     //noinspection KaptUsageInsteadOfKsp
     kapt(libs.glide.compiler)
 
-    // Swipe to refresh
+//    Swipe to refresh
     implementation(libs.androidx.swiperefreshlayout)
 
 //    Lottie
     implementation(libs.lottie)
-
-
 }
 
 kapt {
