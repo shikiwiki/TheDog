@@ -20,11 +20,11 @@ Details Fragment - a fragment with detailed information about particular dog. Wo
 
 Technologies being used:
 
-    Databases: SQLite;
+Databases: SQLite;
 
-    Languages: Kotlin, Java, XML;
+Languages: Kotlin, Java, XML;
 
-    Libraries: Kotlin Coroutines, LivaData, DataBinding, AndroidX, Navigation, SwipeRefreshLayout, Recycler View, JsonToKotlinClass, ROOM
+Libraries: Kotlin Coroutines, LivaData, DataBinding, AndroidX, Navigation, SwipeRefreshLayout, Recycler View, JsonToKotlinClass, ROOM
 
 ..................................................
 
