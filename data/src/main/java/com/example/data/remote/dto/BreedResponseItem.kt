@@ -1,5 +1,6 @@
 package com.example.data.remote.dto
 
+@Suppress("PropertyName")
 data class BreedResponseItem(
     val weight: Weight,
     val height: Height,

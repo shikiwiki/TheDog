@@ -1,5 +1,6 @@
 package com.example.data.remote.dto
 
+@Suppress("PropertyName")
 data class Breed(
     val bred_for: String = "",
     val breed_group: String = "",

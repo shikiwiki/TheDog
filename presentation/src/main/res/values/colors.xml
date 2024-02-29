@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#FFFFFFFF</color>
-    <color name="main_background">#a9a9a9</color>
-    <color name="fragment_background">#c0c0c0</color>
     <color name="papaya_whip">#FFEFD5</color>
     <color name="salmon">#FA8072</color>
     <color name="dark_salmon">#E9967A</color>

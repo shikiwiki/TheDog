@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/dogsFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/papaya_whip">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/textView"
@@ -43,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="60dp"
             android:layout_marginEnd="8dp"
             android:clipToPadding="false"
             android:paddingBottom="50dp"
