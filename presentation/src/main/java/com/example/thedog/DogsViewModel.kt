@@ -37,7 +37,6 @@ class DogsViewModel @Inject constructor(
 
     private val likedDogsLivaData = MutableLiveData<Resource<MutableList<Dog>>>()
 
-
     init {
         getDogs()
     }
@@ -57,11 +56,9 @@ class DogsViewModel @Inject constructor(
         val searchDogsFlow = searchDogsUseCase.searchDogs(searchQuery)
         searchDogsFlow.collect {searchDogs ->
             val resource = Resource.success(searchDogs)
-            Log.d(TAG, "The first item of the result: ${resource.data?.get(0)?.name}")
             searchDogsLivaData.postValue(handleSearchDogResponse(resource))
         }
         Log.d(TAG, "Being Searched dogs were received in VM.")
-
     }
 
     fun addDog(dog: Dog) = viewModelScope.launch {
@@ -102,7 +99,6 @@ class DogsViewModel @Inject constructor(
 
     fun updateDogs() = viewModelScope.launch {
         allDogsLivaData.postValue(Resource.loading(null))
-
         val allDogsFlow = allDogsUseCase.getAllDogs()
         allDogsFlow.collect { allDogs ->
             val resource: Resource<MutableList<Dog>> =
@@ -136,11 +132,6 @@ class DogsViewModel @Inject constructor(
                 searchDogsPage++
                 if (searchDogs == null || searchDogs != resultDogs) {
                     searchDogs = resultDogs
-//                } else {
-//                    if ()
-//                    searchDogs = resultDogs
-//                    val oldDogs = searchDogs
-//                    oldDogs?.addAll(resultDogs)
                 }
                 return Resource.success(searchDogs ?: resultDogs)
             }

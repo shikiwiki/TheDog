@@ -18,22 +18,16 @@ class DomainModule {
     fun provideAllDogsUseCase(
         remoteRepository: DogRemoteRepository,
         localRepository: DogLocalRepository
-    ) : AllDogsUseCase {
-        return AllDogsUseCase(remoteRepository, localRepository)
-    }
+    ): AllDogsUseCase = AllDogsUseCase(remoteRepository, localRepository)
 
     @Provides
     fun provideLikedDogsUseCase(
         localRepository: DogLocalRepository
-    ) : LikedDogsUseCase {
-        return LikedDogsUseCase(localRepository)
-    }
+    ): LikedDogsUseCase = LikedDogsUseCase(localRepository)
 
     @Provides
     fun provideSearchDogsUseCase(
         remoteRepository: DogRemoteRepository,
         localRepository: DogLocalRepository
-    ) : SearchDogsUseCase {
-        return SearchDogsUseCase(remoteRepository, localRepository)
-    }
+    ): SearchDogsUseCase = SearchDogsUseCase(remoteRepository, localRepository)
 }

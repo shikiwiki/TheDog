@@ -20,16 +20,10 @@ class AllDogsUseCase @Inject constructor(
             if (allDogs.isNullOrEmpty()) {
                 emit(null)
             } else {
-                if (likedDogs.isEmpty()) {
-                    emit(allDogs)
-                } else {
-                    allDogs.forEach { dog ->
-                        if (likedDogs.contains(dog)) {
-                            dog.isLiked = true
-                        }
-                    }
-                    emit(allDogs)
+                if (likedDogs.isNotEmpty()) {
+                    allDogs.forEach { dog -> dog.isLiked = likedDogs.contains(dog) }
                 }
+                emit(allDogs)
             }
         }
     }

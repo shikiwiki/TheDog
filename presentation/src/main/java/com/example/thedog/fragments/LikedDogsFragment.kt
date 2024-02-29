@@ -26,12 +26,9 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
     private lateinit var binding: FragmentLikedDogsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         Log.d(TAG, "Creating LikedDogsFragment.")
-
+        super.onViewCreated(view, savedInstanceState)
         binding = FragmentLikedDogsBinding.bind(view)
-
         setupLikedDogsRecyclerView()
 
         dogAdapter.setOnItemClickListener {
@@ -50,9 +47,7 @@ class LikedDogsFragment : Fragment(R.layout.fragment_liked_dogs) {
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
-            ): Boolean {
-                return true
-            }
+            ): Boolean = true
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.bindingAdapterPosition

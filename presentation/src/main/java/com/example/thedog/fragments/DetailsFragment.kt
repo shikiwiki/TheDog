@@ -39,10 +39,9 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     private val dislikeButton: FloatingActionButton by lazy { binding.root.findViewById(R.id.dislikeButton) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "Creating DetailsFragment.")
+        super.onViewCreated(view, savedInstanceState)
         binding = FragmentDetailsBinding.bind(view)
-
         val dog = args.dog
 
         dog.also {
@@ -54,13 +53,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             weight.text = it.weight
             lifeSpan.text = it.lifeSpan
             temperament.text = it.temperament
-            if (!it.isLiked) {
-                likeButton.isVisible = true
-                dislikeButton.isVisible = false
-            } else {
-                dislikeButton.isVisible = true
-                likeButton.isVisible = false
-            }
+            likeButton.isVisible = !it.isLiked
+            dislikeButton.isVisible = it.isLiked
         }
 
         binding.nameButton.setOnClickListener {
@@ -71,7 +65,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         likeButton.setOnClickListener {
             viewModel.addDog(dog)
             dog.isLiked = true
-            likeButton.isVisible = false
+            it.isVisible = false
             dislikeButton.isVisible = true
             Snackbar.make(it, "Added to liked dogs.", 500).show()
         }
@@ -79,7 +73,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         dislikeButton.setOnClickListener {
             viewModel.deleteDog(dog)
             dog.isLiked = false
-            dislikeButton.isVisible = false
+            it.isVisible = false
             likeButton.isVisible = true
             Snackbar.make(it, "Deleted from liked dogs.", 500).show()
         }

@@ -67,7 +67,7 @@ class DogAdapter(
             }
         }
 
-        if (inDogFragment) {
+        if (inDogsOrSearchFragment) {
             likeButton.setOnClickListener {
                 viewModel.addDog(dog)
                 dog.isLiked = true
@@ -97,13 +97,13 @@ class DogAdapter(
         onItemClickListener = listener
     }
 
-    private var inDogFragment = true
+    private var inDogsOrSearchFragment = true
 
-    fun isInDogsFragment() {
-        inDogFragment = true
+    fun isInDogsOrSearchFragment() {
+        inDogsOrSearchFragment = true
     }
 
     fun isInLikedDogsFragment() {
-        inDogFragment = false
+        inDogsOrSearchFragment = false
     }
 }

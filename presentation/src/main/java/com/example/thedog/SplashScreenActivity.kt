@@ -5,22 +5,28 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.thedog.databinding.ActivitySplashScreenBinding
+
+private const val TAG = "SplashScreenActivity"
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
 
     private val logo: ImageView by lazy { findViewById(R.id.logo) }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private lateinit var binding: ActivitySplashScreenBinding
 
-        setContentView(R.layout.activity_splash_screen)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(TAG, "Creating SplashScreenActivity")
+        super.onCreate(savedInstanceState)
+        binding = ActivitySplashScreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         logo.alpha = 0F
         logo.animate().setDuration(1500).alpha(1f).withEndAction {
-            val i = Intent(this, MainActivity::class.java)
-            startActivity(i)
+            startActivity(Intent(this, MainActivity::class.java))
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                 overrideActivityTransition(
                     OVERRIDE_TRANSITION_OPEN,
