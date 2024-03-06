@@ -2,6 +2,11 @@
 <resources>
     <color name="white">#FFFFFFFF</color>
     <color name="papaya_whip">#FFEFD5</color>
+    <color name="pale_goldenrod">#EEE8AA</color>
+    <color name="light_cyan">#E0FFFF</color>
+    <color name="lavender">#E6E6FA</color>
+    <color name="thistle">#D8BFD8</color>
+    <color name="misty_rose">#FFE4E1</color>
     <color name="salmon">#FA8072</color>
     <color name="dark_salmon">#E9967A</color>
     <color name="dark_gray">#A9A9A9</color>

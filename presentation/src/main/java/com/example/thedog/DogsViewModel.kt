@@ -13,6 +13,7 @@ import com.example.domain.useCases.AllDogsUseCase
 import com.example.domain.useCases.LikedDogsUseCase
 import com.example.domain.useCases.SearchDogsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -41,7 +42,7 @@ class DogsViewModel @Inject constructor(
         getDogs()
     }
 
-    fun getDogs() = viewModelScope.launch {
+    fun getDogs() = viewModelScope.launch(Dispatchers.IO) {
         allDogsLivaData.postValue(Resource.loading(null))
         val allDogsFlow = allDogsUseCase.getAllDogs()
         allDogsFlow.collect { allDogs ->
@@ -51,7 +52,7 @@ class DogsViewModel @Inject constructor(
         Log.d(TAG, "All dogs were received in VM.")
     }
 
-    fun searchDogs(searchQuery: String) = viewModelScope.launch {
+    fun searchDogs(searchQuery: String) = viewModelScope.launch(Dispatchers.IO) {
         searchDogsLivaData.postValue(Resource.loading(null))
         val searchDogsFlow = searchDogsUseCase.searchDogs(searchQuery)
         searchDogsFlow.collect {searchDogs ->
@@ -79,6 +80,21 @@ class DogsViewModel @Inject constructor(
         likedDogsUseCase.deleteDog(dog)
     }
 
+    fun updateDogs() = viewModelScope.launch(Dispatchers.IO) {
+        allDogsLivaData.postValue(Resource.loading(null))
+        val allDogsFlow = allDogsUseCase.getAllDogs()
+        allDogsFlow.collect { allDogs ->
+            val resource: Resource<MutableList<Dog>> =
+                if (allDogs != null) {
+                    Resource.success(allDogs)
+                } else {
+                    Resource.error(null, "No Internet")
+                }
+            allDogsLivaData.postValue(handleDogResponseWithUpdate(resource))
+        }
+        Log.d(TAG, "All dogs were updated in VM.")
+    }
+
     private fun handleDogResponse(resource: Resource<MutableList<Dog>>): Resource<MutableList<Dog>> {
         Log.d(TAG, "Handling DogsResponse.")
         if (resource.status == Status.SUCCESS) {
@@ -95,21 +111,6 @@ class DogsViewModel @Inject constructor(
         }
         Log.d(TAG, "DogsResponse processed.")
         return Resource.error(null, "No Internet")
-    }
-
-    fun updateDogs() = viewModelScope.launch {
-        allDogsLivaData.postValue(Resource.loading(null))
-        val allDogsFlow = allDogsUseCase.getAllDogs()
-        allDogsFlow.collect { allDogs ->
-            val resource: Resource<MutableList<Dog>> =
-                if (allDogs != null) {
-                    Resource.success(allDogs)
-                } else {
-                    Resource.error(null, "No Internet")
-                }
-            allDogsLivaData.postValue(handleDogResponseWithUpdate(resource))
-        }
-        Log.d(TAG, "All dogs were updated in VM.")
     }
 
     private fun handleDogResponseWithUpdate(resource: Resource<MutableList<Dog>>): Resource<MutableList<Dog>> {
