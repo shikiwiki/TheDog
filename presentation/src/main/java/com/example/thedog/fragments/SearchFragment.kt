@@ -67,7 +67,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun observeViewModel() {
-        viewModel.searchDogsLivaData.observe(viewLifecycleOwner) { resource ->
+        viewModel.sharedSearchDogsLivaData.observe(viewLifecycleOwner) { resource ->
             Log.d(TAG, "Observing ViewModel's searchDogsLivaData")
             when (resource.status) {
                 Status.LOADING -> {

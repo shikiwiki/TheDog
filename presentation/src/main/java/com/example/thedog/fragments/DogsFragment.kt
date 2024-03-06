@@ -54,7 +54,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
     }
 
     private fun observeViewModel() {
-        viewModel.allDogsLivaData.observe(viewLifecycleOwner) { resource ->
+        viewModel.sharedAllDogsLivaData.observe(viewLifecycleOwner) { resource ->
             Log.d(TAG, "Observing ViewModel's dogsLivaData")
             when (resource.status) {
                 Status.LOADING -> {
