@@ -28,12 +28,12 @@ class DogsViewModel @Inject constructor(
     private val searchDogsUseCase: SearchDogsUseCase
 ) : ViewModel() {
 
-    val allDogsLivaData = MutableLiveData<Resource<MutableList<Dog>>>()
+    private val allDogsLivaData = MutableLiveData<Resource<MutableList<Dog>>>()
     val sharedAllDogsLivaData = allDogsLivaData
     var allDogsPage = INITIAL_All_DOGS_PAGE
     private var dogs: MutableList<Dog>? = null
 
-    val searchDogsLivaData = MutableLiveData<Resource<MutableList<Dog>>>()
+    private val searchDogsLivaData = MutableLiveData<Resource<MutableList<Dog>>>()
     val sharedSearchDogsLivaData = searchDogsLivaData
     var searchDogsPage = INITIAL_SEARCH_DOGS_PAGE
     private var searchDogs: MutableList<Dog>? = null
