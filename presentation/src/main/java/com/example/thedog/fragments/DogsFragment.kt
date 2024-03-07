@@ -158,7 +158,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
     private fun setupDogsRecyclerView() {
         Log.d(TAG, "Setting up DogRecycler.")
-        dogAdapter.isInDogsOrSearchFragment()
+        dogAdapter.isInDogsFragment()
         binding.recyclerDogs.apply {
             adapter = dogAdapter
             layoutManager = LinearLayoutManager(activity)
