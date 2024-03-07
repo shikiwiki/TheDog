@@ -22,6 +22,10 @@ private const val TAG = "DogAdapter"
 class DogAdapter(
     private val viewModel: DogsViewModel
 ) : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
+    private var inDogsFragment = true
+    private var inSearchFragment = false
+    private var inLikedDogsFragment = false
+
     inner class DogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     private val differCallback = object : DiffUtil.ItemCallback<Dog>() {
@@ -38,22 +42,31 @@ class DogAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DogViewHolder {
         Log.d(TAG, "Creating DogViewHolder.")
-        return DogViewHolder(
-            LayoutInflater
-                .from(parent.context)
-                .inflate(R.layout.fragment_item, parent, false)
-        )
+        return if (inSearchFragment) {
+            DogViewHolder(
+                LayoutInflater
+                    .from(parent.context)
+                    .inflate(R.layout.fragment_search_item, parent, false)
+            )
+        } else {
+            DogViewHolder(
+                LayoutInflater
+                    .from(parent.context)
+                    .inflate(R.layout.fragment_item, parent, false)
+            )
+        }
     }
 
     override fun getItemCount(): Int = differ.currentList.size
 
     override fun onBindViewHolder(holder: DogViewHolder, position: Int) {
-        Log.d(TAG, "Binding DogViewHolder.")
+        Log.d(TAG, "Binding DogViewHolder position $position.")
         val dog = differ.currentList[position]
 
         val dogImage: ImageView = holder.itemView.findViewById(R.id.image)
         val dogName: TextView = holder.itemView.findViewById(R.id.name)
-        val likeButton: FloatingActionButton = holder.itemView.findViewById(R.id.itemLikeButton)
+        val likeButton: FloatingActionButton =
+            holder.itemView.findViewById(R.id.itemLikeButton)
         val dislikeButton: FloatingActionButton =
             holder.itemView.findViewById(R.id.itemDislikeButton)
 
@@ -67,7 +80,8 @@ class DogAdapter(
             }
         }
 
-        if (inDogsOrSearchFragment) {
+        if (inDogsFragment || inSearchFragment) {
+            Log.d(TAG, "inDogsFragment && inSearchFragment case")
             likeButton.setOnClickListener {
                 viewModel.addDog(dog)
                 dog.isLiked = true
@@ -84,10 +98,10 @@ class DogAdapter(
                 Snackbar.make(it, "Deleted from liked dogs.", 500).show()
             }
         } else {
+            Log.d(TAG, "inLikedDogsFragment else case")
             likeButton.isVisible = false
             dislikeButton.isVisible = false
         }
-        Log.d(TAG, "DogViewHolder is bound.")
     }
 
     private var onItemClickListener: ((Dog) -> Unit)? = null
@@ -97,13 +111,33 @@ class DogAdapter(
         onItemClickListener = listener
     }
 
-    private var inDogsOrSearchFragment = true
-
-    fun isInDogsOrSearchFragment() {
-        inDogsOrSearchFragment = true
+    fun isInDogsFragment() {
+        inDogsFragment = true
+        inSearchFragment = false
+        inLikedDogsFragment = false
+        Log.d(
+            TAG,
+            "We are inDogsFragment: inDogsFragment=$inDogsFragment, inSearchFragment=$inSearchFragment, inLikedDogsFragment=$inLikedDogsFragment"
+        )
     }
 
     fun isInLikedDogsFragment() {
-        inDogsOrSearchFragment = false
+        inDogsFragment = false
+        inSearchFragment = false
+        inLikedDogsFragment = true
+        Log.d(
+            TAG,
+            "We are inLikedDogsFragment: inDogsFragment=$inDogsFragment, inSearchFragment=$inSearchFragment, inLikedDogsFragment=$inLikedDogsFragment"
+        )
+    }
+
+    fun isInSearchFragment() {
+        inDogsFragment = false
+        inSearchFragment = true
+        inLikedDogsFragment = false
+        Log.d(
+            TAG,
+            "We are inSearchFragment: inDogsFragment=$inDogsFragment, inSearchFragment=$inSearchFragment, inLikedDogsFragment=$inLikedDogsFragment"
+        )
     }
 }

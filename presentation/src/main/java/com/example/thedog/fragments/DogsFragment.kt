@@ -54,7 +54,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
     }
 
     private fun observeViewModel() {
-        viewModel.allDogsLivaData.observe(viewLifecycleOwner) { resource ->
+        viewModel.sharedAllDogsLivaData.observe(viewLifecycleOwner) { resource ->
             Log.d(TAG, "Observing ViewModel's dogsLivaData")
             when (resource.status) {
                 Status.LOADING -> {
@@ -158,7 +158,7 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
     private fun setupDogsRecyclerView() {
         Log.d(TAG, "Setting up DogRecycler.")
-        dogAdapter.isInDogsOrSearchFragment()
+        dogAdapter.isInDogsFragment()
         binding.recyclerDogs.apply {
             adapter = dogAdapter
             layoutManager = LinearLayoutManager(activity)

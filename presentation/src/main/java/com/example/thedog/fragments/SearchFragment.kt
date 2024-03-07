@@ -67,7 +67,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun observeViewModel() {
-        viewModel.searchDogsLivaData.observe(viewLifecycleOwner) { resource ->
+        viewModel.sharedSearchDogsLivaData.observe(viewLifecycleOwner) { resource ->
             Log.d(TAG, "Observing ViewModel's searchDogsLivaData")
             when (resource.status) {
                 Status.LOADING -> {
@@ -149,7 +149,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun setupSearchDogsRecyclerView() {
         Log.d(TAG, "Setting up Search DogRecycler.")
-        dogAdapter.isInDogsOrSearchFragment()
+        dogAdapter.isInSearchFragment()
         binding.recyclerSearchDogs.apply {
             adapter = dogAdapter
             layoutManager = LinearLayoutManager(activity)
