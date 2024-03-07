@@ -81,7 +81,6 @@ class DogAdapter(
         }
 
         if (inDogsFragment || inSearchFragment) {
-            Log.d(TAG, "inDogsFragment && inSearchFragment case")
             likeButton.setOnClickListener {
                 viewModel.addDog(dog)
                 dog.isLiked = true
@@ -98,7 +97,6 @@ class DogAdapter(
                 Snackbar.make(it, "Deleted from liked dogs.", 500).show()
             }
         } else {
-            Log.d(TAG, "inLikedDogsFragment else case")
             likeButton.isVisible = false
             dislikeButton.isVisible = false
         }
@@ -117,7 +115,7 @@ class DogAdapter(
         inLikedDogsFragment = false
         Log.d(
             TAG,
-            "We are inDogsFragment: inDogsFragment=$inDogsFragment, inSearchFragment=$inSearchFragment, inLikedDogsFragment=$inLikedDogsFragment"
+            "We are inDogsFragment"
         )
     }
 
@@ -127,7 +125,7 @@ class DogAdapter(
         inLikedDogsFragment = true
         Log.d(
             TAG,
-            "We are inLikedDogsFragment: inDogsFragment=$inDogsFragment, inSearchFragment=$inSearchFragment, inLikedDogsFragment=$inLikedDogsFragment"
+            "We are inLikedDogsFragment"
         )
     }
 
@@ -137,7 +135,7 @@ class DogAdapter(
         inLikedDogsFragment = false
         Log.d(
             TAG,
-            "We are inSearchFragment: inDogsFragment=$inDogsFragment, inSearchFragment=$inSearchFragment, inLikedDogsFragment=$inLikedDogsFragment"
+            "We are inSearchFragment"
         )
     }
 }
