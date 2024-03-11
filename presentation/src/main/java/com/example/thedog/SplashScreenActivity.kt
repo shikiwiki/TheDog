@@ -5,12 +5,9 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.thedog.databinding.ActivitySplashScreenBinding
-
-private const val TAG = "SplashScreenActivity"
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
@@ -19,7 +16,6 @@ class SplashScreenActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashScreenBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(TAG, "Creating SplashScreenActivity")
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)

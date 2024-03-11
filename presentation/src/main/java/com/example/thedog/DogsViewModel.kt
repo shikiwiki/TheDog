@@ -1,7 +1,5 @@
 package com.example.thedog
 
-
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,7 +15,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-private const val TAG = "DogsViewModel"
 private const val INITIAL_All_DOGS_PAGE = 1
 private const val INITIAL_SEARCH_DOGS_PAGE = 1
 
@@ -51,26 +48,22 @@ class DogsViewModel @Inject constructor(
             val resource = Resource.success(allDogs)
             allDogsLivaData.postValue(handleDogResponse(resource))
         }
-        Log.d(TAG, "All dogs were received in VM.")
     }
 
     fun searchDogs(searchQuery: String) = viewModelScope.launch(Dispatchers.IO) {
         searchDogsLivaData.postValue(Resource.loading(null))
         val searchDogsFlow = getSearchDogsUseCase.searchDogs(searchQuery)
-        searchDogsFlow.collect {searchDogs ->
+        searchDogsFlow.collect { searchDogs ->
             val resource = Resource.success(searchDogs)
             searchDogsLivaData.postValue(handleSearchDogResponse(resource))
         }
-        Log.d(TAG, "Being Searched dogs were received in VM.")
     }
 
     fun addDog(dog: Dog) = viewModelScope.launch {
-        Log.d(TAG, "Dog ${dog.name} was added to liked dogs.")
         getLikedDogsUseCase.likeDog(dog)
     }
 
     fun getLikedDogs(): LiveData<Resource<MutableList<Dog>>> {
-        Log.d(TAG, "Liked dogs were received in VM.")
         val likedDogs = getLikedDogsUseCase.getLikedDogs()
         val resource = Resource.success(likedDogs)
         likedDogsLivaData.value = resource
@@ -78,7 +71,6 @@ class DogsViewModel @Inject constructor(
     }
 
     fun deleteDog(dog: Dog) = viewModelScope.launch {
-        Log.d(TAG, "Dog ${dog.name} was deleted from liked dogs.")
         getLikedDogsUseCase.deleteDog(dog)
     }
 
@@ -94,11 +86,9 @@ class DogsViewModel @Inject constructor(
                 }
             allDogsLivaData.postValue(handleDogResponseWithUpdate(resource))
         }
-        Log.d(TAG, "All dogs were updated in VM.")
     }
 
     private fun handleDogResponse(resource: Resource<MutableList<Dog>>): Resource<MutableList<Dog>> {
-        Log.d(TAG, "Handling DogsResponse.")
         if (resource.status == Status.SUCCESS) {
             resource.data?.let { resultDogs ->
                 allDogsPage++
@@ -111,12 +101,10 @@ class DogsViewModel @Inject constructor(
                 return Resource.success(dogs ?: resultDogs)
             }
         }
-        Log.d(TAG, "DogsResponse processed.")
         return Resource.error(null, "No Internet")
     }
 
     private fun handleDogResponseWithUpdate(resource: Resource<MutableList<Dog>>): Resource<MutableList<Dog>> {
-        Log.d(TAG, "Handling DogsResponse with update.")
         if (resource.status == Status.SUCCESS) {
             resource.data?.let { resultDogs ->
                 allDogsPage++
@@ -124,12 +112,10 @@ class DogsViewModel @Inject constructor(
                 return Resource.success(dogs)
             }
         }
-        Log.d(TAG, "Updated DogsResponse processed.")
         return Resource.error(null, "No Internet")
     }
 
     private fun handleSearchDogResponse(resource: Resource<MutableList<Dog>>): Resource<MutableList<Dog>> {
-        Log.d(TAG, "Handling Search DogsResponse.")
         if (resource.status == Status.SUCCESS) {
             resource.data?.let { resultDogs ->
                 searchDogsPage++
@@ -139,7 +125,6 @@ class DogsViewModel @Inject constructor(
                 return Resource.success(searchDogs ?: resultDogs)
             }
         }
-        Log.d(TAG, "Search DogsResponse processed.")
         return Resource.error(null, "Not found.")
     }
 }

@@ -3,7 +3,6 @@ package com.example.thedog.fragments
 import android.animation.Animator
 import android.animation.Animator.AnimatorListener
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AbsListView
 import android.widget.Toast
@@ -19,10 +18,9 @@ import com.example.thedog.DogsViewModel
 import com.example.thedog.R
 import com.example.thedog.adapters.DogAdapter
 import com.example.thedog.databinding.FragmentDogsBinding
+import com.example.thedog.util.Constants.Companion.DOG_KEY
 import com.example.thedog.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-
-private const val TAG = "DogsFragment"
 
 @AndroidEntryPoint
 class DogsFragment : Fragment(R.layout.fragment_dogs) {
@@ -37,7 +35,6 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
     private val binding by viewBinding(FragmentDogsBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d(TAG, "Creating DogsFragment.")
         super.onViewCreated(view, savedInstanceState)
         setupDogsRecyclerView()
 
@@ -49,26 +46,22 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
         dogAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
-                putSerializable("dog", it)
+                putSerializable(DOG_KEY, it)
             }
             findNavController().navigate(R.id.action_dogsFragment_to_detailsFragment, bundle)
         }
 
         observeViewModel()
-        Log.d(TAG, "DogsFragment is created.")
     }
 
     private fun observeViewModel() {
         viewModel.sharedAllDogsLivaData.observe(viewLifecycleOwner) { resource ->
-            Log.d(TAG, "Observing ViewModel's dogsLivaData")
             when (resource.status) {
                 Status.LOADING -> {
-                    Log.d(TAG, "Status LOADING from ViewModel's allDogsLivaData")
                     showAnimation()
                 }
 
                 Status.SUCCESS -> {
-                    Log.d(TAG, "Status SUCCESS from ViewModel's allDogsLivaData")
                     hideAnimation()
                     resource.data?.let { dogs ->
                         dogAdapter.differ.submitList(dogs.toList())
@@ -81,7 +74,6 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
                 }
 
                 Status.ERROR -> {
-                    Log.d(TAG, "Status ERROR from ViewModel's allDogsLivaData")
                     hideAnimation()
                     resource.message?.let { message ->
                         Toast.makeText(activity, "Sorry, $message", Toast.LENGTH_SHORT).show()
@@ -92,17 +84,14 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
     }
 
     private fun hideAnimation() {
-        Log.d(TAG, "Hiding animation.")
 
         binding.apply {
             lottieView.visibility - View.INVISIBLE
             lottieView.pauseAnimation()
         }
-        Log.d(TAG, "Animation is hidden.")
     }
 
     private fun showAnimation() {
-        Log.d(TAG, "Showing animation.")
         binding.apply {
             lottieView.setMinAndMaxProgress(0f, 1f)
             lottieView.repeatCount = LottieDrawable.INFINITE
@@ -123,7 +112,6 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
             })
             lottieView.playAnimation()
         }
-        Log.d(TAG, "Animation is shown.")
     }
 
     var isError = false
@@ -162,13 +150,11 @@ class DogsFragment : Fragment(R.layout.fragment_dogs) {
     }
 
     private fun setupDogsRecyclerView() {
-        Log.d(TAG, "Setting up DogRecycler.")
         dogAdapter.isInDogsFragment()
         binding.recyclerDogs.apply {
             adapter = dogAdapter
             layoutManager = LinearLayoutManager(activity)
             addOnScrollListener(this@DogsFragment.scrollListener)
         }
-        Log.d(TAG, "DogRecycler is set up.")
     }
 }
