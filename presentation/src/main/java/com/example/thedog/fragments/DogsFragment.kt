@@ -19,6 +19,7 @@ import com.example.thedog.DogsViewModel
 import com.example.thedog.R
 import com.example.thedog.adapters.DogAdapter
 import com.example.thedog.databinding.FragmentDogsBinding
+import com.example.thedog.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "DogsFragment"
@@ -27,13 +28,17 @@ private const val TAG = "DogsFragment"
 class DogsFragment : Fragment(R.layout.fragment_dogs) {
 
     private val viewModel by viewModels<DogsViewModel>()
-    private val dogAdapter: DogAdapter by lazy { DogAdapter(viewModel) }
-    private lateinit var binding: FragmentDogsBinding
+    private val dogAdapter: DogAdapter by lazy {
+        DogAdapter(
+            { dog -> viewModel.addDog(dog) },
+            { dog -> viewModel.deleteDog(dog) }
+        )
+    }
+    private val binding by viewBinding(FragmentDogsBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.d(TAG, "Creating DogsFragment.")
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentDogsBinding.bind(view)
         setupDogsRecyclerView()
 
         binding.swipeRefreshLayout.setOnRefreshListener {

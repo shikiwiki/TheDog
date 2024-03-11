@@ -9,9 +9,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.data.util.Resource
 import com.example.data.util.Status
 import com.example.domain.model.Dog
-import com.example.domain.useCases.AllDogsUseCase
-import com.example.domain.useCases.LikedDogsUseCase
-import com.example.domain.useCases.SearchDogsUseCase
+import com.example.domain.useCases.GetAllDogsUseCase
+import com.example.domain.useCases.GetLikedDogsUseCase
+import com.example.domain.useCases.GetSearchDogsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,9 +23,9 @@ private const val INITIAL_SEARCH_DOGS_PAGE = 1
 
 @HiltViewModel
 class DogsViewModel @Inject constructor(
-    private val allDogsUseCase: AllDogsUseCase,
-    private val likedDogsUseCase: LikedDogsUseCase,
-    private val searchDogsUseCase: SearchDogsUseCase
+    private val getAllDogsUseCase: GetAllDogsUseCase,
+    private val getLikedDogsUseCase: GetLikedDogsUseCase,
+    private val getSearchDogsUseCase: GetSearchDogsUseCase
 ) : ViewModel() {
 
     private val allDogsLivaData = MutableLiveData<Resource<MutableList<Dog>>>()
@@ -46,7 +46,7 @@ class DogsViewModel @Inject constructor(
 
     fun getDogs() = viewModelScope.launch(Dispatchers.IO) {
         allDogsLivaData.postValue(Resource.loading(null))
-        val allDogsFlow = allDogsUseCase.getAllDogs()
+        val allDogsFlow = getAllDogsUseCase.getAllDogs()
         allDogsFlow.collect { allDogs ->
             val resource = Resource.success(allDogs)
             allDogsLivaData.postValue(handleDogResponse(resource))
@@ -56,7 +56,7 @@ class DogsViewModel @Inject constructor(
 
     fun searchDogs(searchQuery: String) = viewModelScope.launch(Dispatchers.IO) {
         searchDogsLivaData.postValue(Resource.loading(null))
-        val searchDogsFlow = searchDogsUseCase.searchDogs(searchQuery)
+        val searchDogsFlow = getSearchDogsUseCase.searchDogs(searchQuery)
         searchDogsFlow.collect {searchDogs ->
             val resource = Resource.success(searchDogs)
             searchDogsLivaData.postValue(handleSearchDogResponse(resource))
@@ -66,12 +66,12 @@ class DogsViewModel @Inject constructor(
 
     fun addDog(dog: Dog) = viewModelScope.launch {
         Log.d(TAG, "Dog ${dog.name} was added to liked dogs.")
-        likedDogsUseCase.likeDog(dog)
+        getLikedDogsUseCase.likeDog(dog)
     }
 
     fun getLikedDogs(): LiveData<Resource<MutableList<Dog>>> {
         Log.d(TAG, "Liked dogs were received in VM.")
-        val likedDogs = likedDogsUseCase.getLikedDogs()
+        val likedDogs = getLikedDogsUseCase.getLikedDogs()
         val resource = Resource.success(likedDogs)
         likedDogsLivaData.value = resource
         return likedDogsLivaData
@@ -79,12 +79,12 @@ class DogsViewModel @Inject constructor(
 
     fun deleteDog(dog: Dog) = viewModelScope.launch {
         Log.d(TAG, "Dog ${dog.name} was deleted from liked dogs.")
-        likedDogsUseCase.deleteDog(dog)
+        getLikedDogsUseCase.deleteDog(dog)
     }
 
     fun updateDogs() = viewModelScope.launch(Dispatchers.IO) {
         allDogsLivaData.postValue(Resource.loading(null))
-        val allDogsFlow = allDogsUseCase.getAllDogs()
+        val allDogsFlow = getAllDogsUseCase.getAllDogs()
         allDogsFlow.collect { allDogs ->
             val resource: Resource<MutableList<Dog>> =
                 if (allDogs != null) {

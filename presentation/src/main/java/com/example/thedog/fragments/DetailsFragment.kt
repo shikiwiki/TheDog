@@ -15,6 +15,7 @@ import com.example.thedog.DogsViewModel
 import com.example.thedog.MainActivity
 import com.example.thedog.R
 import com.example.thedog.databinding.FragmentDetailsBinding
+import com.example.thedog.util.viewBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +27,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private val viewModel by viewModels<DogsViewModel>()
     private val args: DetailsFragmentArgs by navArgs()
-    private lateinit var binding: FragmentDetailsBinding
+    private val binding by viewBinding(FragmentDetailsBinding::bind)
     private val image: ImageView by lazy { binding.root.findViewById(R.id.image) }
     private val nameButton: Button by lazy { binding.root.findViewById(R.id.nameButton) }
     private val bredFor: TextView by lazy { binding.root.findViewById(R.id.bredFor) }
@@ -41,7 +42,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.d(TAG, "Creating DetailsFragment.")
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentDetailsBinding.bind(view)
         val dog = args.dog
 
         dog.also {

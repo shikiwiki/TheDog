@@ -18,6 +18,7 @@ import com.example.thedog.DogsViewModel
 import com.example.thedog.R
 import com.example.thedog.adapters.DogAdapter
 import com.example.thedog.databinding.FragmentSearchBinding
+import com.example.thedog.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
@@ -30,14 +31,18 @@ private const val TAG = "SearchFragment"
 class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private val viewModel by viewModels<DogsViewModel>()
-    private val dogAdapter: DogAdapter by lazy { DogAdapter(viewModel) }
-    private lateinit var binding: FragmentSearchBinding
+    private val dogAdapter: DogAdapter by lazy {
+        DogAdapter(
+            { dog -> viewModel.addDog(dog) },
+            { dog -> viewModel.deleteDog(dog) }
+        )
+    }
+    private val binding by viewBinding(FragmentSearchBinding::bind)
     private var inputText = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.d(TAG, "Creating SearchFragment.")
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentSearchBinding.bind(view)
         setupSearchDogsRecyclerView()
 
         var job: Job? = null

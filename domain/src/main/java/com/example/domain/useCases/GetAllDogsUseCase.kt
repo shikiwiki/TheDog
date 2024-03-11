@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class AllDogsUseCase @Inject constructor(
+class GetAllDogsUseCase @Inject constructor(
     private val remoteRepository: IDogRemoteRepository,
     private val localRepository: IDogLocalRepository
 ) {
