@@ -12,6 +12,8 @@ android {
         minSdk = 24
 
         consumerProguardFiles("consumer-rules.pro")
+        buildConfigField("String", "API_KEY", "\"live_78uH11IyabCdKAj68Sf1exNbi2vyrC2zBBnl0D2m3gWvbYjMjemv4WTZbMWd8e43\"")
+        buildConfigField("String", "BASE_URL", "\"https://api.thedogapi.com/\"")
     }
 
     buildTypes {
@@ -32,6 +34,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 

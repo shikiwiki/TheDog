@@ -2,10 +2,10 @@ package com.example.thedog.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.data.BuildConfig
 import com.example.data.local.dao.DogDao
 import com.example.data.local.db.DogDatabase
 import com.example.data.remote.network.DogApi
-import com.example.data.util.Constants.Companion.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,7 +40,7 @@ class DataModule {
             .addInterceptor(logger)
             .build()
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
