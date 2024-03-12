@@ -1,5 +1,5 @@
 [versions]
-agp = "8.4.0-alpha12"
+agp = "8.4.0-alpha13"
 compiler = "4.14.2"
 converterGson = "2.9.0"
 dagger = "2.50"
@@ -64,4 +64,3 @@ room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-

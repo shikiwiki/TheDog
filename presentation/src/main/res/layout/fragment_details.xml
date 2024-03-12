@@ -55,7 +55,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="110dp"
+                    android:layout_width="115dp"
                     android:layout_height="70dp"
                     android:text="@string/bred_for"
                     android:textColor="@color/black"
@@ -79,7 +79,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="110dp"
+                    android:layout_width="115dp"
                     android:layout_height="70dp"
                     android:text="@string/breed_group"
                     android:textColor="@color/black"
@@ -102,7 +102,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="110dp"
+                    android:layout_width="115dp"
                     android:layout_height="70dp"
                     android:text="@string/height"
                     android:textColor="@color/black"
@@ -125,7 +125,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="110dp"
+                    android:layout_width="115dp"
                     android:layout_height="70dp"
                     android:text="@string/weight"
                     android:textColor="@color/black"
@@ -148,7 +148,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="110dp"
+                    android:layout_width="115dp"
                     android:layout_height="70dp"
                     android:text="@string/lifespan"
                     android:textColor="@color/black"
@@ -171,7 +171,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="110dp"
+                    android:layout_width="115dp"
                     android:layout_height="70dp"
                     android:text="@string/temperament"
                     android:textColor="@color/black"

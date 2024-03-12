@@ -1,6 +1,5 @@
 package com.example.thedog.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,15 +11,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.domain.model.Dog
-import com.example.thedog.DogsViewModel
 import com.example.thedog.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
-private const val TAG = "DogAdapter"
-
 class DogAdapter(
-    private val viewModel: DogsViewModel
+    private val onAddDog: (Dog) -> Unit,
+    private val onDeleteDog: (Dog) -> Unit
 ) : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
     private var inDogsFragment = true
     private var inSearchFragment = false
@@ -41,7 +38,6 @@ class DogAdapter(
     var differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DogViewHolder {
-        Log.d(TAG, "Creating DogViewHolder.")
         return if (inSearchFragment) {
             DogViewHolder(
                 LayoutInflater
@@ -60,7 +56,6 @@ class DogAdapter(
     override fun getItemCount(): Int = differ.currentList.size
 
     override fun onBindViewHolder(holder: DogViewHolder, position: Int) {
-        Log.d(TAG, "Binding DogViewHolder position $position.")
         val dog = differ.currentList[position]
 
         val dogImage: ImageView = holder.itemView.findViewById(R.id.image)
@@ -82,7 +77,7 @@ class DogAdapter(
 
         if (inDogsFragment || inSearchFragment) {
             likeButton.setOnClickListener {
-                viewModel.addDog(dog)
+                onAddDog(dog)
                 dog.isLiked = true
                 likeButton.isVisible = false
                 dislikeButton.isVisible = true
@@ -90,7 +85,7 @@ class DogAdapter(
             }
 
             dislikeButton.setOnClickListener {
-                viewModel.deleteDog(dog)
+                onDeleteDog(dog)
                 dog.isLiked = false
                 dislikeButton.isVisible = false
                 likeButton.isVisible = true
@@ -105,7 +100,6 @@ class DogAdapter(
     private var onItemClickListener: ((Dog) -> Unit)? = null
 
     fun setOnItemClickListener(listener: (Dog) -> Unit) {
-        Log.d(TAG, "Setting onItemClickListener.")
         onItemClickListener = listener
     }
 
@@ -113,29 +107,17 @@ class DogAdapter(
         inDogsFragment = true
         inSearchFragment = false
         inLikedDogsFragment = false
-        Log.d(
-            TAG,
-            "We are inDogsFragment"
-        )
     }
 
     fun isInLikedDogsFragment() {
         inDogsFragment = false
         inSearchFragment = false
         inLikedDogsFragment = true
-        Log.d(
-            TAG,
-            "We are inLikedDogsFragment"
-        )
     }
 
     fun isInSearchFragment() {
         inDogsFragment = false
         inSearchFragment = true
         inLikedDogsFragment = false
-        Log.d(
-            TAG,
-            "We are inSearchFragment"
-        )
     }
 }

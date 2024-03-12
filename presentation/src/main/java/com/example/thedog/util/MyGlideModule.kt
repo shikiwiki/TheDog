@@ -1,4 +1,4 @@
-package com.example.thedog.glideModule
+package com.example.thedog.util
 
 import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.module.AppGlideModule
